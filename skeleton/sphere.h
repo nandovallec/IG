@@ -1,0 +1,23 @@
+#ifndef SPHERE_H
+#define SPHERE_H
+#include "object3d.h"
+
+
+/*****************************************************************************//**
+ *
+ *
+ *
+ *****************************************************************************/
+
+class _sphere:public _object3D
+{
+
+public:
+  _sphere(float Size=2.0, float Layer = 40, float rev = 40);
+
+
+
+};
+
+
+#endif // SPHERE_H
