@@ -12,7 +12,7 @@
 class _torso:public _object3D
 {
 public:
-  _torso(float Size=1.0, float Layer = 5, float rev = 4);
+  _torso(float Size=1.0, float Layer = 60, float rev = 50);
 };
 
 

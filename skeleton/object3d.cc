@@ -79,6 +79,14 @@ void _object3D::draw_chess()
 
 }
 
+_vertex3f _object3D::getPointsBetw(_vertex3f x, _vertex3f y, float t){
+    float new_x = (1-t)*x.x + t* y.x;
+    float new_y = (1-t)*x.y + t* y.y;
+    float new_z = (1-t)*x.z + t* y.z;
+
+    return _vertex3f(new_x, new_y, new_z);
+}
+
 
 void _object3D::revolucionar(){
     vector<_vertex3f> cop = Vertices;
