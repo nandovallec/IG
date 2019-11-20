@@ -174,6 +174,8 @@ void _gl_widget::draw_objects()
     case OBJECT_CONE:Cone.draw_fill();break;
     case OBJECT_CYLINDER:Cylinder.draw_fill();break;
     case OBJECT_PLY:plyObj.draw_fill();break;
+    case OBJECT_TORSO:Torso.draw_fill();break;
+
     default:break;
     }
   }
@@ -186,6 +188,7 @@ void _gl_widget::draw_objects()
     case OBJECT_CONE:Cone.draw_chess();break;
     case OBJECT_CYLINDER:Cylinder.draw_chess();break;
     case OBJECT_PLY:plyObj.draw_chess();break;
+    case OBJECT_TORSO:Torso.draw_chess();break;
     default:break;
     }
   }

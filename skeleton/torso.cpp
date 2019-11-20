@@ -1,15 +1,18 @@
 #include "torso.h"
 
-
 /*****************************************************************************//**
  *
  *
  *
  *****************************************************************************/
+#define PI 3.14159265
 
 _torso::_torso(float Size, float Layers, float rev)
 {
-  /*revoluciones = rev;
+
+
+    /*ANTIGUO TORSO
+    revoluciones = rev;
     layers = Layers;
 
     _vertex3f beginning = _vertex3f(Size/3.0,Size/2.0, 0);
@@ -34,38 +37,56 @@ _torso::_torso(float Size, float Layers, float rev)
     Vertices[0].y = Vertices[1].y;
   //cerr<<-(Size/2.0)<<endl;
     this->revolucionar();
-    this->connect();*/
-
-
-    //ESTO ES BRAZO
+    this->connect();
+    */
 
 
     revoluciones = rev;
     layers = Layers;
+    //Vertices.resize(Layers+2);
 
-    _vertex3f beginning = _vertex3f(Size/10,Size/1.5, 0);
-    _vertex3f ending = _vertex3f(Size/4, -Size/1.5, 0);
-    //Vertices.push_back(beginning);
 
-    float num = 1/Layers;
-    float prog = 0;
-    float prog_height = prog;
-    for(int i = 0; i < Layers; i++){
-      //if(i >= (Layers/2)){
-        //Vertices.push_back(_vertex3f(0+prog*.4, (Size/2.0)-prog_height, 0));
-        Vertices.push_back(getPointsBetw(beginning, ending, prog));
-          //prog_height += (Size)/((float)Layers/(3./2.));
+    //Vertices.push_back(_vertex3f(0,Size/2.0, 0));
 
-    //  }
-    prog +=num;
-
-   //   prog += (Size)/Layers;
+    float prog = 0;//(Size)/Layers;
+    for(int i = 0; i <= Layers - Layers/3 ; i++){
+        if(i > Layers/5)
+      Vertices.push_back(_vertex3f(Size/2*cos((90-prog)*PI / 180), Size/2*sin((90-prog)*PI / 180), 0));
+      prog += (180)/Layers;
     }
-    Vertices.push_back(_vertex3f(0,Vertices[Vertices.size()-1].y,0));
-    Vertices[0].y = Vertices[1].y;
-  //cerr<<-(Size/2.0)<<endl;
-    this->revolucionar();
-    this->connect();
+      Vertices.insert(Vertices.begin(), _vertex3f(0,Vertices[0].y,0));
+      Vertices.push_back((_vertex3f(0,Vertices[Vertices.size()-1].y,0)));
+
+      this->revolucionar();
+      this->connect();
+
+
+}
+
+
+
+void _torso::drawGeneric(int option){
+    //brazoDer.drawGeneric(option);
+    glPushMatrix();
+        glScalef(1,1,1);
+
+        drawEspecified(option);
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(3.5,0.5,0);
+        glRotated(40,0,0,1);
+
+        brazoDer.drawGeneric(option);
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslated(-3.5,0.5,0);
+        glRotated(-40,0,0,1);
+
+        brazoIzq.drawGeneric(option);
+    glPopMatrix();
+
 
 
 }

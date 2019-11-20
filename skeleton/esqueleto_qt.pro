@@ -1,11 +1,14 @@
 HEADERS += \
   PLYobject.h \
+  arm.h \
   colors.h \
   basic_object3d.h \
   cone.h \
   cube.h \
   cylinder.h \
   file_ply_stl.h \
+  hand.h \
+  human.h \
   object3d.h \
   axis.h \
   sphere.h \
@@ -16,11 +19,14 @@ HEADERS += \
 
 SOURCES += \
   PLYobject.cc \
+  arm.cpp \
   basic_object3d.cc \
   cone.cc \
   cube.cc \
   cylinder.cc \
   file_ply_stl.cc \
+  hand.cpp \
+  human.cpp \
   object3d.cc \
   axis.cc \
   sphere.cc \

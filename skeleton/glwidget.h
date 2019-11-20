@@ -24,6 +24,7 @@
 #include "tetrahedron.h"
 #include "sphere.h"
 #include "PLYobject.h"
+#include "human.h"
 
 
 

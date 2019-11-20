@@ -12,7 +12,7 @@
 class _cylinder:public _object3D
 {
 public:
-  _cylinder(float Size=1.0, float Layer = 3, float rev = 6);
+  _cylinder(float Size=1.0, float Layer = 3, float rev = 7);
 };
 
 
