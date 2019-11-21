@@ -6,8 +6,10 @@ HEADERS += \
   cone.h \
   cube.h \
   cylinder.h \
+  feet.h \
   file_ply_stl.h \
   hand.h \
+  head.h \
   human.h \
   leg.h \
   object3d.h \
@@ -26,8 +28,10 @@ SOURCES += \
   cone.cc \
   cube.cc \
   cylinder.cc \
+  feet.cpp \
   file_ply_stl.cc \
   hand.cpp \
+  head.cpp \
   human.cpp \
   leg.cpp \
   object3d.cc \

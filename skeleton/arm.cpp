@@ -41,7 +41,7 @@ _arm::_arm(float Size, float Layers, float rev)
 void _arm::drawGeneric(int option){
     glPushMatrix();
         glScalef(1.2,1,1.2);
-    drawEspecified(option);
+        drawEspecified(option);
     glPopMatrix();
 
     glPushMatrix();
