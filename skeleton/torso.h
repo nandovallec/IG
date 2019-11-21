@@ -2,6 +2,7 @@
 #define TORSO_H
 #include "human.h"
 #include "arm.h"
+#include "leg.h"
 
 
 /*****************************************************************************//**
@@ -13,8 +14,10 @@
 class _torso:public _human
 {
 private:
-    _arm brazoDer;
-    _arm brazoIzq;
+    _arm rightArm;
+    _arm leftArm;
+    _leg leftLeg;
+    _leg rightLeg;
 
 public:
   _torso(float Size=6.0, float Layer = 60, float rev = 40);

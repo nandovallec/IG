@@ -74,20 +74,30 @@ void _torso::drawGeneric(int option){
     glPopMatrix();
 
     glPushMatrix();
-        glTranslated(3.5,0.5,0);
-        glRotated(40,0,0,1);
+        glTranslated(3.3,0.7,0);
+        glRotated(50,0,0,1);
 
-        brazoDer.drawGeneric(option);
+        rightArm.drawGeneric(option);
     glPopMatrix();
 
     glPushMatrix();
-        glTranslated(-3.5,0.5,0);
-        glRotated(-40,0,0,1);
+        glTranslated(-3.3,0.7,0);
+        glRotated(-50,0,0,1);
 
-        brazoIzq.drawGeneric(option);
+        leftArm.drawGeneric(option);
     glPopMatrix();
 
+    glPushMatrix();
+        glTranslated(1.3, -2, 0);
+        glScaled(1.2,1.5,1.2);
+        rightLeg.drawGeneric(option);
+    glPopMatrix();
 
+    glPushMatrix();
+        glTranslated(-1.3, -2, 0);
+        glScaled(1.2,1.5,1.2);
+        leftLeg.drawGeneric(option);
+    glPopMatrix();
 
 }
 

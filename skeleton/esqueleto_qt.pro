@@ -9,8 +9,10 @@ HEADERS += \
   file_ply_stl.h \
   hand.h \
   human.h \
+  leg.h \
   object3d.h \
   axis.h \
+  semisphere.h \
   sphere.h \
   tetrahedron.h \
   glwidget.h \
@@ -27,8 +29,10 @@ SOURCES += \
   file_ply_stl.cc \
   hand.cpp \
   human.cpp \
+  leg.cpp \
   object3d.cc \
   axis.cc \
+  semisphere.cpp \
   sphere.cc \
   tetrahedron.cc \
   main.cc \
