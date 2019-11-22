@@ -7,10 +7,10 @@
 class _hand:public _human
 {
 private:
-    _stick stick;
+    _stick sticks;
+
 public:
     _hand();
-
   void drawGeneric(int option);
 };
 

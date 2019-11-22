@@ -2,7 +2,7 @@
 
 _stick::_stick()
 {
-    _cylinder basicModel = _cylinder(1.0, 16.0, 24.0);
+    _cylinder basicModel = _cylinder(0.5, 16.0, 24.0);
     this->Vertices = basicModel.Vertices;
     this->Triangles = basicModel.Triangles;
 
@@ -13,6 +13,6 @@ _stick::_stick()
 }
 
 void _stick::drawGeneric(int option){
-    cout << "abcdefg"<<endl;
+    //cout << "abcdefg"<<endl;
     drawEspecified(option);
 }

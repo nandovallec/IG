@@ -52,7 +52,7 @@ void _arm::drawGeneric(int option){
     glPushMatrix();
         glTranslated(0,-1,0);
 
-        hand.drawEspecified(option);
+        hand.drawGeneric(option);
     glPopMatrix();
 }
 

@@ -24,11 +24,13 @@ _hand::_hand()
 void _hand::drawGeneric(int option){
     drawEspecified(option);
 
+    //cout << "micarro"<<endl;
 
     glPushMatrix();
-        glScalef(3.5,4,3.5);
-
-        stick.drawGeneric(option);
+        glTranslatef(0, -0.25, 0);
+        glRotatef(90, 0, 0, 1);
+        glScalef(0.25,8,0.25);
+        sticks.drawGeneric(option);
     glPopMatrix();
 }
 
