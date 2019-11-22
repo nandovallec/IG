@@ -1,8 +1,8 @@
-#include "feet.h"
+#include "pupil.h"
 
-_feet::_feet()
+_pupil::_pupil()
 {
-    _semiSphere basicModel = _semiSphere(1.0, 20, 40);
+    _semiSphere basicModel = _semiSphere(.5, 20, 40);
     this->Vertices = basicModel.Vertices;
     this->Triangles = basicModel.Triangles;
 
@@ -11,6 +11,10 @@ _feet::_feet()
     fillColor.z = 0;
     calculateColor(fillColor);
 }
-void _feet::drawGeneric(int option){
-    this->drawEspecified(option);
+
+void _pupil::drawGeneric(int option){
+
+
+    drawEspecified(option);
 }
+

@@ -34,9 +34,11 @@ void _human::drawEspecified(int option){
             _basic_object3D::draw_point();
             break;
         case 1:
+            glColor3fv((GLfloat *) &lineColor);
             _object3D::draw_line();
             break;
         case 2:
+            glColor3fv((GLfloat *) &fillColor);
             _object3D::draw_fill();
             break;
         case 3:
@@ -44,5 +46,13 @@ void _human::drawEspecified(int option){
             break;
     }
 }
+
+void _human::calculateColor(_vertex3f &colors){
+    colors.x = colors.x / 255.0;
+    colors.y = colors.y / 255.0;
+    colors.z = colors.z / 255.0;
+
+}
+
 
 

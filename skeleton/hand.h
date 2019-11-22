@@ -1,12 +1,15 @@
 #ifndef HAND_H
 #define HAND_H
 #include "human.h"
+#include "sphere.h"
+#include "stick.h"
 
 class _hand:public _human
 {
 private:
+    _stick stick;
 public:
-    _hand(float Size=1.0, float Layer = 40, float rev = 40);
+    _hand();
 
   void drawGeneric(int option);
 };

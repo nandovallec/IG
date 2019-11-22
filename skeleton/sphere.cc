@@ -25,9 +25,9 @@ _sphere::_sphere(float Size, float Layers, float rev)
   }
     this->revolucionar();
     this->connect();
-  cerr<<"s"<<Size<<"   "<< Size*sin((90-prog)*PI / 180)<<endl;
+  //cerr<<"s"<<Size<<"   "<< Size*sin((90-prog)*PI / 180)<<endl;
   //Vertices[Layers+1]=_vertex3f(0,-(Size/2.0),0);
 //cerr<<-(Size/2.0)<<endl;
-  cerr<<"tam es "<< Vertices.size()<<endl;
+  //cerr<<"tam es "<< Vertices.size()<<endl;
 }
 

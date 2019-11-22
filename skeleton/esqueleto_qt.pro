@@ -6,16 +6,20 @@ HEADERS += \
   cone.h \
   cube.h \
   cylinder.h \
+  eye.h \
   feet.h \
   file_ply_stl.h \
   hand.h \
   head.h \
   human.h \
   leg.h \
+  mouth.h \
   object3d.h \
   axis.h \
+  pupil.h \
   semisphere.h \
   sphere.h \
+  stick.h \
   tetrahedron.h \
   glwidget.h \
   torso.h \
@@ -28,16 +32,20 @@ SOURCES += \
   cone.cc \
   cube.cc \
   cylinder.cc \
+  eye.cpp \
   feet.cpp \
   file_ply_stl.cc \
   hand.cpp \
   head.cpp \
   human.cpp \
   leg.cpp \
+  mouth.cpp \
   object3d.cc \
   axis.cc \
+  pupil.cpp \
   semisphere.cpp \
   sphere.cc \
+  stick.cpp \
   tetrahedron.cc \
   main.cc \
   glwidget.cc \

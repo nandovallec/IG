@@ -112,7 +112,7 @@ void _object3D::revolucionar(){
         }
     }
     Vertices.push_back(cop[cop.size()-1]);
-    cerr<<"maamamamam"<<endl<<endl<<endl;
+    //cerr<<"maamamamam"<<endl<<endl<<endl;
     //cerr<<Vertices.size()<<endl;
     //Vertices[Vertices.size()-1] = cop[cop.size()-1];
 
@@ -121,13 +121,13 @@ void _object3D::revolucionar(){
 
 
 void _object3D::connect(){
-    cerr<<"aaaaaaaaaaaa"<<endl;
+    //cerr<<"aaaaaaaaaaaa"<<endl;
     //int index = 0;
     int count = 0;
     int act_lay = 1;
     //Triangles.resize(layers*2*revoluciones);
     //cerr<<"prop"<<layers*2*revoluciones<<endl;
-    cerr<<"mis rev   "<<revoluciones<<endl;
+    //cerr<<"mis rev   "<<revoluciones<<endl;
 
     for(int i = 0; i < revoluciones-1; i++)
         Triangles.push_back(_vertex3ui(0, i+1, i+2));

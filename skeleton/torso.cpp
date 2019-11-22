@@ -60,6 +60,10 @@ _torso::_torso(float Size, float Layers, float rev)
       this->revolucionar();
       this->connect();
 
+      fillColor.x = 226;
+      fillColor.y = 14;
+      fillColor.z = 29;
+      calculateColor(fillColor);
 
 }
 
@@ -94,9 +98,15 @@ void _torso::drawGeneric(int option){
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(-1.3, -1.5, 0);
+        glTranslatef(-1.3, -1.5
+                     , 0);
         glScalef(1.2,1,1.2);
         leftLeg.drawGeneric(option);
+    glPopMatrix();
+
+    glPushMatrix();
+        glTranslatef(0,3.3,0);
+        head.drawGeneric(option);
     glPopMatrix();
 
 }

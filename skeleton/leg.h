@@ -7,7 +7,6 @@
 class _leg : public _human
 {
 private:
-    //_cylinder cylinder =
     _feet feet;
 public:
     _leg();

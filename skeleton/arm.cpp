@@ -36,6 +36,11 @@ _arm::_arm(float Size, float Layers, float rev)
   //cerr<<-(Size/2.0)<<endl;
     this->revolucionar();
     this->connect();
+
+    fillColor.x = 226;
+    fillColor.y = 14;
+    fillColor.z = 29;
+    calculateColor(fillColor);
 }
 
 void _arm::drawGeneric(int option){

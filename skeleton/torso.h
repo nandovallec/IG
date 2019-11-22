@@ -3,6 +3,7 @@
 #include "human.h"
 #include "arm.h"
 #include "leg.h"
+#include "head.h"
 
 
 /*****************************************************************************//**
@@ -18,6 +19,7 @@ private:
     _arm leftArm;
     _leg leftLeg;
     _leg rightLeg;
+    _head head;
 
 public:
   _torso(float Size=6.0, float Layer = 60, float rev = 40);

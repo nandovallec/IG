@@ -1,8 +1,8 @@
-#include "feet.h"
+#include "mouth.h"
 
-_feet::_feet()
+_mouth::_mouth()
 {
-    _semiSphere basicModel = _semiSphere(1.0, 20, 40);
+    _semiSphere basicModel = _semiSphere(1, 20, 40);
     this->Vertices = basicModel.Vertices;
     this->Triangles = basicModel.Triangles;
 
@@ -11,6 +11,7 @@ _feet::_feet()
     fillColor.z = 0;
     calculateColor(fillColor);
 }
-void _feet::drawGeneric(int option){
-    this->drawEspecified(option);
+
+void _mouth::drawGeneric(int option){
+    drawEspecified(option);
 }

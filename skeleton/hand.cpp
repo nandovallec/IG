@@ -8,30 +8,27 @@
  *****************************************************************************/
 #define PI 3.14159265
 
-_hand::_hand(float Size, float Layers, float rev)
+_hand::_hand()
 {
 
-  revoluciones = rev;
-  layers = Layers;
-  //Vertices.resize(Layers+2);
+    _sphere basicModel = _sphere(1.0, 40, 40);
+    this->Vertices = basicModel.Vertices;
+    this->Triangles = basicModel.Triangles;
 
-
-  //Vertices.push_back(_vertex3f(0,Size/2.0, 0));
-
-  float prog = 0;//(Size)/Layers;
-  for(int i = 0; i <= Layers; i++){
-    Vertices.push_back(_vertex3f(Size/2*cos((90-prog)*PI / 180), Size/2*sin((90-prog)*PI / 180), 0));
-    prog += (180)/Layers;
-  }
-    this->revolucionar();
-    this->connect();
-  cerr<<"s"<<Size<<"   "<< Size*sin((90-prog)*PI / 180)<<endl;
-  //Vertices[Layers+1]=_vertex3f(0,-(Size/2.0),0);
-//cerr<<-(Size/2.0)<<endl;
-  cerr<<"tam es "<< Vertices.size()<<endl;
+    fillColor.x = 255;
+    fillColor.y = 231;
+    fillColor.z = 184;
+    calculateColor(fillColor);
 }
 
 void _hand::drawGeneric(int option){
     drawEspecified(option);
+
+
+    glPushMatrix();
+        glScalef(3.5,4,3.5);
+
+        stick.drawGeneric(option);
+    glPopMatrix();
 }
 
