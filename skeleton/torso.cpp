@@ -9,14 +9,14 @@
 
 _torso::_torso(float Size, float Layers, float rev)
 {
-
+    _human::rotStick=0;
 
     /*ANTIGUO TORSO
     revoluciones = rev;
     layers = Layers;
 
     _vertex3f beginning = _vertex3f(Size/3.0,Size/2.0, 0);
-    _vertex3f ending = _vertex3f(Size/1.75, -Size/2.0, 0);
+    _vertex3f ending = _vertex3f.(Size/1.75, -Size/2.0, 0);
     //Vertices.push_back(beginning);
 
     float num = 1/Layers;
@@ -93,13 +93,14 @@ void _torso::drawGeneric(int option){
 
     glPushMatrix();
         glTranslatef(1.3, -1.5, 0);
+        glRotatef(rotLegs, 1, 0, 0);
         glScalef(1.2,1,1.2);
         rightLeg.drawGeneric(option);
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(-1.3, -1.5
-                     , 0);
+        glTranslatef(-1.3, -1.5, 0);
+        glRotatef(-rotLegs, 1, 0, 0);
         glScalef(1.2,1,1.2);
         leftLeg.drawGeneric(option);
     glPopMatrix();

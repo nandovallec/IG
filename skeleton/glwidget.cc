@@ -14,12 +14,16 @@ using namespace std;
 using namespace _gl_widget_ne;
 using namespace _colors_ne;
 
+int STEP_LEGS = 5;
+int STEP_STICK = 5;
+
 
 /*****************************************************************************//**
  *
  *
  *
  *****************************************************************************/
+
 
 _gl_widget::_gl_widget(_window *Window1):Window(Window1)
 {
@@ -58,6 +62,13 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_L:Draw_line=!Draw_line;break;
   case Qt::Key_F:Draw_fill=!Draw_fill;break;
   case Qt::Key_C:Draw_chess=!Draw_chess;break;
+
+  //New keys
+  case Qt::Key_Q:Torso.incrStickDegree(STEP_STICK); update(); break;
+  case Qt::Key_W:Torso.decrStickDegree(STEP_STICK); update(); break;
+
+  case Qt::Key_S:Torso.incrLegsDegree(STEP_LEGS); update(); break;
+  case Qt::Key_D:Torso.decrLegsDegree(STEP_LEGS); update(); break;
 
   case Qt::Key_Left:Observer_angle_y-=ANGLE_STEP;break;
   case Qt::Key_Right:Observer_angle_y+=ANGLE_STEP;break;
