@@ -71,11 +71,7 @@ _torso::_torso(float Size, float Layers, float rev)
 
 void _torso::drawGeneric(int option){
     //brazoDer.drawGeneric(option);
-    glPushMatrix();
-        glScalef(1,1,1);
-
-        drawEspecified(option);
-    glPopMatrix();
+    drawEspecified(option);
 
     glPushMatrix();
         glTranslated(3.3,0.7,0);
@@ -105,10 +101,7 @@ void _torso::drawGeneric(int option){
         leftLeg.drawGeneric(option);
     glPopMatrix();
 
-    glPushMatrix();
-        glTranslatef(0,3.3,0);
-        head.drawGeneric(option);
-    glPopMatrix();
+
 
 }
 

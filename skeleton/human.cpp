@@ -74,14 +74,14 @@ void _human::decrLegsDegree(int step){
         rotLegs -= step;
 
         if(rotLegs < -MAX_DEGREE_LEGS){
-            rotLegs = -MAX_DEGREE_LEGS;
+            rotLegs = -MAX_DEGREE_LEGS + step;
             reverseLegs = !reverseLegs;
         }
     }else{
         rotLegs = rotLegs +step;
 
         if(rotLegs > MAX_DEGREE_LEGS){
-            rotLegs = MAX_DEGREE_LEGS;
+            rotLegs = MAX_DEGREE_LEGS - step;
             reverseLegs = !reverseLegs;
         }
     }
@@ -94,7 +94,7 @@ void _human::incrLegsDegree(int step){
         rotLegs = rotLegs +step;
 
         if(rotLegs > MAX_DEGREE_LEGS){
-            rotLegs = MAX_DEGREE_LEGS;
+            rotLegs = MAX_DEGREE_LEGS - step;
             reverseLegs = !reverseLegs;
         }
     }else{
@@ -102,7 +102,7 @@ void _human::incrLegsDegree(int step){
         rotLegs -= step;
 
         if(rotLegs < -MAX_DEGREE_LEGS){
-            rotLegs = -MAX_DEGREE_LEGS;
+            rotLegs = -MAX_DEGREE_LEGS + step;
             reverseLegs = !reverseLegs;
         }
     }

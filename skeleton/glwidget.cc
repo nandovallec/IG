@@ -14,9 +14,8 @@ using namespace std;
 using namespace _gl_widget_ne;
 using namespace _colors_ne;
 
-int STEP_LEGS = 5;
-int STEP_STICK = 5;
 
+bool animation = false;
 
 /*****************************************************************************//**
  *
@@ -29,6 +28,10 @@ _gl_widget::_gl_widget(_window *Window1):Window(Window1)
 {
   setMinimumSize(300, 300);
   setFocusPolicy(Qt::StrongFocus);
+
+  timer = new QTimer();
+  QObject::connect(timer,SIGNAL(timeout()),this, SLOT(animation()));
+  timer->stop();
 }
 
 
@@ -52,7 +55,7 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
       //Cone.revolucionar();
       //Cylinder.revolucionar();
       Sphere.revolucionar();Sphere.connect();break;
-  case Qt::Key_9:Object=OBJECT_TORSO;break;;
+  case Qt::Key_9:Object=OBJECT_BODY;break;
 
 
 
@@ -64,11 +67,22 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_C:Draw_chess=!Draw_chess;break;
 
   //New keys
-  case Qt::Key_Q:Torso.incrStickDegree(STEP_STICK); update(); break;
-  case Qt::Key_W:Torso.decrStickDegree(STEP_STICK); update(); break;
+  case Qt::Key_A:activateAnimation();break;
 
-  case Qt::Key_S:Torso.incrLegsDegree(STEP_LEGS); update(); break;
-  case Qt::Key_D:Torso.decrLegsDegree(STEP_LEGS); update(); break;
+  case Qt::Key_Q:body.incrStickDegree(5); update(); break;
+  case Qt::Key_W:body.decrStickDegree(5); update(); break;
+
+  case Qt::Key_S:body.incrLegsDegree(5); update(); break;
+  case Qt::Key_D:body.decrLegsDegree(5); update(); break;
+
+  case Qt::Key_E:increaseStep(1); update(); break;
+  case Qt::Key_R:decreaseStep(1); update(); break;
+
+  case Qt::Key_T:increaseStep(2); update(); break;
+  case Qt::Key_Y:decreaseStep(2); update(); break;
+
+
+
 
   case Qt::Key_Left:Observer_angle_y-=ANGLE_STEP;break;
   case Qt::Key_Right:Observer_angle_y+=ANGLE_STEP;break;
@@ -154,7 +168,7 @@ void _gl_widget::draw_objects()
     case OBJECT_CYLINDER:Cylinder.draw_point(); break;
     case OBJECT_SPHERE:Sphere.draw_point(); break;
     case OBJECT_PLY:plyObj.draw_point();break;
-    case OBJECT_TORSO:Torso.draw_point(); break;
+    case OBJECT_BODY:body.draw_point(); break;
 
     default:break;
     }
@@ -170,7 +184,7 @@ void _gl_widget::draw_objects()
     case OBJECT_CYLINDER:Cylinder.draw_line();break;
     case OBJECT_CONE:Cone.draw_line();break;
     case OBJECT_PLY:plyObj.draw_line();break;
-    case OBJECT_TORSO:Torso.draw_line();break;
+    case OBJECT_BODY:body.draw_line();break;
 
     default:break;
     }
@@ -185,7 +199,7 @@ void _gl_widget::draw_objects()
     case OBJECT_CONE:Cone.draw_fill();break;
     case OBJECT_CYLINDER:Cylinder.draw_fill();break;
     case OBJECT_PLY:plyObj.draw_fill();break;
-    case OBJECT_TORSO:Torso.draw_fill();break;
+    case OBJECT_BODY:body.draw_fill();break;
 
     default:break;
     }
@@ -199,7 +213,7 @@ void _gl_widget::draw_objects()
     case OBJECT_CONE:Cone.draw_chess();break;
     case OBJECT_CYLINDER:Cylinder.draw_chess();break;
     case OBJECT_PLY:plyObj.draw_chess();break;
-    case OBJECT_TORSO:Torso.draw_chess();break;
+    case OBJECT_BODY:body.draw_chess();break;
     default:break;
     }
   }
@@ -278,3 +292,40 @@ void _gl_widget::initializeGL()
   Draw_fill=false;
   Draw_chess=false;
 }
+
+void _gl_widget::activateAnimation(){
+    if (animationON){
+        timer->stop();
+        animationON = false;
+    }else{
+        timer->start(200); //time specified in ms
+        animationON = true;
+    }
+}
+
+void _gl_widget::increaseStep(int option){
+    switch(option){
+        case 1:
+            if(STEP_STICK <= 85)
+                STEP_STICK+=5;
+            break;
+        case 2:
+            if(STEP_LEGS <= 30)
+                STEP_LEGS+=2;
+            break;
+    }
+}
+
+void _gl_widget::decreaseStep(int option){
+    switch(option){
+        case 1:
+            if(STEP_STICK >= 5)
+                STEP_STICK-=5;
+            break;
+        case 2:
+            if(STEP_LEGS >= 5)
+                STEP_LEGS-=2;
+            break;
+    }
+}
+

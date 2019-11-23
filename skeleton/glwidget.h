@@ -25,6 +25,7 @@
 #include "sphere.h"
 #include "PLYobject.h"
 #include "human.h"
+#include "body.h"
 
 
 
@@ -40,7 +41,7 @@ namespace _gl_widget_ne {
   const float ANGLE_STEP=1;
 
   typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
-  typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE, OBJECT_CONE, OBJECT_CYLINDER, OBJECT_SPHERE, OBJECT_PLY, OBJECT_TORSO} _object;
+  typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE, OBJECT_CONE, OBJECT_CYLINDER, OBJECT_SPHERE, OBJECT_PLY, OBJECT_BODY} _object;
 }
 
 class _window;
@@ -65,6 +66,10 @@ public:
   void draw_axis();
   void draw_objects();
 
+  void activateAnimation();
+  void increaseStep(int option);
+  void decreaseStep(int option);
+
 
 protected:
   void resizeGL(int Width1, int Height1) Q_DECL_OVERRIDE;
@@ -72,6 +77,13 @@ protected:
   void initializeGL() Q_DECL_OVERRIDE;
   void keyPressEvent(QKeyEvent *Keyevent) Q_DECL_OVERRIDE;
 
+public slots:
+    void animation()
+    {
+        body.incrLegsDegree(STEP_LEGS);
+        body.incrStickDegree(STEP_STICK);
+        update();
+    }
 
 private:
   _window *Window;
@@ -83,7 +95,7 @@ private:
   _cylinder Cylinder;
   _sphere Sphere;
   _PLYobject plyObj;
-  _torso Torso;
+  _body body;
 
   _gl_widget_ne::_object Object;
 
@@ -95,6 +107,12 @@ private:
   float Observer_angle_x;
   float Observer_angle_y;
   float Observer_distance;
+
+  QTimer* timer;
+  int STEP_LEGS = 2;
+  int STEP_STICK = 5;
+  bool animationON = false;
+
 };
 
 #endif
