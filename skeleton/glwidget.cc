@@ -75,11 +75,17 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_S:body.incrLegsDegree(5); update(); break;
   case Qt::Key_D:body.decrLegsDegree(5); update(); break;
 
+  case Qt::Key_Z:body.nextStepThrow(); update(); break;
+  case Qt::Key_X:body.prevStepThrow(); update(); break;
+
+
   case Qt::Key_E:increaseStep(1); update(); break;
   case Qt::Key_R:decreaseStep(1); update(); break;
 
   case Qt::Key_T:increaseStep(2); update(); break;
   case Qt::Key_Y:decreaseStep(2); update(); break;
+
+
 
 
 

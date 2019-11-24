@@ -7,10 +7,23 @@ class _human:public _object3D
 protected:
     _vertex3f lineColor = _vertex3f(0,1,.57647);
     _vertex3f fillColor = _vertex3f(.3647,.9725,1);
-    static int const MAX_DEGREE_LEGS = 15;
     inline static int rotStick;
+
+    static int const MAX_DEGREE_LEGS = 15;
     inline static int rotLegs;
     inline static bool reverseLegs;
+
+    inline static float stepsTrow;
+    inline static const float MAX_X = 4;
+    inline static const float MAX_Y = 9;
+    inline static const float MAX_AIR_ROT = 40;
+
+
+
+    inline static bool stickAscending;
+    inline static float next_stickAirRotat;
+    inline static float next_stick_X;
+    inline static float next_stick_Y;
 
 
     //_vertex3f RED(1.0,0,0);
@@ -36,6 +49,9 @@ public:
   //Second degree of freedom
   void incrLegsDegree(int step);
   void decrLegsDegree(int step);
+
+  void nextStepThrow();
+  void prevStepThrow();
 
 
 

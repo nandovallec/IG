@@ -15,8 +15,8 @@
 class _torso:public _human
 {
 private:
-    _arm rightArm;
-    _arm leftArm;
+    _arm rightArm = _arm(2,60,40,false);
+    _arm leftArm = _arm(2,60,40,true);
     _leg leftLeg;
     _leg rightLeg;
     _head head;

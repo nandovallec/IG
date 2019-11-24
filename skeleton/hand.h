@@ -8,9 +8,11 @@ class _hand:public _human
 {
 private:
     _stick sticks;
+    bool left;
+
 
 public:
-    _hand();
+  _hand(bool lefty);
   void drawGeneric(int option);
 };
 

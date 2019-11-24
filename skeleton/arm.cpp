@@ -7,8 +7,10 @@
  *
  *****************************************************************************/
 
-_arm::_arm(float Size, float Layers, float rev)
+_arm::_arm(float Size, float Layers, float rev, bool lefty)
 {
+    hand = new _hand(lefty);
+    left = lefty;
     revoluciones = rev;
     layers = Layers;
 
@@ -52,7 +54,7 @@ void _arm::drawGeneric(int option){
     glPushMatrix();
         glTranslated(0,-1,0);
 
-        hand.drawGeneric(option);
+        hand->drawGeneric(option);
     glPopMatrix();
 }
 
