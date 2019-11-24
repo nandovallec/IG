@@ -60,22 +60,22 @@ void _human::calculateColor(_vertex3f &colors){
 
 }
 void _human::decrStickDegree(int step){
-    cout << rotStick<<endl;
+    //cout << rotStick<<endl;
 
     rotStick -= step;
     if(rotStick < 0)
         rotStick += 180;
-    cout << rotStick<<endl<<endl;
+    //cout << rotStick<<endl<<endl;
 
 }
 
 void _human::incrStickDegree(int step){
-    cout << rotStick<<endl;
+    //cout << rotStick<<endl;
     rotStick = rotStick +step;
 
     if(rotStick > 180)
         rotStick = rotStick - 180;
-    cout << rotStick<<endl<<endl;
+    //cout << rotStick<<endl<<endl;
 
 }
 
@@ -178,6 +178,17 @@ void _human::prevStepThrow(){
     }
 
 
+}
+
+void _human::incrStepThrow(){
+    if(stepsTrow < 50){
+        stepsTrow++;
+    }
+}
+void _human::decrStepThrow(){
+    if(stepsTrow >= 2){
+        stepsTrow--;
+    }
 }
 
 

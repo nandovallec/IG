@@ -13,13 +13,12 @@ protected:
     inline static int rotLegs;
     inline static bool reverseLegs;
 
-    inline static float stepsTrow;
     inline static const float MAX_X = 4;
     inline static const float MAX_Y = 9;
     inline static const float MAX_AIR_ROT = 40;
 
 
-
+    inline static float stepsTrow;
     inline static bool stickAscending;
     inline static float next_stickAirRotat;
     inline static float next_stick_X;
@@ -50,8 +49,14 @@ public:
   void incrLegsDegree(int step);
   void decrLegsDegree(int step);
 
+  //Third degree of freedom
   void nextStepThrow();
   void prevStepThrow();
+
+  void incrStepThrow();
+  void decrStepThrow();
+
+
 
 
 

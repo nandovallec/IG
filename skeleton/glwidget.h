@@ -82,6 +82,7 @@ public slots:
     {
         body.incrLegsDegree(STEP_LEGS);
         body.incrStickDegree(STEP_STICK);
+        body.nextStepThrow();
         update();
     }
 

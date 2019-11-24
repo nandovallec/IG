@@ -42,6 +42,9 @@ void _hand::drawGeneric(int option){
             glRotatef(-next_stickAirRotat, 0, 0, 1);
         else
             glRotatef(next_stickAirRotat, 0, 0, 1);
+
+
+        //cout << "aaaa"<<next_stickAirRotat<<endl;
         glRotatef(rotStick, 0, 1, 0);
 
 

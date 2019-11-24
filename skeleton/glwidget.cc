@@ -85,8 +85,8 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_T:increaseStep(2); update(); break;
   case Qt::Key_Y:decreaseStep(2); update(); break;
 
-
-
+  case Qt::Key_U:body.incrStepThrow(); update(); break;
+  case Qt::Key_I:body.decrStepThrow(); update(); break;
 
 
 
@@ -304,7 +304,7 @@ void _gl_widget::activateAnimation(){
         timer->stop();
         animationON = false;
     }else{
-        timer->start(200); //time specified in ms
+        timer->start(20); //time specified in ms
         animationON = true;
     }
 }
@@ -334,4 +334,6 @@ void _gl_widget::decreaseStep(int option){
             break;
     }
 }
+
+
 
