@@ -53,9 +53,9 @@ _PLYobject::_PLYobject(string name, float rev){
           if(Vertices[Vertices.size()-1].x != 0)
               Vertices.insert(Vertices.end(), _vertex3f(0, Vertices[Vertices.size()-1].y));
 
-          this->revolucionar();
+          this->revolucionar(Vertices, revoluciones);
           Triangles.clear();
-          this->connect();
+          this->connect(Vertices, Triangles, revoluciones);
       }
     }
     else std::cout << "File can't be opened" << std::endl;

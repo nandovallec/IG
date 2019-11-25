@@ -92,8 +92,8 @@ private:
   _axis Axis;
   _tetrahedron Tetrahedron;
   _cube Cube;
-  _cone Cone;
-  _cylinder Cylinder;
+  _cone Cone = _cone(1, 1, 20);
+  _cylinder Cylinder = _cylinder(1, 1, 20);
   _sphere Sphere;
   _PLYobject plyObj;
   _body body;

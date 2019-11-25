@@ -26,15 +26,14 @@ class _object3D:public _basic_object3D
   int revoluciones = 0;
   int layers = 0;
 
-  void revolucionar();
-  void connect();
 
 
   void draw_line();
   void draw_fill();
   void draw_chess();
 
-  _vertex3f getPointsBetw(_vertex3f x, _vertex3f y, float t);
+  vector<_vertex3ui> getTriangles();
+
 };
 
 #endif // OBJECT3D_H

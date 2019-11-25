@@ -57,8 +57,8 @@ _torso::_torso(float Size, float Layers, float rev)
       Vertices.insert(Vertices.begin(), _vertex3f(0,Vertices[0].y,0));
       Vertices.push_back((_vertex3f(0,Vertices[Vertices.size()-1].y,0)));
 
-      this->revolucionar();
-      this->connect();
+      this->revolucionar(Vertices, revoluciones);
+      this->connect(Vertices, Triangles, revoluciones);
 
       fillColor.x = 226;
       fillColor.y = 14;

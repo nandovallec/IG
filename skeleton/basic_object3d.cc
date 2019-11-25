@@ -25,18 +25,8 @@ void _basic_object3D::draw_point()
   glEnd();
 }
 
-int _basic_object3D::rightVert(int i, int layer, int rev){
-    if (i+1 > (layer)*rev)
-        return i+1-rev;
-    return i+1;
-}
 
-int _basic_object3D::downVert(int i, int rev){
-    return i+rev;
+vector<_vertex3f> _basic_object3D::getVertices(){
+    return Vertices;
 }
-
-int _basic_object3D::downRight(int i, int layer, int rev){
-    return rightVert(i+rev, layer+1, rev);
-}
-
 

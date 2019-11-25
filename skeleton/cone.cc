@@ -18,12 +18,12 @@ _cone::_cone(float Size, float Layers, float rev)
   float prog = (Size)/Layers;
   for(int i = 0; i < Layers; i++){
     Vertices.push_back(_vertex3f(0+prog, (Size/2.0)-prog, 0));
-    prog += (Size)/Layers;
+    prog += (Size/2)/Layers;
   }
   Vertices.push_back(_vertex3f(0,-(Size/2.0),0));
 //cerr<<-(Size/2.0)<<endl;
-  this->revolucionar();
-  this->connect();
+  this->revolucionar(Vertices, revoluciones);
+  this->connect(Vertices, Triangles, revoluciones);
 }
 
 

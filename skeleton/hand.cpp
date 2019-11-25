@@ -12,8 +12,8 @@ _hand::_hand(bool lefty)
 {
 
     _sphere basicModel = _sphere(1.0, 40, 40);
-    this->Vertices = basicModel.Vertices;
-    this->Triangles = basicModel.Triangles;
+    this->Vertices = basicModel.getVertices();
+    this->Triangles = basicModel.getTriangles();
 
     left = lefty;
 
@@ -31,12 +31,14 @@ void _hand::drawGeneric(int option){
     glPushMatrix();
 
 
-        glTranslatef(0, -0.25, 0);
+        //glTranslatef(0, -0.25, 0);
 
-        if(left)
+/*        if(left)
             glTranslatef(-next_stick_X,next_stick_Y,0);
         else
             glTranslatef(next_stick_X,next_stick_Y,0);
+*/
+
 
         if(left)
             glRotatef(-next_stickAirRotat, 0, 0, 1);
@@ -45,14 +47,16 @@ void _hand::drawGeneric(int option){
 
 
         //cout << "aaaa"<<next_stickAirRotat<<endl;
-        glRotatef(rotStick, 0, 1, 0);
+        //glRotatef(rotStick, 0, 1, 0);
 
 
 
 
-        glRotatef(90, 0, 0, 1);
+        glRotatef(90, 1, 0, 0);
+        glScalef(1,0.3*next_stick_X+1,1);
+        glScalef(0.25,4,0.25);
 
-        glScalef(0.25,8,0.25);
+        //glScalef(0.25,8,0.25);
         sticks.drawGeneric(option);
     glPopMatrix();
 }

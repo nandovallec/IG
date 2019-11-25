@@ -2,8 +2,9 @@
 #define ARM_H
 #include "human.h"
 #include "hand.h"
+#include "revolutionobject.h"
 
-class _arm:public _human
+class _arm:public _human, public _revolutionObject
 {
 private:
     bool left;

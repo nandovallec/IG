@@ -4,6 +4,7 @@
 #include "arm.h"
 #include "leg.h"
 #include "head.h"
+#include "revolutionobject.h"
 
 
 /*****************************************************************************//**
@@ -12,7 +13,7 @@
  *
  *****************************************************************************/
 
-class _torso:public _human
+class _torso:public _human, public _revolutionObject
 {
 private:
     _arm rightArm = _arm(2,60,40,false);

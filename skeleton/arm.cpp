@@ -36,8 +36,8 @@ _arm::_arm(float Size, float Layers, float rev, bool lefty)
     Vertices.push_back(_vertex3f(0,Vertices[Vertices.size()-1].y,0));
     Vertices[0].y = Vertices[1].y;
   //cerr<<-(Size/2.0)<<endl;
-    this->revolucionar();
-    this->connect();
+    this->revolucionar(Vertices, revoluciones);
+    this->connect(Vertices, Triangles, revoluciones);
 
     fillColor.x = 226;
     fillColor.y = 14;
@@ -53,6 +53,9 @@ void _arm::drawGeneric(int option){
 
     glPushMatrix();
         glTranslated(0,-1,0);
+        //
+        cout << "Roto "<<rotStick<<endl;
+        glRotatef(rotStick, 0, 1, 0);
 
         hand->drawGeneric(option);
     glPopMatrix();

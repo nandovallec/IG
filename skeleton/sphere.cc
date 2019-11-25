@@ -23,8 +23,8 @@ _sphere::_sphere(float Size, float Layers, float rev)
     Vertices.push_back(_vertex3f(Size/2*cos((90-prog)*PI / 180), Size/2*sin((90-prog)*PI / 180), 0));
     prog += (180)/Layers;
   }
-    this->revolucionar();
-    this->connect();
+  this->revolucionar(Vertices, revoluciones);
+  this->connect(Vertices, Triangles, revoluciones);
   //cerr<<"s"<<Size<<"   "<< Size*sin((90-prog)*PI / 180)<<endl;
   //Vertices[Layers+1]=_vertex3f(0,-(Size/2.0),0);
 //cerr<<-(Size/2.0)<<endl;

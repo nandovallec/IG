@@ -27,12 +27,11 @@ class _basic_object3D
   public:
   vector<_vertex3f> Vertices;
 
+public:
+  vector<_vertex3f> getVertices();
   void draw_point();
-  void connect();
 
-  int rightVert(int i, int layer, int rev);
-  int downVert(int i, int rev);
-  int downRight(int i, int layer, int rev);
+
 };
 
 #endif

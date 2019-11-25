@@ -18,6 +18,7 @@ HEADERS += \
   object3d.h \
   axis.h \
   pupil.h \
+  revolutionobject.h \
   semisphere.h \
   sphere.h \
   stick.h \
@@ -45,6 +46,7 @@ SOURCES += \
   object3d.cc \
   axis.cc \
   pupil.cpp \
+  revolutionobject.cpp \
   semisphere.cpp \
   sphere.cc \
   stick.cpp \

@@ -51,11 +51,13 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_4:Object=OBJECT_CYLINDER;break;
   case Qt::Key_5:Object=OBJECT_SPHERE;break;
   case Qt::Key_6:Object=OBJECT_PLY;break;
+  case Qt::Key_7:Object=OBJECT_BODY;break;
+
   case Qt::Key_8:
       //Cone.revolucionar();
       //Cylinder.revolucionar();
-      Sphere.revolucionar();Sphere.connect();break;
-  case Qt::Key_9:Object=OBJECT_BODY;break;
+      //Sphere.revolucionar();Sphere.connect();
+      break;
 
 
 
