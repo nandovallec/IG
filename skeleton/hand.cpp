@@ -53,8 +53,8 @@ void _hand::drawGeneric(int option){
 
 
         glRotatef(90, 1, 0, 0);
-        glScalef(1,0.3*next_stick_X+1,1);
-        glScalef(0.25,4,0.25);
+        glScalef(1,0.3*next_stickScale+1,1);
+        glScalef(0.5,4,0.5);
 
         //glScalef(0.25,8,0.25);
         sticks.drawGeneric(option);

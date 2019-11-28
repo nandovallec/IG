@@ -54,7 +54,7 @@ void _arm::drawGeneric(int option){
     glPushMatrix();
         glTranslated(0,-1,0);
         //
-        cout << "Roto "<<rotStick<<endl;
+        //cout << "Roto "<<rotStick<<endl;
         glRotatef(rotStick, 0, 1, 0);
 
         hand->drawGeneric(option);

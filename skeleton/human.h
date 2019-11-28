@@ -21,8 +21,8 @@ protected:
     inline static float stepsTrow;
     inline static bool stickAscending;
     inline static float next_stickAirRotat;
-    inline static float next_stick_X;
-    inline static float next_stick_Y;
+    inline static float next_stickScale;
+    //inline static float next_stick_Y;
 
 
     //_vertex3f RED(1.0,0,0);

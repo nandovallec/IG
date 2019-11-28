@@ -90,14 +90,14 @@ void _torso::drawGeneric(int option){
     glPushMatrix();
         glTranslatef(1.3, -1.5, 0);
         glRotatef(rotLegs, 1, 0, 0);
-        glScalef(1.2,1,1.2);
+        glScalef(2.5,1,2.5);
         rightLeg.drawGeneric(option);
     glPopMatrix();
 
     glPushMatrix();
         glTranslatef(-1.3, -1.5, 0);
         glRotatef(-rotLegs, 1, 0, 0);
-        glScalef(1.2,1,1.2);
+        glScalef(2.5,1,2.5);
         leftLeg.drawGeneric(option);
     glPopMatrix();
 

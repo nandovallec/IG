@@ -13,8 +13,8 @@ _human::_human()
     _human::reverseLegs = false;
     _human::stepsTrow = 20;
     _human::next_stickAirRotat = 0;
-    _human::next_stick_X = 0;
-    _human::next_stick_Y = 0;
+    _human::next_stickScale = 0;
+    //_human::next_stick_Y = 0;
     _human::stickAscending = true;
 
 }
@@ -61,21 +61,70 @@ void _human::calculateColor(_vertex3f &colors){
 }
 void _human::decrStickDegree(int step){
     //cout << rotStick<<endl;
-
+    stepsTrow = 180 / step;
     rotStick -= step;
     if(rotStick < 0)
         rotStick += 180;
     //cout << rotStick<<endl<<endl;
 
+    //cout << next_stick_X << "    " << next_stick_Y << "      "<< next_stickAirRotat << endl;
+
+
+    if(!stickAscending){
+        next_stickScale += MAX_X / stepsTrow;
+        next_stickAirRotat += MAX_AIR_ROT / stepsTrow;
+
+        if(next_stickScale >= MAX_X || next_stickAirRotat >= MAX_AIR_ROT){
+            next_stickScale = MAX_X ;
+            next_stickAirRotat = MAX_AIR_ROT ;
+            stickAscending = true;
+        }
+
+    }else{
+        next_stickScale -= MAX_X / stepsTrow;
+        next_stickAirRotat -= MAX_AIR_ROT / stepsTrow;
+
+        if(next_stickScale <= 0  || next_stickAirRotat <= 0){
+            next_stickScale = 0;
+            next_stickAirRotat = 0;
+            stickAscending = false;
+        }
+    }
+
+
 }
 
 void _human::incrStickDegree(int step){
     //cout << rotStick<<endl;
+    stepsTrow = 180 / step;
+
     rotStick = rotStick +step;
 
     if(rotStick > 180)
         rotStick = rotStick - 180;
     //cout << rotStick<<endl<<endl;
+
+
+    if(stickAscending){
+        next_stickScale += MAX_X / stepsTrow;
+        next_stickAirRotat += MAX_AIR_ROT / stepsTrow;
+
+        if(next_stickScale >= MAX_X || next_stickAirRotat >= MAX_AIR_ROT){
+            next_stickScale = MAX_X ;
+            next_stickAirRotat = MAX_AIR_ROT ;
+            stickAscending = false;
+        }
+
+    }else{
+        next_stickScale -= MAX_X / stepsTrow;
+        next_stickAirRotat -= MAX_AIR_ROT / stepsTrow;
+
+        if(next_stickScale <= 0  || next_stickAirRotat <= 0){
+            next_stickScale = 0;
+            next_stickAirRotat = 0;
+            stickAscending = true;
+        }
+    }
 
 }
 
@@ -121,61 +170,13 @@ void _human::incrLegsDegree(int step){
 }
 
 void _human::nextStepThrow(){
-    //cout << next_stick_X << "    " << next_stick_Y << "      "<< next_stickAirRotat << endl;
-    if(stickAscending){
-        next_stick_X += MAX_X / stepsTrow;
-        next_stick_Y += MAX_Y / stepsTrow;
-        next_stickAirRotat += MAX_AIR_ROT / stepsTrow;
 
-        if(next_stick_X >= MAX_X || next_stick_Y >= MAX_Y || next_stickAirRotat >= MAX_AIR_ROT){
-            next_stick_X = MAX_X ;
-            next_stick_Y = MAX_Y ;
-            next_stickAirRotat = MAX_AIR_ROT ;
-            stickAscending = false;
-        }
-
-    }else{
-        next_stick_X -= MAX_X / stepsTrow;
-        next_stick_Y -= MAX_Y / stepsTrow;
-        next_stickAirRotat -= MAX_AIR_ROT / stepsTrow;
-
-        if(next_stick_X <= 0 || next_stick_Y <= 0 || next_stickAirRotat <= 0){
-            next_stick_X = 0;
-            next_stick_Y = 0;
-            next_stickAirRotat = 0;
-            stickAscending = true;
-        }
-    }
 
 
 }
 
 void _human::prevStepThrow(){
     //cout << next_stick_X << "    " << next_stick_Y << "      "<< next_stickAirRotat << endl;
-    if(!stickAscending){
-        next_stick_X += MAX_X / stepsTrow;
-        next_stick_Y += MAX_Y / stepsTrow;
-        next_stickAirRotat += MAX_AIR_ROT / stepsTrow;
-
-        if(next_stick_X >= MAX_X || next_stick_Y >= MAX_Y || next_stickAirRotat >= MAX_AIR_ROT){
-            next_stick_X = MAX_X ;
-            next_stick_Y = MAX_Y ;
-            next_stickAirRotat = MAX_AIR_ROT ;
-            stickAscending = true;
-        }
-
-    }else{
-        next_stick_X -= MAX_X / stepsTrow;
-        next_stick_Y -= MAX_Y / stepsTrow;
-        next_stickAirRotat -= MAX_AIR_ROT / stepsTrow;
-
-        if(next_stick_X <= 0 || next_stick_Y <= 0 || next_stickAirRotat <= 0){
-            next_stick_X = 0;
-            next_stick_Y = 0;
-            next_stickAirRotat = 0;
-            stickAscending = false;
-        }
-    }
 
 
 }

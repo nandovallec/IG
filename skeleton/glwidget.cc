@@ -327,8 +327,8 @@ void _gl_widget::increaseStep(int option){
 void _gl_widget::decreaseStep(int option){
     switch(option){
         case 1:
-            if(STEP_STICK >= 5)
-                STEP_STICK-=5;
+            if(STEP_STICK >= 2)
+                STEP_STICK-=1;
             break;
         case 2:
             if(STEP_LEGS >= 5)
