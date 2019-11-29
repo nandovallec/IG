@@ -82,7 +82,7 @@ public slots:
     {
         body.incrLegsDegree(STEP_LEGS);
         body.incrStickDegree(STEP_STICK);
-        body.nextStepThrow();
+        body.nextStepThrow(STEP_CIRCLE);
         update();
     }
 
@@ -112,6 +112,7 @@ private:
   QTimer* timer;
   int STEP_LEGS = 2;
   int STEP_STICK = 5;
+  int STEP_CIRCLE = 100;
   bool animationON = false;
 
 };

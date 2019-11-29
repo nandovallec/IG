@@ -31,7 +31,7 @@ void _hand::drawGeneric(int option){
     glPushMatrix();
 
 
-        //glTranslatef(0, -0.25, 0);
+        glTranslatef(0, -0.25, 0);
 
 /*        if(left)
             glTranslatef(-next_stick_X,next_stick_Y,0);
@@ -39,11 +39,11 @@ void _hand::drawGeneric(int option){
             glTranslatef(next_stick_X,next_stick_Y,0);
 */
 
-
+        //cout << next_stickAirRotat <<endl;
         if(left)
-            glRotatef(-next_stickAirRotat, 0, 0, 1);
+            glRotatef(-next_stickAirRotat, 0.1, 0, 0.9);
         else
-            glRotatef(next_stickAirRotat, 0, 0, 1);
+            glRotatef(next_stickAirRotat, 0.1, 0, 0.9);
 
 
         //cout << "aaaa"<<next_stickAirRotat<<endl;

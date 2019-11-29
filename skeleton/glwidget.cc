@@ -77,8 +77,8 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_S:body.incrLegsDegree(5); update(); break;
   case Qt::Key_D:body.decrLegsDegree(5); update(); break;
 
-  case Qt::Key_Z:body.nextStepThrow(); update(); break;
-  case Qt::Key_X:body.prevStepThrow(); update(); break;
+  case Qt::Key_Z:body.nextStepThrow(20); update(); break;
+  case Qt::Key_X:body.prevStepThrow(20); update(); break;
 
 
   case Qt::Key_E:increaseStep(1); update(); break;
@@ -87,8 +87,8 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_T:increaseStep(2); update(); break;
   case Qt::Key_Y:decreaseStep(2); update(); break;
 
-  case Qt::Key_U:body.incrStepThrow(); update(); break;
-  case Qt::Key_I:body.decrStepThrow(); update(); break;
+  case Qt::Key_U:increaseStep(3); update(); break;
+  case Qt::Key_I:decreaseStep(3); update(); break;
 
 
 
@@ -316,10 +316,16 @@ void _gl_widget::increaseStep(int option){
         case 1:
             if(STEP_STICK <= 85)
                 STEP_STICK+=5;
+            body.incrStepThrow();
             break;
         case 2:
             if(STEP_LEGS <= 30)
                 STEP_LEGS+=2;
+            break;
+        case 3:
+            if(STEP_CIRCLE <= 200)
+                STEP_CIRCLE+=3;
+            cout << STEP_CIRCLE<<endl;
             break;
     }
 }
@@ -329,10 +335,15 @@ void _gl_widget::decreaseStep(int option){
         case 1:
             if(STEP_STICK >= 2)
                 STEP_STICK-=1;
+            body.decrStepThrow();
             break;
         case 2:
             if(STEP_LEGS >= 5)
                 STEP_LEGS-=2;
+            break;
+        case 3:
+            if(STEP_CIRCLE >= 7)
+                STEP_CIRCLE-=3;
             break;
     }
 }

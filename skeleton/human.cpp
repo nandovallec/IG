@@ -1,5 +1,6 @@
 #include "human.h"
 
+#define PI 3.14159265
 
 /*****************************************************************************//**
  *
@@ -14,8 +15,9 @@ _human::_human()
     _human::stepsTrow = 20;
     _human::next_stickAirRotat = 0;
     _human::next_stickScale = 0;
-    //_human::next_stick_Y = 0;
+    _human::next_translat = 0;
     _human::stickAscending = true;
+    _human::stepsCircle = 20;
 
 }
 
@@ -71,17 +73,17 @@ void _human::decrStickDegree(int step){
 
 
     if(!stickAscending){
-        next_stickScale += MAX_X / stepsTrow;
+        next_stickScale += MAX_SCALE / stepsTrow;
         next_stickAirRotat += MAX_AIR_ROT / stepsTrow;
 
-        if(next_stickScale >= MAX_X || next_stickAirRotat >= MAX_AIR_ROT){
-            next_stickScale = MAX_X ;
+        if(next_stickScale >= MAX_SCALE || next_stickAirRotat >= MAX_AIR_ROT){
+            next_stickScale = MAX_SCALE ;
             next_stickAirRotat = MAX_AIR_ROT ;
             stickAscending = true;
         }
 
     }else{
-        next_stickScale -= MAX_X / stepsTrow;
+        next_stickScale -= MAX_SCALE / stepsTrow;
         next_stickAirRotat -= MAX_AIR_ROT / stepsTrow;
 
         if(next_stickScale <= 0  || next_stickAirRotat <= 0){
@@ -106,17 +108,17 @@ void _human::incrStickDegree(int step){
 
 
     if(stickAscending){
-        next_stickScale += MAX_X / stepsTrow;
+        next_stickScale += MAX_SCALE / stepsTrow;
         next_stickAirRotat += MAX_AIR_ROT / stepsTrow;
 
-        if(next_stickScale >= MAX_X || next_stickAirRotat >= MAX_AIR_ROT){
-            next_stickScale = MAX_X ;
+        if(next_stickScale >= MAX_SCALE || next_stickAirRotat >= MAX_AIR_ROT){
+            next_stickScale = MAX_SCALE ;
             next_stickAirRotat = MAX_AIR_ROT ;
             stickAscending = false;
         }
 
     }else{
-        next_stickScale -= MAX_X / stepsTrow;
+        next_stickScale -= MAX_SCALE / stepsTrow;
         next_stickAirRotat -= MAX_AIR_ROT / stepsTrow;
 
         if(next_stickScale <= 0  || next_stickAirRotat <= 0){
@@ -169,15 +171,17 @@ void _human::incrLegsDegree(int step){
 
 }
 
-void _human::nextStepThrow(){
-
-
+void _human::nextStepThrow(int step){
+    next_translat += ((2*PI)/step);
+    if(next_translat > 2*PI)
+            next_translat -= 2*PI;
 
 }
 
-void _human::prevStepThrow(){
-    //cout << next_stick_X << "    " << next_stick_Y << "      "<< next_stickAirRotat << endl;
-
+void _human::prevStepThrow(int step){
+    next_translat -= ((2*PI)/step);
+    if(next_translat < 0)
+            next_translat += 2*PI;
 
 }
 

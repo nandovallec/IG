@@ -13,16 +13,18 @@ protected:
     inline static int rotLegs;
     inline static bool reverseLegs;
 
-    inline static const float MAX_X = 4;
-    inline static const float MAX_Y = 9;
-    inline static const float MAX_AIR_ROT = 40;
+    inline static const float MAX_SCALE = 4;
+    inline static const float MAX_TRANSLAT = 3;
+    inline static const float MAX_AIR_ROT = 180;
 
 
-    inline static float stepsTrow;
     inline static bool stickAscending;
     inline static float next_stickAirRotat;
     inline static float next_stickScale;
-    //inline static float next_stick_Y;
+    inline static float next_translat;
+    inline static float stepsCircle;
+
+public: inline static float stepsTrow;
 
 
     //_vertex3f RED(1.0,0,0);
@@ -50,8 +52,8 @@ public:
   void decrLegsDegree(int step);
 
   //Third degree of freedom
-  void nextStepThrow();
-  void prevStepThrow();
+  void nextStepThrow(int step);
+  void prevStepThrow(int step);
 
   void incrStepThrow();
   void decrStepThrow();
