@@ -23,6 +23,8 @@ class _object3D:public _basic_object3D
 {
   public:
   vector<_vertex3ui> Triangles;
+  vector<_vertex3f> normalVertices;
+  vector<_vertex3f>normalTriangles;
   int revoluciones = 0;
   int layers = 0;
 
@@ -31,6 +33,7 @@ class _object3D:public _basic_object3D
   void draw_line();
   void draw_fill();
   void draw_chess();
+  void calculateNormals();
 
   vector<_vertex3ui> getTriangles();
 

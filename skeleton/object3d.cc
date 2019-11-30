@@ -83,6 +83,26 @@ vector<_vertex3ui> _object3D::getTriangles(){
     return Triangles;
 }
 
+void _object3D::calculateNormals(){
+    _vertex3f first, second;
+    for(int i = 0; i < Vertices.size(); i++){
+        normalVertices.push_back(_vertex3f(0.0,0.0,0.0));
+    }
+
+    for(int i = 0; i < Triangles.size(); i++){
+        first = Vertices[Triangles[i].y] - Vertices[Triangles[i].x];
+        second = Vertices[Triangles[i].z] - Vertices[Triangles[i].x];
+
+        normalTriangles.push_back(first.cross_product(second));
+
+        normalVertices[Triangles[i].x] = normalVertices[Triangles[i].x] + normalTriangles[i];
+        normalVertices[Triangles[i].y] = normalVertices[Triangles[i].y] + normalTriangles[i];
+        normalVertices[Triangles[i].z] = normalVertices[Triangles[i].z] + normalTriangles[i];
+
+    }
+}
+
+
 
 
 
