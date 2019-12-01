@@ -58,8 +58,8 @@ void _revolutionObject::connect(vector<_vertex3f> &Vertices, vector<_vertex3ui> 
     //cerr<<"mis rev   "<<revoluciones<<endl;
 
     for(int i = 0; i < revoluciones-1; i++)
-        Triangles.push_back(_vertex3ui(0, i+1, i+2));
-    Triangles.push_back(_vertex3ui(0, 1, revoluciones));
+        Triangles.push_back(_vertex3ui(i+1, 0, i+2));
+    Triangles.push_back(_vertex3ui(revoluciones,0 ,1 ));
 
     for(int i = 1; i < Vertices.size()-(revoluciones)-1; i++){
         if(count == revoluciones){
@@ -74,14 +74,14 @@ void _revolutionObject::connect(vector<_vertex3f> &Vertices, vector<_vertex3ui> 
         //cerr<< "Conecting:    "; Vertices[i].show_values();cerr<<"      ";Vertices[r].show_values();cerr<<"      ";Vertices[d].show_values();cerr<<"      "<<endl;
         //cerr<<"Conecto : "<<i<<"   "<<r<<"    "<<dr<<"                         y"<<i<<"     "<<d<<"      "<<dr<<endl;
         Triangles.push_back(_vertex3ui(i,r,dr));
-        Triangles.push_back(_vertex3ui(i,d, dr));
+        Triangles.push_back(_vertex3ui(d,i, dr));
         //index = index+2;
 
     }
     int last = Vertices.size()-1;
-    Triangles.push_back(_vertex3ui(last-revoluciones,last-1,last));
+    Triangles.push_back(_vertex3ui(last-1, last-revoluciones,last));
     for(int i = 0; i < revoluciones-1; i++)
-        Triangles.push_back(_vertex3ui(last-i-1, last-i-2, last));
+        Triangles.push_back(_vertex3ui(last-i-1, last, last-i-2 ));
 }
 
 int _revolutionObject::rightVert(int i, int layer, int rev){
@@ -89,6 +89,7 @@ int _revolutionObject::rightVert(int i, int layer, int rev){
         return i+1-rev;
     return i+1;
 }
+
 
 int _revolutionObject::downVert(int i, int rev){
     return i+rev;

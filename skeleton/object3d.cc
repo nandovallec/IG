@@ -41,7 +41,7 @@ void _object3D::draw_line()
 
 void _object3D::draw_fill()
 {
-    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+    glPolygonMode(GL_FRONT,GL_FILL);
     glBegin(GL_TRIANGLES);
 
     for (unsigned int i=0;i<Triangles.size();i++){
@@ -61,7 +61,7 @@ void _object3D::draw_fill()
 
 void _object3D::draw_chess()
 {
-    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+    glPolygonMode(GL_FRONT,GL_FILL);
     glBegin(GL_TRIANGLES);
     glColor3f(0.0,1.0,0.0);
     for (unsigned int i=0;i<Triangles.size();i=i+2){
@@ -94,13 +94,23 @@ void _object3D::calculateNormals(){
         second = Vertices[Triangles[i].z] - Vertices[Triangles[i].x];
 
         normalTriangles.push_back(first.cross_product(second));
-
+        //cout << "Product "<<i <<"   "<<(first.cross_product(second)).dot_product(_vertex3f(0.1,0.1,0.1))<<endl;
         normalVertices[Triangles[i].x] = normalVertices[Triangles[i].x] + normalTriangles[i];
         normalVertices[Triangles[i].y] = normalVertices[Triangles[i].y] + normalTriangles[i];
         normalVertices[Triangles[i].z] = normalVertices[Triangles[i].z] + normalTriangles[i];
 
     }
 }
+
+
+void _object3D::smoothShading(){
+    shadeKind = GL_SMOOTH;
+}
+void _object3D::flatShading(){
+    shadeKind = GL_FLAT;
+}
+
+
 
 
 

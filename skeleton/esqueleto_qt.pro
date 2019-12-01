@@ -24,6 +24,7 @@ HEADERS += \
   stick.h \
   tetrahedron.h \
   glwidget.h \
+  texturelight.h \
   torso.h \
   window.h
 
@@ -53,6 +54,7 @@ SOURCES += \
   tetrahedron.cc \
   main.cc \
   glwidget.cc \
+  texturelight.cpp \
   torso.cpp \
   window.cc
 

@@ -27,6 +27,7 @@ class _object3D:public _basic_object3D
   vector<_vertex3f>normalTriangles;
   int revoluciones = 0;
   int layers = 0;
+  GLenum shadeKind = GL_SMOOTH;
 
 
 
@@ -34,6 +35,8 @@ class _object3D:public _basic_object3D
   void draw_fill();
   void draw_chess();
   void calculateNormals();
+  void smoothShading();
+  void flatShading();
 
   vector<_vertex3ui> getTriangles();
 

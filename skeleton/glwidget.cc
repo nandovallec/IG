@@ -19,23 +19,6 @@ bool animation = false;
 
 
 
-// Polished silver
-GLfloat mat_ambient[]  = { 0.23125,  0.23125,  0.23125,  1.0 };
-GLfloat mat_diffuse[]  = { 0.2775,   0.2775,   0.2775,   1.0 };
-GLfloat mat_specular[] = { 0.773911, 0.773911, 0.773911, 1.0 };
-GLfloat shine[] = { 189.6 };
-
-
-float posicion_luz_x	  = 2;
-float posicion_luz_z	  = 2;
-GLfloat posicion_luz_0[]  = { 0.0, 6.0, 5.0, 0.0 };							// DIRECCIONAL - inf
-GLfloat posicion_luz_1[]  = { posicion_luz_x, 0, posicion_luz_z, 1.0 };	// POSICIONAL
-GLfloat luz_difusa_1[]	  = { 1.0, 0.0, 1.0, 0.0 };
-GLfloat luz_especular_1[] = { 1.0, 0.0, 1.0, 0.0 };
-
-
-
-
 
 
 
@@ -154,6 +137,37 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_I:decreaseStep(3); update(); break;
 
 
+  case Qt::Key_J: firstLightOn = !firstLightOn; break;
+  case Qt::Key_K: secondLightOn = !secondLightOn; break;
+
+  case Qt::Key_F3:
+          switch (Object){
+          case OBJECT_TETRAHEDRON:Tetrahedron.flatShading();break;
+          case OBJECT_CUBE:Cube.flatShading(); break;
+          case OBJECT_CONE:Cone.flatShading(); break;
+          case OBJECT_CYLINDER:Cylinder.flatShading(); break;
+          case OBJECT_SPHERE:Sphere.flatShading(); break;
+          case OBJECT_PLY:plyObj.flatShading();break;
+          case OBJECT_BODY:body.flatShading(); break;
+
+          default:break;
+          }
+      break;
+  case Qt::Key_F4:
+          switch (Object){
+          case OBJECT_TETRAHEDRON:Tetrahedron.smoothShading();break;
+          case OBJECT_CUBE:Cube.smoothShading(); break;
+          case OBJECT_CONE:Cone.smoothShading(); break;
+          case OBJECT_CYLINDER:Cylinder.smoothShading(); break;
+          case OBJECT_SPHERE:Sphere.smoothShading(); break;
+          case OBJECT_PLY:plyObj.smoothShading();break;
+          case OBJECT_BODY:body.smoothShading(); break;
+
+          default:break;
+          }
+      break;
+
+
 
   case Qt::Key_Left:Observer_angle_y-=ANGLE_STEP;break;
   case Qt::Key_Right:Observer_angle_y+=ANGLE_STEP;break;
@@ -263,56 +277,18 @@ void _gl_widget::draw_objects()
 
   if (Draw_fill){
     glColor3fv((GLfloat *) &BLUE);
+    glShadeModel(GL_FLAT);
     switch (Object){
-    case OBJECT_TETRAHEDRON:Tetrahedron.draw_fill();break;
-    case OBJECT_CUBE:Cube.draw_fill();break;
+    case OBJECT_TETRAHEDRON:if(firstLightOn || secondLightOn) textLight.turnLight(Tetrahedron, firstLightOn, secondLightOn);Tetrahedron.draw_fill();break;
+    case OBJECT_CUBE:if(firstLightOn || secondLightOn) textLight.turnLight(Cube, firstLightOn, secondLightOn);Cube.draw_fill();break;
 
     case OBJECT_SPHERE:
-        glColor3f(0.0,0.0,0.0);
-
-                Sphere.calculateNormals();
-              glLightfv(GL_LIGHT0, GL_POSITION, posicion_luz_0);
-                  glLightfv(GL_LIGHT1, GL_POSITION, posicion_luz_1);
-                  glLightfv(GL_LIGHT1, GL_DIFFUSE,  luz_difusa_1);
-                  glLightfv(GL_LIGHT1, GL_SPECULAR, luz_especular_1);
-
-
-                  glEnable(GL_LIGHTING);
-                  glEnable(GL_LIGHT0);
-                  glEnable(GL_LIGHT1);
-                  glEnable(GL_NORMALIZE);
-
-                  glEnableClientState( GL_VERTEX_ARRAY );
-                  glEnableClientState( GL_NORMAL_ARRAY );
-
-                  glVertexPointer( 3, GL_FLOAT, 0, Sphere.Vertices.data() );
-                   glNormalPointer( GL_FLOAT, 0, Sphere.normalVertices.data() );
-
-                   // Para añadir las luces a las texturas, descomentar las siguientes líneas
-                   // if (imagen != ""){ draw_texturas(imagen); }
-
-                   //else{
-                       glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
-                       glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
-                       glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-                       glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine);
-
-                       glDrawElements( GL_TRIANGLES, Sphere.Triangles.size()*3, GL_UNSIGNED_INT, Sphere.Triangles.data() ) ;
-                   //}
-
-                   glDisableClientState( GL_NORMAL_ARRAY );
-                   glDisableClientState( GL_VERTEX_ARRAY );
-
-                   glDisable(GL_NORMALIZE);
-                   glDisable(GL_LIGHT0);
-                      glDisable(GL_LIGHT1);
-                      glDisable(GL_LIGHTING);
 
 
 
 
-
-
+        if(firstLightOn || secondLightOn){ textLight.turnLight(Sphere, firstLightOn, secondLightOn);
+        }
         Sphere.draw_fill();
 
 
@@ -326,9 +302,9 @@ void _gl_widget::draw_objects()
 
 
 
-    case OBJECT_CONE:Cone.draw_fill();break;
-    case OBJECT_CYLINDER:Cylinder.draw_fill();break;
-    case OBJECT_PLY:plyObj.draw_fill();break;
+    case OBJECT_CONE:if(firstLightOn || secondLightOn) textLight.turnLight(Cone, firstLightOn, secondLightOn);Cone.draw_fill();break;
+    case OBJECT_CYLINDER:if(firstLightOn || secondLightOn) textLight.turnLight(Cylinder, firstLightOn, secondLightOn);Cylinder.draw_fill();break;
+    case OBJECT_PLY:if(firstLightOn || secondLightOn) textLight.turnLight(plyObj, firstLightOn, secondLightOn);plyObj.draw_fill();break;
     case OBJECT_BODY:body.draw_fill();break;
 
     default:break;
@@ -469,6 +445,49 @@ void _gl_widget::decreaseStep(int option){
             break;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
