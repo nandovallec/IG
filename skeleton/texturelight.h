@@ -26,7 +26,7 @@ private:
     float radiusLight	  = 5;
     float stepCircle	  = 0;
     GLfloat posicion_luz_0[4]  = { 0.0, 5.0, 0.0, 0.0 };							// DIRECCIONAL - inf therefore difussion and specular doesnt use position
-    GLfloat posicion_luz_1[4]  = { radiusLight, 0, radiusLight, 1.0 };	// POSICIONAL
+    GLfloat posicion_luz_1[4]  = { radiusLight, 4, radiusLight, 1.0 };	// POSICIONAL
     GLfloat luz_difusa_1[4]	  = { 1.0, 0.0, 1.0, 0.0 };
     GLfloat luz_especular_1[4] = { 1.0, 0.0, 1.0, 0.0 };
 
@@ -75,9 +75,12 @@ void _textureLight::turnLight(T &obj, bool first, bool second){
 
     glEnableClientState( GL_VERTEX_ARRAY );
     glEnableClientState( GL_NORMAL_ARRAY );
-
+    //cout << obj.Vertices.size() << "aaaa";
+        //obj.Vertices.pop_back();
+        //obj.normalVertices.pop_back();
         glVertexPointer( 3, GL_FLOAT, 0, obj.Vertices.data() );
         glNormalPointer( GL_FLOAT, 0, obj.normalVertices.data() );
+        //cout << obj.Vertices.size() << endl;
 
     // Para añadir las luces a las texturas, descomentar las siguientes líneas
     // if (imagen != ""){ draw_texturas(imagen); }
@@ -88,8 +91,21 @@ void _textureLight::turnLight(T &obj, bool first, bool second){
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine);
 
-        glDrawElements( GL_TRIANGLES, obj.Triangles.size()*3, GL_UNSIGNED_INT, obj.Triangles.data() ) ;
 
+        //OPTION1
+        if(obj.shadeKind != GL_FLAT)
+            glDrawElements( GL_TRIANGLES, (obj.Triangles.size())*3, GL_UNSIGNED_INT, obj.Triangles.data() ) ;
+        else{
+        //OPTION2
+        glBegin(GL_TRIANGLES);
+                for (int i = 0; i<obj.Triangles.size(); i++) {
+                    glNormal3fv((GLfloat *)&(obj.normalTriangles[i]));
+                    glVertex3fv((GLfloat *)&obj.Vertices[obj.Triangles[i].x]);
+                    glVertex3fv((GLfloat *)&obj.Vertices[obj.Triangles[i].y]);
+                    glVertex3fv((GLfloat *)&obj.Vertices[obj.Triangles[i].z]);
+                }
+                glEnd();
+        }
     //}
 
     glDisableClientState( GL_NORMAL_ARRAY );

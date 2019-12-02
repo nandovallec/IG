@@ -93,13 +93,24 @@ void _object3D::calculateNormals(){
         first = Vertices[Triangles[i].y] - Vertices[Triangles[i].x];
         second = Vertices[Triangles[i].z] - Vertices[Triangles[i].x];
 
-        normalTriangles.push_back(first.cross_product(second));
+        _vertex3f to_add = first.cross_product(second);
+
+        normalTriangles.push_back(to_add);
+
+        //cout << endl<<"size"<<normalTriangles.size() <<"    i"<<Triangles[i].x;to_add.show_values();
         //cout << "Product "<<i <<"   "<<(first.cross_product(second)).dot_product(_vertex3f(0.1,0.1,0.1))<<endl;
+        cout << "Adding to "<<Triangles[i].x << "   "<<Triangles[i].y << "   "<<Triangles[i].z << "   "<<endl;
         normalVertices[Triangles[i].x] = normalVertices[Triangles[i].x] + normalTriangles[i];
         normalVertices[Triangles[i].y] = normalVertices[Triangles[i].y] + normalTriangles[i];
         normalVertices[Triangles[i].z] = normalVertices[Triangles[i].z] + normalTriangles[i];
 
     }
+
+
+    for (auto it: normalTriangles)
+        it.show_values();
+    //normalTriangles.push_back(normalTriangles[normalTriangles.size()-1]);
+    //cout<< "t"<<Triangles.size()<<"    tn"<<normalTriangles.size();
 }
 
 
