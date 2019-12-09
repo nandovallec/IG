@@ -27,6 +27,7 @@
 #include "human.h"
 #include "body.h"
 #include "texturelight.h"
+#include "chess_board.h"
 
 
 
@@ -42,7 +43,7 @@ namespace _gl_widget_ne {
   const float ANGLE_STEP=1;
 
   typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
-  typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE, OBJECT_CONE, OBJECT_CYLINDER, OBJECT_SPHERE, OBJECT_PLY, OBJECT_BODY} _object;
+  typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE, OBJECT_CONE, OBJECT_CYLINDER, OBJECT_SPHERE, OBJECT_PLY, OBJECT_BODY, OBJECT_BOARD} _object;
 }
 
 class _window;
@@ -115,6 +116,7 @@ private:
   _PLYobject plyObj;
   _body body;
   _textureLight textLight;
+  _chess_board chess_board;
 
   _gl_widget_ne::_object Object;
 
@@ -136,6 +138,7 @@ private:
   bool firstLightOn = false;
   bool secondLightOn = false;
   bool flatShade = false;
+  bool textureOn = false;
 
 };
 

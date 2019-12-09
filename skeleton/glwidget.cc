@@ -29,6 +29,7 @@ bool animation = false;
  *****************************************************************************/
 
 
+
 _gl_widget::_gl_widget(_window *Window1):Window(Window1)
 {
   setMinimumSize(300, 300);
@@ -58,6 +59,7 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_5:Object=OBJECT_SPHERE;break;
   case Qt::Key_6:Object=OBJECT_PLY;break;
   case Qt::Key_7:Object=OBJECT_BODY;break;
+  case Qt::Key_8:Object=OBJECT_BOARD; break;
 
 
 
@@ -185,7 +187,7 @@ void _gl_widget::draw_objects()
     case OBJECT_SPHERE:Sphere.draw_point(); break;
     case OBJECT_PLY:plyObj.draw_point();break;
     case OBJECT_BODY:body.draw_point(); break;
-
+    case OBJECT_BOARD:chess_board.draw_point();break;
     default:break;
     }
   }
@@ -201,7 +203,7 @@ void _gl_widget::draw_objects()
     case OBJECT_CONE:Cone.draw_line();break;
     case OBJECT_PLY:plyObj.draw_line();break;
     case OBJECT_BODY:body.draw_line();break;
-
+    case OBJECT_BOARD:chess_board.draw_line();break;
     default:break;
     }
   }
@@ -274,10 +276,20 @@ void _gl_widget::draw_objects()
             else
                 body.turnSmoothShading(firstLightOn, secondLightOn);
         else
-            body.draw_fill();break;
+            body.draw_fill();
+    break;
+
+    case OBJECT_BOARD:
+        //cout <<"meh"<<endl;
+        if(textureOn)
+            cout << "meh";
+        else
+            chess_board.draw_fill();
+    break;
 
     default:break;
     }
+
   }
 
   if (Draw_chess){
@@ -289,6 +301,7 @@ void _gl_widget::draw_objects()
     case OBJECT_CYLINDER:Cylinder.draw_chess();break;
     case OBJECT_PLY:plyObj.draw_chess();break;
     case OBJECT_BODY:body.draw_chess();break;
+    case OBJECT_BOARD:chess_board.draw_chess();break;
     default:break;
     }
   }

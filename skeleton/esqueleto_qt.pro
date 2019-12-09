@@ -2,6 +2,7 @@ HEADERS += \
   PLYobject.h \
   arm.h \
   body.h \
+  chess_board.h \
   colors.h \
   basic_object3d.h \
   cone.h \
@@ -33,6 +34,7 @@ SOURCES += \
   arm.cpp \
   basic_object3d.cc \
   body.cpp \
+  chess_board.cpp \
   cone.cc \
   cube.cc \
   cylinder.cc \
