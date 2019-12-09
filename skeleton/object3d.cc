@@ -88,7 +88,7 @@ void _object3D::calculateNormals(){
     for(int i = 0; i < Vertices.size(); i++){
         normalVertices.push_back(_vertex3f(0.0,0.0,0.0));
     }
-
+    //std::for_each(v.begin(), v.end(), &foo);
     for(int i = 0; i < Triangles.size(); i++){
         first = Vertices[Triangles[i].y] - Vertices[Triangles[i].x];
         second = Vertices[Triangles[i].z] - Vertices[Triangles[i].x];
@@ -99,30 +99,228 @@ void _object3D::calculateNormals(){
 
         //cout << endl<<"size"<<normalTriangles.size() <<"    i"<<Triangles[i].x;to_add.show_values();
         //cout << "Product "<<i <<"   "<<(first.cross_product(second)).dot_product(_vertex3f(0.1,0.1,0.1))<<endl;
-        cout << "Adding to "<<Triangles[i].x << "   "<<Triangles[i].y << "   "<<Triangles[i].z << "   "<<endl;
+        //cout << "Adding to "<<Triangles[i].x << "   "<<Triangles[i].y << "   "<<Triangles[i].z << "   "<<endl;
         normalVertices[Triangles[i].x] = normalVertices[Triangles[i].x] + normalTriangles[i];
         normalVertices[Triangles[i].y] = normalVertices[Triangles[i].y] + normalTriangles[i];
         normalVertices[Triangles[i].z] = normalVertices[Triangles[i].z] + normalTriangles[i];
 
     }
 
+    //normalTriangles[revoluciones+1].x = 0;
 
-    for (auto it: normalTriangles)
-        it.show_values();
+  /*  for (auto it: normalTriangles){
+        float sqr = it.x * it.x + it.y * it.y + it.z + it.z;
+        it.x = it.x / (float)sqrt(sqr);
+        it.y = it.y / (float)sqrt(sqr);
+        it.z = it.z / (float)sqrt(sqr);
+    }*/
+
+    // Let x=a y=b z=c, when I insert the shading it gets the rotation wrong so I have to rotate the Vertices
+    /*Triangles[12].x = 13;
+    Triangles[12].y = 12;
+    Triangles[12].z = 1;
+
+    */
     //normalTriangles.push_back(normalTriangles[normalTriangles.size()-1]);
     //cout<< "t"<<Triangles.size()<<"    tn"<<normalTriangles.size();
-}
-
-
-void _object3D::smoothShading(){
-    shadeKind = GL_SMOOTH;
-}
-void _object3D::flatShading(){
-    shadeKind = GL_FLAT;
+    //cout<<Triangles.size()<<endl;
+    //Triangles.erase(Triangles.begin()+revoluciones);
+    //cout<<Triangles.size()<<endl;
 }
 
 
 
+
+
+void _object3D::nextStep(int step){
+    stepCircle += ((2*PI)/step);
+    if(stepCircle > 2*PI)
+            stepCircle -= 2*PI;
+
+}
+
+void _object3D::prevStep(int step){
+    stepCircle -= ((2*PI)/step);
+    if(stepCircle < 0)
+            stepCircle += 2*PI;
+
+}
+
+void _object3D::turnFlatShading(bool first, bool second){
+    glShadeModel(GL_FLAT);
+    glColor3f(0.0,0.0,0.0);
+    //cout << "Rad"<<endl;
+    static int cou = 0;
+    //cou++;
+    cout << "meh"<< cou;
+    posicion_luz_1[0] = radiusLight*sin(stepCircle);
+    posicion_luz_1[2] = radiusLight*cos(stepCircle);
+    if(normalVertices.size() == 0)
+        calculateNormals();
+
+    if(first)
+        glLightfv(GL_LIGHT0, GL_POSITION, posicion_luz_0);
+
+    if(second){
+        glLightfv(GL_LIGHT1, GL_POSITION, posicion_luz_1);
+        glLightfv(GL_LIGHT1, GL_DIFFUSE,  luz_difusa_1);
+        glLightfv(GL_LIGHT1, GL_SPECULAR, luz_especular_1);
+    }
+    //glLight
+
+
+    glEnable(GL_LIGHTING);
+    if(first)
+        glEnable(GL_LIGHT0);
+    if(second)
+        glEnable(GL_LIGHT1);
+    glEnable(GL_NORMALIZE);
+
+    //glEnableClientState( GL_VERTEX_ARRAY );
+    //glEnableClientState( GL_NORMAL_ARRAY );
+    //cout << obj.Vertices.size() << "aaaa";
+        //obj.Vertices.pop_back();
+        //obj.normalVertices.pop_back();
+        //glVertexPointer( 3, GL_FLOAT, 0, obj.Vertices.data() );
+        //glNormalPointer( GL_FLOAT, 0, obj.normalVertices.data() );
+        //cout << obj.Vertices.size() << endl;
+
+
+    //else{
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine);
+
+
+        //OPTION1
+        //if(obj.shadeKind != GL_FLAT)
+            //glDrawElements( GL_TRIANGLES, (obj.Triangles.size())*3, GL_UNSIGNED_INT, obj.Triangles.data() ) ;
+            //obj.draw_fill();
+        //else{
+        //OPTION2
+        glPolygonMode(GL_FRONT,GL_FILL);
+        //cout << "Tam "<< obj.Vertices.size() << "      "<< obj.Triangles.size()<<endl;
+        glBegin(GL_TRIANGLES);
+                //Fallo esta en obj.revoluciones*3
+
+                //cout << endl<<"Fallos: "; Triangles[12].show_values(); cout << "     "; Triangles[13].show_values();
+
+                /*obj.normalTriangles[obj.revoluciones*3].x *= 5.0; mir 5 y 8
+                obj.normalTriangles[obj.revoluciones*3].y *= 5.0;
+                obj.normalTriangles[obj.revoluciones*3].z *= 5.0;*/
+                for (int i = 0; i<Triangles.size(); i++) {
+                    glNormal3fv((GLfloat *) &(normalTriangles[i]));
+                    glVertex3fv((GLfloat *) &Vertices[Triangles[i].x]);
+                    glVertex3fv((GLfloat *) &Vertices[Triangles[i].y]);
+                    glVertex3fv((GLfloat *) &Vertices[Triangles[i].z]);
+
+                }
+
+                /*for (unsigned int i=0;i<obj.Vertices.size();i++){
+                  glVertex3fv((GLfloat *) &obj.Vertices[i]);
+                }*/
+                //obj.draw_point();
+                glEnd();
+
+        //}*/
+    //}
+
+    //glDisableClientState( GL_NORMAL_ARRAY );
+    //glDisableClientState( GL_VERTEX_ARRAY );
+
+    glDisable(GL_NORMALIZE);
+    glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHT1);
+    glDisable(GL_LIGHTING);
+
+}
+void _object3D::turnSmoothShading(bool first, bool second){
+    glShadeModel(GL_SMOOTH);
+    glColor3f(0.0,0.0,0.0);
+    posicion_luz_1[0] = radiusLight*sin(stepCircle);
+    posicion_luz_1[2] = radiusLight*cos(stepCircle);
+    if(normalVertices.size()==0)
+        calculateNormals();
+
+    if(first)
+        glLightfv(GL_LIGHT0, GL_POSITION, posicion_luz_0);
+
+    if(second){
+        glLightfv(GL_LIGHT1, GL_POSITION, posicion_luz_1);
+        glLightfv(GL_LIGHT1, GL_DIFFUSE,  luz_difusa_1);
+        glLightfv(GL_LIGHT1, GL_SPECULAR, luz_especular_1);
+    }
+    //glLight
+
+
+    glEnable(GL_LIGHTING);
+    if(first)
+        glEnable(GL_LIGHT0);
+    if(second)
+        glEnable(GL_LIGHT1);
+    glEnable(GL_NORMALIZE);
+
+    //glEnableClientState( GL_VERTEX_ARRAY );
+    //glEnableClientState( GL_NORMAL_ARRAY );
+    //cout << obj.Vertices.size() << "aaaa";
+        //obj.Vertices.pop_back();
+        //obj.normalVertices.pop_back();
+        //glVertexPointer( 3, GL_FLOAT, 0, obj.Vertices.data() );
+        //glNormalPointer( GL_FLOAT, 0, obj.normalVertices.data() );
+        //cout << obj.Vertices.size() << endl;
+
+
+    //else{
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine);
+
+
+        //OPTION1
+        //if(obj.shadeKind != GL_FLAT)
+            //glDrawElements( GL_TRIANGLES, (obj.Triangles.size())*3, GL_UNSIGNED_INT, obj.Triangles.data() ) ;
+            //obj.draw_fill();
+        //else{
+        //OPTION2
+        glPolygonMode(GL_FRONT,GL_FILL);
+        //cout << "Tam "<< obj.Vertices.size() << "      "<< obj.Triangles.size()<<endl;
+        glBegin(GL_TRIANGLES);
+                //Fallo esta en obj.revoluciones*3
+                //cout << endl<<"Fallos: "; Vertices[8].show_values(); cout << "     "; Vertices[7].show_values();
+                /*obj.normalTriangles[obj.revoluciones*3].x *= 5.0; mir 5 y 8
+                obj.normalTriangles[obj.revoluciones*3].y *= 5.0;
+                obj.normalTriangles[obj.revoluciones*3].z *= 5.0;*/
+
+                for (int i = 0; i<Triangles.size(); i++) {
+                    glNormal3fv((GLfloat *) &(normalVertices[Triangles[i].x]));
+                    glVertex3fv((GLfloat *) &Vertices[Triangles[i].x]);
+                    glNormal3fv((GLfloat *) &(normalVertices[Triangles[i].y]));
+                    glVertex3fv((GLfloat *) &Vertices[Triangles[i].y]);
+                    glNormal3fv((GLfloat *) &(normalVertices[Triangles[i].z]));
+                    glVertex3fv((GLfloat *) &Vertices[Triangles[i].z]);
+
+                }
+
+                /*for (unsigned int i=0;i<obj.Vertices.size();i++){
+                  glVertex3fv((GLfloat *) &obj.Vertices[i]);
+                }*/
+                //obj.draw_point();
+                glEnd();
+
+        //}*/
+    //}
+
+    //glDisableClientState( GL_NORMAL_ARRAY );
+    //glDisableClientState( GL_VERTEX_ARRAY );
+
+    glDisable(GL_NORMALIZE);
+    glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHT1);
+    glDisable(GL_LIGHTING);
+
+}
 
 
 

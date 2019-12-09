@@ -86,7 +86,20 @@ public slots:
         body.incrLegsDegree(STEP_LEGS);
         body.incrStickDegree(STEP_STICK);
         body.nextStepThrow(STEP_CIRCLE);
-        textLight.nextStep(100);
+
+
+            switch (Object){
+                case _gl_widget_ne::OBJECT_TETRAHEDRON:Tetrahedron.nextStep(100);break;
+                case _gl_widget_ne::OBJECT_CUBE:Cube.nextStep(100);break;
+                case _gl_widget_ne::OBJECT_SPHERE:Sphere.nextStep(100);break;
+                case _gl_widget_ne::OBJECT_CONE:Cone.nextStep(100);break;
+                case _gl_widget_ne::OBJECT_CYLINDER:Cylinder.nextStep(100);break;
+                case _gl_widget_ne::OBJECT_PLY:plyObj.nextStep(100);break;
+                case _gl_widget_ne::OBJECT_BODY:body.nextStep(100);break;
+                default:break;
+            }
+
+
         update();
     }
 
@@ -96,9 +109,9 @@ private:
   _axis Axis;
   _tetrahedron Tetrahedron;
   _cube Cube;
-  _cone Cone = _cone(1, 1, 4);
+  _cone Cone = _cone(1, 1, 12);
   _cylinder Cylinder = _cylinder(1, 1, 20);
-  _sphere Sphere = _sphere(2.0, 5,5);
+  _sphere Sphere = _sphere(2.0, 3,48);
   _PLYobject plyObj;
   _body body;
   _textureLight textLight;
@@ -122,6 +135,7 @@ private:
 
   bool firstLightOn = false;
   bool secondLightOn = false;
+  bool flatShade = false;
 
 };
 

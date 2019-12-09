@@ -28,15 +28,16 @@ void _revolutionObject::revolucionar(vector<_vertex3f> &Vertices, int revolucion
     Vertices.reserve((cop.size()-2)*revoluciones +2);
     Vertices.push_back(cop[0]);
     for(int i = 1; i < cop.size()-1; i++){
-        prog = 360/revoluciones;
+        prog = (float)360/revoluciones;
         float Size = sqrt(cop[i].x * cop[i].x+cop[i].z+cop[i].z);
         //cerr<<"metoooooo ";cop[i].show_values();cerr<<endl;
         for(int j = 0; j < revoluciones; j++){
             //cerr<<"aa"<<cop[i].x<<"     "<<float(cop[i].x)*cos((360-prog)*PI / 180)<<endl;
-            Vertices.push_back(_vertex3f(Size*cos((prog)*PI / 180),cop[i].y,Size*sin((prog)*PI / 180)));
+
+            Vertices.push_back(_vertex3f(Size*cos((prog)*PI / (float)180),cop[i].y,Size*sin((prog)*PI / (float)180)));
             //Vertices[i*revoluciones+j].show_values();
             //cerr<<i*revoluciones+j<<endl;
-            prog += (360)/revoluciones;
+            prog += (float)(360)/(float)revoluciones;
         }
     }
     Vertices.push_back(cop[cop.size()-1]);
@@ -79,7 +80,7 @@ void _revolutionObject::connect(vector<_vertex3f> &Vertices, vector<_vertex3ui> 
 
     }
     int last = Vertices.size()-1;
-    Triangles.push_back(_vertex3ui(last-1, last-revoluciones,last));
+    Triangles.push_back(_vertex3ui(last,last-1, last-revoluciones));
     for(int i = 0; i < revoluciones-1; i++)
         Triangles.push_back(_vertex3ui(last-i-1, last, last-i-2 ));
 }

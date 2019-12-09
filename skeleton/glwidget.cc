@@ -59,52 +59,6 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_6:Object=OBJECT_PLY;break;
   case Qt::Key_7:Object=OBJECT_BODY;break;
 
-  case Qt::Key_8:
-
-      cout<<"meh"<<endl;
-      Sphere.draw_point();
-
-     /* glColor3f(0.0,0.0,0.0);
-
-        Sphere.calculateNormals();
-      glLightfv(GL_LIGHT0, GL_POSITION, posicion_luz_0);
-          glLightfv(GL_LIGHT1, GL_POSITION, posicion_luz_1);
-          glLightfv(GL_LIGHT1, GL_DIFFUSE,  luz_difusa_1);
-          glLightfv(GL_LIGHT1, GL_SPECULAR, luz_especular_1);
-
-
-          glEnable(GL_LIGHTING);
-          glEnable(GL_LIGHT0);
-          glEnable(GL_LIGHT1);
-          glEnable(GL_NORMALIZE);
-
-          glEnableClientState( GL_VERTEX_ARRAY );
-          glEnableClientState( GL_NORMAL_ARRAY );
-
-          glVertexPointer( 3, GL_FLOAT, 0, Sphere.Vertices.data() );
-           glNormalPointer( GL_FLOAT, 0, Sphere.normalVertices.data() );
-
-           // Para añadir las luces a las texturas, descomentar las siguientes líneas
-           // if (imagen != ""){ draw_texturas(imagen); }
-
-           //else{
-               glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
-               glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
-               glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-               glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine);
-
-               glDrawElements( GL_TRIANGLES, Sphere.Triangles.size()*3, GL_UNSIGNED_INT, Sphere.Triangles.data() ) ;
-           //}
-
-           glDisableClientState( GL_NORMAL_ARRAY );
-           glDisableClientState( GL_VERTEX_ARRAY );
-
-           glDisable(GL_NORMALIZE);
-           glDisable(GL_LIGHT0);
-              glDisable(GL_LIGHT1);
-              glDisable(GL_LIGHTING);*/
-      break;
-
 
 
 
@@ -112,7 +66,7 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_P:Draw_point=!Draw_point;break;
   case Qt::Key_L:Draw_line=!Draw_line;break;
   case Qt::Key_F:Draw_fill=!Draw_fill;break;
-  case Qt::Key_C:Draw_chess=!Draw_chess;break;
+
 
   //New keys
   case Qt::Key_A:activateAnimation();break;
@@ -140,32 +94,9 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_J: firstLightOn = !firstLightOn; break;
   case Qt::Key_K: secondLightOn = !secondLightOn; break;
 
-  case Qt::Key_F3:
-          switch (Object){
-          case OBJECT_TETRAHEDRON:Tetrahedron.flatShading();break;
-          case OBJECT_CUBE:Cube.flatShading(); break;
-          case OBJECT_CONE:Cone.flatShading(); break;
-          case OBJECT_CYLINDER:Cylinder.flatShading(); break;
-          case OBJECT_SPHERE:Sphere.flatShading(); break;
-          case OBJECT_PLY:plyObj.flatShading();break;
-          case OBJECT_BODY:body.flatShading(); break;
-
-          default:break;
-          }
-      break;
-  case Qt::Key_F4:
-          switch (Object){
-          case OBJECT_TETRAHEDRON:Tetrahedron.smoothShading();break;
-          case OBJECT_CUBE:Cube.smoothShading(); break;
-          case OBJECT_CONE:Cone.smoothShading(); break;
-          case OBJECT_CYLINDER:Cylinder.smoothShading(); break;
-          case OBJECT_SPHERE:Sphere.smoothShading(); break;
-          case OBJECT_PLY:plyObj.smoothShading();break;
-          case OBJECT_BODY:body.smoothShading(); break;
-
-          default:break;
-          }
-      break;
+  case Qt::Key_F2:Draw_chess=!Draw_chess;break;
+  case Qt::Key_F3:flatShade = true; break;
+  case Qt::Key_F4:flatShade = false; break;
 
 
 
@@ -277,35 +208,73 @@ void _gl_widget::draw_objects()
 
   if (Draw_fill){
     glColor3fv((GLfloat *) &BLUE);
-    glShadeModel(GL_FLAT);
     switch (Object){
-    case OBJECT_TETRAHEDRON:if(firstLightOn || secondLightOn) textLight.turnLight(Tetrahedron, firstLightOn, secondLightOn);Tetrahedron.draw_fill();break;
-    case OBJECT_CUBE:if(firstLightOn || secondLightOn) textLight.turnLight(Cube, firstLightOn, secondLightOn);Cube.draw_fill();break;
+    case OBJECT_TETRAHEDRON:
+        if(firstLightOn || secondLightOn)
+            if(flatShade)
+                Tetrahedron.turnFlatShading(firstLightOn, secondLightOn);
+            else
+                Tetrahedron.turnSmoothShading(firstLightOn, secondLightOn);
+        else
+            Tetrahedron.draw_fill();
+    break;
+    case OBJECT_CUBE:if(firstLightOn || secondLightOn)
+            if(flatShade)
+                Cube.turnFlatShading(firstLightOn, secondLightOn);
+            else
+                Cube.turnSmoothShading(firstLightOn, secondLightOn);
+        else
+            Cube.draw_fill();
+    break;
 
     case OBJECT_SPHERE:
+        if(firstLightOn || secondLightOn)
+            if(flatShade)
+                Sphere.turnFlatShading(firstLightOn, secondLightOn);
+            else
+                Sphere.turnSmoothShading(firstLightOn, secondLightOn);
+        else
+            Sphere.draw_fill();
+    break;
 
+    case OBJECT_CONE:
+        if(firstLightOn || secondLightOn)
+            if(flatShade)
+                Cone.turnFlatShading( firstLightOn, secondLightOn);
+            else
+                Cone.turnSmoothShading(firstLightOn, secondLightOn);
+        else
+            Cone.draw_fill();
+    break;
 
+    case OBJECT_CYLINDER:
+        if(firstLightOn || secondLightOn)
+            if(flatShade)
+                Cylinder.turnFlatShading(firstLightOn, secondLightOn);
+            else
+                Cylinder.turnSmoothShading(firstLightOn, secondLightOn);
+        else
+            Cylinder.draw_fill();
+    break;
 
+    case OBJECT_PLY:
+        if(firstLightOn || secondLightOn)
+            if(flatShade)
+                plyObj.turnFlatShading(firstLightOn, secondLightOn);
+            else
+                plyObj.turnSmoothShading(firstLightOn, secondLightOn);
+        else
+            plyObj.draw_fill();
+    break;
 
-        if(firstLightOn || secondLightOn){ textLight.turnLight(Sphere, firstLightOn, secondLightOn);
-        }
-        Sphere.draw_fill();
-
-
-
-
-
-
-
-
-        break;
-
-
-
-    case OBJECT_CONE:if(firstLightOn || secondLightOn) textLight.turnLight(Cone, firstLightOn, secondLightOn);Cone.draw_fill();break;
-    case OBJECT_CYLINDER:if(firstLightOn || secondLightOn) textLight.turnLight(Cylinder, firstLightOn, secondLightOn);Cylinder.draw_fill();break;
-    case OBJECT_PLY:if(firstLightOn || secondLightOn) textLight.turnLight(plyObj, firstLightOn, secondLightOn);plyObj.draw_fill();break;
-    case OBJECT_BODY:body.draw_fill();break;
+    case OBJECT_BODY:
+        if(firstLightOn || secondLightOn)
+            if(flatShade)
+                body.turnFlatShading(firstLightOn, secondLightOn);
+            else
+                body.turnSmoothShading(firstLightOn, secondLightOn);
+        else
+            body.draw_fill();break;
 
     default:break;
     }
@@ -445,47 +414,6 @@ void _gl_widget::decreaseStep(int option){
             break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
