@@ -53,6 +53,8 @@ class _object3D:public _basic_object3D
   void nextStep(int step);
   void prevStep(int step);
 
+  void drawTexture(string name);
+
   vector<_vertex3ui> getTriangles();
 
 };

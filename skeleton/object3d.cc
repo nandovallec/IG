@@ -325,3 +325,31 @@ void _object3D::turnSmoothShading(bool first, bool second){
 
 
 
+
+void _object3D::drawTexture(string name){
+    // Code for reading an image
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+    glPolygonMode(GL_FRONT,GL_FILL);
+    glBegin(GL_TRIANGLES);
+        glTexCoord2f(0,0);
+        glTexCoord2f(0,1);
+        glTexCoord2f(1,1);
+        glTexCoord2f(1,0);
+        glTexCoord2f(0,0);
+        glTexCoord2f(0,1);
+        glTexCoord2f(1,1);
+        glTexCoord2f(1,0);
+    for (unsigned int i=0;i<Triangles.size();i++){
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+    }
+    glEnd();
+}
+
+
+
+
+
+

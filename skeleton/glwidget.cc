@@ -19,6 +19,7 @@ bool animation = false;
 
 
 
+vector<_vertex3f> coord ={(0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0)};
 
 
 
@@ -100,6 +101,7 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_F3:flatShade = true; break;
   case Qt::Key_F4:flatShade = false; break;
 
+  case Qt::Key_F5:textureOn = !textureOn;break;
 
 
   case Qt::Key_Left:Observer_angle_y-=ANGLE_STEP;break;
@@ -281,9 +283,72 @@ void _gl_widget::draw_objects()
 
     case OBJECT_BOARD:
         //cout <<"meh"<<endl;
-        if(textureOn)
-            cout << "meh";
-        else
+        glEnable(GL_TEXTURE_2D);
+
+        unsigned int texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        if(textureOn){
+            QString File_name("image.jpg");
+            QImage Image;
+            QImageReader Reader(File_name);
+            Reader.setAutoTransform(true);
+            Image = Reader.read();
+            if (Image.isNull()) {
+              QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
+                                       tr("Cannot load %1.").arg(QDir::toNativeSeparators(File_name)));
+              exit(-1);
+            }
+            Image=Image.mirrored();
+            Image=Image.convertToFormat(QImage::Format_RGB888);
+
+            // Code to control the application of the texture
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+            // Code to pass the image to OpenGL to form a texture 2D
+            glTexImage2D(GL_TEXTURE_2D,0,3,Image.width(),Image.height(),0,GL_RGB,GL_UNSIGNED_BYTE,Image.bits());
+
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            cout << "aaaaaaaaaaaaaaaaaaaaaaaaa"<< coord.size()<<endl;
+            glPolygonMode(GL_FRONT,GL_FILL);
+            glBegin(GL_TRIANGLES);
+            for (unsigned int i=6;i<chess_board.Triangles.size();i=i+2){
+                //cerr<<i<<"  connect "<< Triangles[i]._0<<" "<<Triangles[i]._0<< "  "<<Triangles[i]._0<<"  "<<i<<endl;
+              glVertex3fv((GLfloat *) &(chess_board.Vertices[(chess_board.Triangles)[i]._0]));
+              glTexCoord2f(1,0);
+              glVertex3fv((GLfloat *) &(chess_board.Vertices[(chess_board.Triangles)[i]._1]));
+              glTexCoord2f(0,0);
+
+              glVertex3fv((GLfloat *) &(chess_board.Vertices[(chess_board.Triangles)[i]._2]));
+              glTexCoord2f(0,1);
+
+            }
+            for (unsigned int i=7;i<chess_board.Triangles.size();i=i+2){
+                //cerr<<i<<"  connect "<< Triangles[i]._0<<" "<<Triangles[i]._0<< "  "<<Triangles[i]._0<<"  "<<i<<endl;
+              glVertex3fv((GLfloat *) &(chess_board.Vertices[(chess_board.Triangles)[i]._0]));
+              glTexCoord2f(1,0);
+              glVertex3fv((GLfloat *) &(chess_board.Vertices[(chess_board.Triangles)[i]._1]));
+              glTexCoord2f(1,1);
+
+              glVertex3fv((GLfloat *) &(chess_board.Vertices[(chess_board.Triangles)[i]._2]));
+              glTexCoord2f(0,1);
+
+            }
+            glEnd();
+
+
+
+
+
+
+
+
+    glDisable(GL_TEXTURE_2D);
+
+        }else
             chess_board.draw_fill();
     break;
 
