@@ -11,6 +11,8 @@
 #define OBJECT3D_H
 
 #include "basic_object3d.h"
+#include <QOpenGLWidget>
+
 
 
 /*****************************************************************************//**
@@ -25,6 +27,7 @@ class _object3D:public _basic_object3D
   vector<_vertex3ui> Triangles;
   vector<_vertex3f> normalVertices;
   vector<_vertex3f> normalTriangles;
+  vector <vector <GLfloat>> coordTex;
   int revoluciones = 0;
   int layers = 0;
   GLenum shadeKind = GL_SMOOTH;
@@ -53,10 +56,11 @@ class _object3D:public _basic_object3D
   void nextStep(int step);
   void prevStep(int step);
 
-  void drawTexture(string name);
+  void draw_texture();
 
   vector<_vertex3ui> getTriangles();
-
+  void setImage(QImage image);
+  QImage Image;
 };
 
 #endif // OBJECT3D_H

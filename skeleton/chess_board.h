@@ -11,6 +11,7 @@ public:
     _chess_board(float Size = 1.0);
     void drawGeneric(int option);
     void drawEspecified(int option);
+    void draw_texture();
     void draw_point();
     void draw_line();
     void draw_fill();

@@ -322,32 +322,57 @@ void _object3D::turnSmoothShading(bool first, bool second){
 
 }
 
-
-
-
-
-void _object3D::drawTexture(string name){
+void _object3D::draw_texture(){
     // Code for reading an image
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glEnable(GL_TEXTURE_2D);
 
-    glPolygonMode(GL_FRONT,GL_FILL);
-    glBegin(GL_TRIANGLES);
-        glTexCoord2f(0,0);
-        glTexCoord2f(0,1);
-        glTexCoord2f(1,1);
-        glTexCoord2f(1,0);
-        glTexCoord2f(0,0);
-        glTexCoord2f(0,1);
-        glTexCoord2f(1,1);
-        glTexCoord2f(1,0);
-    for (unsigned int i=0;i<Triangles.size();i++){
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
-      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
-    }
-    glEnd();
+    //unsigned int texture;
+    //glGenTextures(1, &texture);
+    //glBindTexture(GL_TEXTURE_2D, texture);
+
+        // Code to control the application of the texture
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+        // Code to pass the image to OpenGL to form a texture 2D
+        glTexImage2D(GL_TEXTURE_2D,0,3,Image.width(),Image.height(),0,GL_RGB,GL_UNSIGNED_BYTE,Image.bits());
+
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glPolygonMode(GL_FRONT,GL_FILL);
+        glBegin(GL_TRIANGLES);
+
+
+        for (unsigned int i=0;i<Triangles.size();i++){
+
+                if(coordTex[Triangles[i]._0][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._0][0],coordTex[Triangles[i]._0][1]);
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._0]));      // UP RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._0 << "           "<< coordTex[Triangles[i]._0][0] << "    and     "<< coordTex[Triangles[i]._0][1]<<endl;
+
+                if(coordTex[Triangles[i]._1][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._1][0],coordTex[Triangles[i]._1][1]);
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._1]));      // DOWN LEFT CORNER
+                //cout << "Vertex " << Triangles[i]._1 << "           "<< coordTex[Triangles[i]._1][0] << "    and     "<< coordTex[Triangles[i]._1][1]<<endl;
+
+                if(coordTex[Triangles[i]._2][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl;
+
+
+
+        }
+
+        glEnd();
+
+    glDisable(GL_TEXTURE_2D);
 }
 
+void _object3D::setImage(QImage image){
+    this->Image = image;
+}
 
 
 
