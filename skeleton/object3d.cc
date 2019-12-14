@@ -152,7 +152,7 @@ void _object3D::turnFlatShading(bool first, bool second){
     //cout << "Rad"<<endl;
     static int cou = 0;
     //cou++;
-    cout << "meh"<< cou;
+    //cout << "meh"<< cou;
     posicion_luz_1[0] = radiusLight*sin(stepCircle);
     posicion_luz_1[2] = radiusLight*cos(stepCircle);
     if(normalVertices.size() == 0)
