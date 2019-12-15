@@ -84,6 +84,7 @@ vector<_vertex3ui> _object3D::getTriangles(){
 }
 
 void _object3D::calculateNormals(){
+    cout << "Object"<<endl;
     _vertex3f first, second;
     for(int i = 0; i < Vertices.size(); i++){
         normalVertices.push_back(_vertex3f(0.0,0.0,0.0));
