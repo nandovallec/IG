@@ -49,7 +49,7 @@ _cylinder::_cylinder(float Size, float Layers, float rev)
 
 
         coordTex.push_back({-1,-1});
-        cout << "VERT" << Vertices.size() << "   an "<< coordTex.size()<<endl;
+        //cout << "VERT" << Vertices.size() << "   an "<< coordTex.size()<<endl;
     }
 }
 

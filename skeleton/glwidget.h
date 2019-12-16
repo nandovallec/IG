@@ -112,7 +112,7 @@ private:
   _cube Cube;
   _cone Cone = _cone(1, 1, 12);
   _cylinder Cylinder = _cylinder(1, 1, 20);
-  _sphere Sphere = _sphere(2.0, 12,20);
+  _sphere Sphere = _sphere(2.0, 120,400);
   _PLYobject plyObj;
   _body body;
   _textureLight textLight;

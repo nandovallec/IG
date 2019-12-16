@@ -31,10 +31,38 @@ _sphere::_sphere(float Size, float Layers, float rev)
   //cerr<<"tam es "<< Vertices.size()<<endl;
   //if(Layers == 2)
     calculateNormals();
+
+    //if (Layers == 4){
+        float progres = 1;
+        float step = 1.0/(revoluciones);
+        float progres_layer = 1;
+        float step_layer = 1.0/(layers);
+        progres_layer = progres_layer - step_layer;
+        coordTex.push_back({-1, 1});
+        for(int j = 0; j < layers-1; j++){
+            progres = 1;
+            for(int i = 0; i < revoluciones; i++){
+                //cout << "Meto" << progres<<", 1" <<endl;
+
+                coordTex.push_back({fabs(progres),fabs(progres_layer)});
+                progres = progres - step;
+            }
+            progres_layer = progres_layer - step_layer;
+       }
+
+
+
+
+        coordTex.push_back({-1,0});
+        /*cout << "VERT" << Vertices.size() << "   an "<< coordTex.size()<<endl;
+        for(auto it: coordTex)
+            cout << it[0] << " and "<< it[1]<<"  " << Size<<endl;*/
+    //}
+
 }
 
 void _sphere::calculateNormals(){
-    cout << "mehhh"<<endl;
+    //cout << "mehhh"<<endl;
     _vertex3f first, second;
 
     //std::for_each(v.begin(), v.end(), &foo);
@@ -67,4 +95,264 @@ void _sphere::calculateNormals(){
     //cout<<Triangles.size()<<endl;
     //Triangles.erase(Triangles.begin()+revoluciones);
     //cout<<Triangles.size()<<endl;
+}
+
+
+void _sphere::draw_texture(){
+    // Code for reading an image
+    glEnable(GL_TEXTURE_2D);
+
+    //unsigned int texture;
+    //glGenTextures(1, &texture);
+    //glBindTexture(GL_TEXTURE_2D, texture);
+
+        // Code to control the application of the texture
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+        // Code to pass the image to OpenGL to form a texture 2D
+        glTexImage2D(GL_TEXTURE_2D,0,3,Image.width(),Image.height(),0,GL_RGB,GL_UNSIGNED_BYTE,Image.bits());
+
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glPolygonMode(GL_FRONT,GL_FILL);
+        glBegin(GL_TRIANGLES);
+
+
+
+        for(unsigned int i = 0;i<revoluciones;i++){
+            if(i == revoluciones -1){
+                if(coordTex[Triangles[i]._0][1] == 1){
+                    float aver = (coordTex[Triangles[i]._1][0] + coordTex[Triangles[i]._2][0])/2.0;
+                    if(coordTex[Triangles[i]._1][0] == 1 || coordTex[Triangles[i]._2][0] == 1)
+                        aver = (coordTex[Triangles[i]._1][0] + coordTex[Triangles[i]._2][0]-1.0)/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._0][1]);
+                }else if (coordTex[Triangles[i]._0][0] == 1){
+                    glTexCoord2f(0,coordTex[Triangles[i]._0][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._0][0],coordTex[Triangles[i]._0][1]);
+
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._0]));      // UP RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._0 << "           "<< coordTex[Triangles[i]._0][0] << "    and     "<< coordTex[Triangles[i]._0][1]<<endl;
+                if(coordTex[Triangles[i]._1][1] == 1){
+                    float aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._2][0])/2.0;
+                    if(coordTex[Triangles[i]._0][0] == 1 || coordTex[Triangles[i]._2][0] == 1)
+                        aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._2][0]-1.0)/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._1][1]);
+                    //cout << "AVER "<< aver<<endl;
+                }else if (coordTex[Triangles[i]._1][0] == 1){
+                    glTexCoord2f(0,coordTex[Triangles[i]._1][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._1][0],coordTex[Triangles[i]._1][1]);
+
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._1]));      // DOWN LEFT CORNER
+                //cout << "Vertex " << Triangles[i]._1 << "           "<< coordTex[Triangles[i]._1][0] << "    and     "<< coordTex[Triangles[i]._1][1]<<endl;
+                if(coordTex[Triangles[i]._2][1] == 1){
+                    float aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._1][0])/2.0;
+                    if(coordTex[Triangles[i]._0][0] == 1 || coordTex[Triangles[i]._1][0] == 1)
+                        aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._1][0]-1.0)/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._2][1]);
+                }else if (coordTex[Triangles[i]._2][0] == 1){
+                    glTexCoord2f(0,coordTex[Triangles[i]._2][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
+
+
+                //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl<<endl;
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
+            }
+            else{
+                if(coordTex[Triangles[i]._0][1] == 1){
+                    float aver = (coordTex[Triangles[i]._1][0] + coordTex[Triangles[i]._2][0])/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._0][1]);
+
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._0][0],coordTex[Triangles[i]._0][1]);
+
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._0]));      // UP RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._0 << "           "<< coordTex[Triangles[i]._0][0] << "    and     "<< coordTex[Triangles[i]._0][1]<<endl;
+                if(coordTex[Triangles[i]._1][1] == 1){
+                    float aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._2][0])/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._1][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._1][0],coordTex[Triangles[i]._1][1]);
+
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._1]));      // DOWN LEFT CORNER
+                //cout << "Vertex " << Triangles[i]._1 << "           "<< coordTex[Triangles[i]._1][0] << "    and     "<< coordTex[Triangles[i]._1][1]<<endl;
+                if(coordTex[Triangles[i]._2][1] == 1){
+                    float aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._1][0])/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._2][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
+
+
+                //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl<<endl;
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
+            }
+        }
+
+        for (unsigned int i = revoluciones;i<Triangles.size()-revoluciones;i++){
+
+            if(((i - (revoluciones*3-1 ))%revoluciones == 0 )||((i-(revoluciones*3-2))%revoluciones == 0)){
+                if (coordTex[Triangles[i]._0][0] == 1)
+                    glTexCoord2f(0,coordTex[Triangles[i]._0][1]);
+                else
+                    glTexCoord2f(coordTex[Triangles[i]._0][0],coordTex[Triangles[i]._0][1]);
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._0]));      // UP RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._0 << "           "<< coordTex[Triangles[i]._0][0] << "    and     "<< coordTex[Triangles[i]._0][1]<<endl;
+
+                if(coordTex[Triangles[i]._1][0] == 1)
+                    glTexCoord2f(0,coordTex[Triangles[i]._1][1]);
+                else
+                    glTexCoord2f(coordTex[Triangles[i]._1][0],coordTex[Triangles[i]._1][1]);
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._1]));      // DOWN LEFT CORNER
+                //cout << "Vertex " << Triangles[i]._1 << "           "<< coordTex[Triangles[i]._1][0] << "    and     "<< coordTex[Triangles[i]._1][1]<<endl;
+
+                if (coordTex[Triangles[i]._2][0] == 1)
+                    glTexCoord2f(0,coordTex[Triangles[i]._2][1]);
+                else
+                    glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
+
+                //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl;
+            //cout <<endl<<endl;
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
+            }else{
+                if(coordTex[Triangles[i]._0][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._0][0],coordTex[Triangles[i]._0][1]);
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._0]));      // UP RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._0 << "           "<< coordTex[Triangles[i]._0][0] << "    and     "<< coordTex[Triangles[i]._0][1]<<endl;
+
+                if(coordTex[Triangles[i]._1][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._1][0],coordTex[Triangles[i]._1][1]);
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._1]));      // DOWN LEFT CORNER
+                //cout << "Vertex " << Triangles[i]._1 << "           "<< coordTex[Triangles[i]._1][0] << "    and     "<< coordTex[Triangles[i]._1][1]<<endl;
+
+                if(coordTex[Triangles[i]._2][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl;
+
+            }
+
+        }
+
+        for(unsigned int i = Triangles.size()-revoluciones; i<Triangles.size();i++){
+            if(i == Triangles.size()-revoluciones){
+                if(coordTex[Triangles[i]._0][1] == 0){
+                    float aver = (coordTex[Triangles[i]._1][0] + coordTex[Triangles[i]._2][0])/2.0;
+                    if(coordTex[Triangles[i]._1][0] == 1 || coordTex[Triangles[i]._2][0] == 1)
+                        aver = (coordTex[Triangles[i]._1][0] + coordTex[Triangles[i]._2][0]-1.0)/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._0][1]);
+                }else if (coordTex[Triangles[i]._0][0] == 1){
+                    glTexCoord2f(0,coordTex[Triangles[i]._0][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._0][0],coordTex[Triangles[i]._0][1]);
+
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._0]));      // UP RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._0 << "           "<< coordTex[Triangles[i]._0][0] << "    and     "<< coordTex[Triangles[i]._0][1]<<endl;
+                if(coordTex[Triangles[i]._1][1] == 0){
+                    float aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._2][0])/2.0;
+                    if(coordTex[Triangles[i]._0][0] == 1 || coordTex[Triangles[i]._2][0] == 1)
+                        aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._2][0]-1.0)/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._1][1]);
+                    //cout << "AVER "<< aver<<endl;
+                }else if (coordTex[Triangles[i]._1][0] == 1){
+                    glTexCoord2f(0,coordTex[Triangles[i]._1][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._1][0],coordTex[Triangles[i]._1][1]);
+
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._1]));      // DOWN LEFT CORNER
+                //cout << "Vertex " << Triangles[i]._1 << "           "<< coordTex[Triangles[i]._1][0] << "    and     "<< coordTex[Triangles[i]._1][1]<<endl;
+                if(coordTex[Triangles[i]._2][1] == 0){
+                    float aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._1][0])/2.0;
+                    if(coordTex[Triangles[i]._0][0] == 1 || coordTex[Triangles[i]._1][0] == 1)
+                        aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._1][0]-1.0)/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._2][1]);
+                }else if (coordTex[Triangles[i]._2][0] == 1){
+                    glTexCoord2f(0,coordTex[Triangles[i]._2][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
+
+
+                //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl<<endl;
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
+            }
+            else{
+                if(coordTex[Triangles[i]._0][1] == 0){
+                    float aver = (coordTex[Triangles[i]._1][0] + coordTex[Triangles[i]._2][0])/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._0][1]);
+
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._0][0],coordTex[Triangles[i]._0][1]);
+
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._0]));      // UP RIGHT CORNER
+                //cout << "Vertex " << Triangles[i]._0 << "           "<< coordTex[Triangles[i]._0][0] << "    and     "<< coordTex[Triangles[i]._0][1]<<endl;
+                if(coordTex[Triangles[i]._1][1] == 0){
+                    float aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._2][0])/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._1][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._1][0],coordTex[Triangles[i]._1][1]);
+
+
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._1]));      // DOWN LEFT CORNER
+                //cout << "Vertex " << Triangles[i]._1 << "           "<< coordTex[Triangles[i]._1][0] << "    and     "<< coordTex[Triangles[i]._1][1]<<endl;
+                if(coordTex[Triangles[i]._2][1] == 0){
+                    float aver = (coordTex[Triangles[i]._0][0] + coordTex[Triangles[i]._1][0])/2.0;
+                    glTexCoord2f(aver, coordTex[Triangles[i]._2][1]);
+                }else
+                    glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
+
+
+                //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl<<endl;
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
+            }
+
+        }
+
+
+        /*for (unsigned int i = Triangles.size()-2-revoluciones;i<Triangles.size();i++){
+            //cout << "meh"<<endl;
+                if(coordTex[Triangles[i]._0][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._0][0],coordTex[Triangles[i]._0][1]);
+                else if (coordTex[Triangles[i]._0][0] == 1)
+                    glTexCoord2f(0,coordTex[Triangles[i]._0][1]);
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._0]));      // UP RIGHT CORNER
+                cout << "Vertex " << Triangles[i]._0 << "           "<< coordTex[Triangles[i]._0][0] << "    and     "<< coordTex[Triangles[i]._0][1]<<endl;
+
+                if(coordTex[Triangles[i]._1][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._1][0],coordTex[Triangles[i]._1][1]);
+                else if (coordTex[Triangles[i]._1][0] == 1)
+                    glTexCoord2f(0,coordTex[Triangles[i]._1][1]);
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._1]));      // DOWN LEFT CORNER
+                cout << "Vertex " << Triangles[i]._1 << "           "<< coordTex[Triangles[i]._1][0] << "    and     "<< coordTex[Triangles[i]._1][1]<<endl;
+
+                if(coordTex[Triangles[i]._2][0] != -1)
+                    glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
+                else if (coordTex[Triangles[i]._2][0] == 1)
+                    glTexCoord2f(0,coordTex[Triangles[i]._2][1]);
+                glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
+                cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl;
+
+
+        }*/
+
+
+
+
+        glEnd();
+
+    glDisable(GL_TEXTURE_2D);
 }

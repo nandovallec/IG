@@ -237,8 +237,34 @@ void _gl_widget::draw_objects()
                 Sphere.turnFlatShading(firstLightOn, secondLightOn);
             else
                 Sphere.turnSmoothShading(firstLightOn, secondLightOn);
-        else
-            Sphere.draw_fill();
+        else{
+            if(textureOn){
+                if (!imageSet){
+                    QString File_name("image.jpg");
+                    QImage Image;
+                    QImageReader Reader(File_name);
+                    Reader.setAutoTransform(true);
+                    Image = Reader.read();
+                    if (Image.isNull()) {
+                      QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
+                                               tr("Cannot load %1.").arg(QDir::toNativeSeparators(File_name)));
+                      exit(-1);
+                    }
+                    Image=Image.mirrored();
+                    Image=Image.convertToFormat(QImage::Format_RGB888);
+                    Sphere.setImage(Image);
+                    imageSet = true;
+                    //cout << "LOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD"<<endl;
+                }
+
+                Sphere.draw_texture();
+
+
+
+
+            }else
+                Sphere.draw_fill();
+        }
     break;
 
     case OBJECT_CONE:
