@@ -97,6 +97,8 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_J: firstLightOn = !firstLightOn; break;
   case Qt::Key_K: secondLightOn = !secondLightOn; break;
 
+  case Qt::Key_M: materialOption++; materialOption = materialOption % 3; _object3D::optionMaterial = materialOption; break;
+
   case Qt::Key_F2:Draw_chess=!Draw_chess;break;
   case Qt::Key_F3:flatShade = true; break;
   case Qt::Key_F4:flatShade = false; break;

@@ -41,7 +41,7 @@ void _object3D::draw_line()
 
 void _object3D::draw_fill()
 {
-    glPolygonMode(GL_FRONT,GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glBegin(GL_TRIANGLES);
 
     for (unsigned int i=0;i<Triangles.size();i++){
@@ -188,10 +188,10 @@ void _object3D::turnFlatShading(bool first, bool second){
 
 
     //else{
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient[optionMaterial]);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse[optionMaterial]);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular[optionMaterial]);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine[optionMaterial]);
 
 
         //OPTION1
@@ -249,6 +249,7 @@ void _object3D::turnSmoothShading(bool first, bool second){
 
     if(second){
         glLightfv(GL_LIGHT1, GL_POSITION, posicion_luz_1);
+        glLightfv(GL_LIGHT1, GL_AMBIENT,  luz_ambient_1);
         glLightfv(GL_LIGHT1, GL_DIFFUSE,  luz_difusa_1);
         glLightfv(GL_LIGHT1, GL_SPECULAR, luz_especular_1);
     }
@@ -273,10 +274,10 @@ void _object3D::turnSmoothShading(bool first, bool second){
 
 
     //else{
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient[optionMaterial]);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse[optionMaterial]);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular[optionMaterial]);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shine[optionMaterial]);
 
 
         //OPTION1

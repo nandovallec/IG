@@ -139,6 +139,8 @@ private:
   bool secondLightOn = false;
   bool flatShade = false;
   bool textureOn = false;
+  int materialOption = 0;
+
 
 };
 

@@ -35,6 +35,8 @@ class _object3D:public _basic_object3D
   float radiusLight	  = 5;
   float stepCircle	  = 0;
 
+  static inline int optionMaterial = 0;
+
 
   void draw_line();
   void draw_fill();
@@ -43,15 +45,16 @@ class _object3D:public _basic_object3D
   void turnFlatShading(bool first, bool second);
   void turnSmoothShading(bool first, bool second);
 
-  GLfloat mat_ambient[4]  = { 0.23125,  0.23125,  0.23125,  1.0 };
-  GLfloat mat_diffuse[4]  = { 0.2775,   0.2775,   0.2775,   1.0 };
-  GLfloat mat_specular[4] = { 0.773911, 0.773911, 0.773911, 1.0 };
-  GLfloat shine[1]        = { 89.6 };
+  GLfloat mat_ambient[3][4]  = {{0.24725, 0.1995, 0.0745, 1.0},{0.0215, 0.1745, 0.0215, 1.0},{0.1, 0.18725, 0.1745, 1.0}};
+  GLfloat mat_diffuse[3][4]  = {{0.75164, 0.60648, 0.22648, 1.0},{0.07568, 0.61424, 0.07568, 1.0},{0.396, 0.74151, 0.69102, 1.0}};
+  GLfloat mat_specular[3][4] = {{0.628281, 0.555802, 0.366065},{0.633, 0.727811, 0.633, 1.0},{0.297254, 0.30829, 0.306678, 1.0}};
+  GLfloat shine[3][1]        = { {0.4 * 128},{0.6 * 128.0},{0.1 * 128} };
 
   GLfloat posicion_luz_0[4]  = { 0.0, 5.0, 0.0, 0.0 };							// DIRECCIONAL - inf therefore difussion and specular doesnt use position
-  GLfloat posicion_luz_1[4]  = { radiusLight, -4, radiusLight, 1.0 };	// POSICIONAL
-  GLfloat luz_difusa_1[4]	 = { 1.0, 0.0, 1.0, 0.0 };
-  GLfloat luz_especular_1[4] = { 1.0, 0.0, 1.0, 0.0 };
+  GLfloat posicion_luz_1[4]  = { radiusLight, -4, radiusLight, 0.0 };	// POSICIONAL
+  GLfloat luz_ambient_1[4]   = { 1.0, 1.0, 1.0, 0.0 };
+  GLfloat luz_difusa_1[4]	 = { 1.0, 1.0, 1.0, 0.0 };
+  GLfloat luz_especular_1[4] = { 1.0, 1.0, 1.0, 0.0 };
 
   void nextStep(int step);
   void prevStep(int step);
