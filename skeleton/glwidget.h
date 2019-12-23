@@ -97,6 +97,7 @@ public slots:
                 case _gl_widget_ne::OBJECT_CYLINDER:Cylinder.nextStep(100);break;
                 case _gl_widget_ne::OBJECT_PLY:plyObj.nextStep(100);break;
                 case _gl_widget_ne::OBJECT_BODY:body.nextStep(100);break;
+                case _gl_widget_ne::OBJECT_BOARD:chess_board.nextStep(100);break;
                 default:break;
             }
 
@@ -112,11 +113,13 @@ private:
   _cube Cube;
   _cone Cone = _cone(1, 1, 12);
   _cylinder Cylinder = _cylinder(1, 1, 20);
-  _sphere Sphere = _sphere(2.0, 120,400);
+ // _sphere Sphere = _sphere(2.0, 120,400);
+  _sphere Sphere = _sphere(2.0, 5,12);
+
   _PLYobject plyObj;
   _body body;
   _textureLight textLight;
-  _chess_board chess_board;
+  _chess_board chess_board = _chess_board(1.0,5);
 
   _gl_widget_ne::_object Object;
 

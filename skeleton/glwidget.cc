@@ -16,7 +16,6 @@ using namespace _colors_ne;
 
 
 bool animation = false;
-bool imageSet = false;
 
 
 vector<_vertex3f> coord ={(0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0)};
@@ -39,6 +38,22 @@ _gl_widget::_gl_widget(_window *Window1):Window(Window1)
   timer = new QTimer();
   QObject::connect(timer,SIGNAL(timeout()),this, SLOT(animation()));
   timer->stop();
+
+  QString File_name("image.jpg");
+  QImage Image;
+  QImageReader Reader(File_name);
+  Reader.setAutoTransform(true);
+  Image = Reader.read();
+  if (Image.isNull()) {
+    QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
+                             tr("Cannot load %1.").arg(QDir::toNativeSeparators(File_name)));
+    exit(-1);
+  }
+  Image=Image.mirrored();
+  Image=Image.convertToFormat(QImage::Format_RGB888);
+  chess_board.setImage(Image);
+  Sphere.setImage(Image);
+  Cylinder.setImage(Image);
 }
 
 
@@ -99,11 +114,36 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
 
   case Qt::Key_M: materialOption++; materialOption = materialOption % 3; _object3D::optionMaterial = materialOption; break;
 
-  case Qt::Key_F2:Draw_chess=!Draw_chess;break;
-  case Qt::Key_F3:flatShade = true; break;
-  case Qt::Key_F4:flatShade = false; break;
+  case Qt::Key_F1:
+      firstLightOn = false;
+      secondLightOn = false;
+      textureOn = false;
 
-  case Qt::Key_F5:textureOn = !textureOn;break;
+  case Qt::Key_F2:Draw_chess=!Draw_chess;break;
+  case Qt::Key_F3:
+      flatShade = true;
+      Draw_fill = true;
+      break;
+  case Qt::Key_F4:
+      flatShade = false;
+      Draw_fill = true;
+      break;
+
+  case Qt::Key_F5:
+      Draw_fill = true;
+      textureOn = !textureOn;
+      break;
+  case Qt::Key_F6:
+      Draw_fill = true;
+      flatShade = true;
+      textureOn = true;
+      break;
+
+  case Qt::Key_F7:
+      Draw_fill = true;
+      flatShade = false;
+      textureOn = true;
+      break;
 
 
   case Qt::Key_Left:Observer_angle_y-=ANGLE_STEP;break;
@@ -113,7 +153,6 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_PageUp:Observer_distance*=1.2;break;
   case Qt::Key_PageDown:Observer_distance/=1.2;break;
   }
-
   update();
 }
 
@@ -234,36 +273,20 @@ void _gl_widget::draw_objects()
     break;
 
     case OBJECT_SPHERE:
-        if(firstLightOn || secondLightOn)
+        if((firstLightOn || secondLightOn)&& !textureOn)
             if(flatShade)
                 Sphere.turnFlatShading(firstLightOn, secondLightOn);
             else
                 Sphere.turnSmoothShading(firstLightOn, secondLightOn);
         else{
             if(textureOn){
-                if (!imageSet){
-                    QString File_name("image.jpg");
-                    QImage Image;
-                    QImageReader Reader(File_name);
-                    Reader.setAutoTransform(true);
-                    Image = Reader.read();
-                    if (Image.isNull()) {
-                      QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-                                               tr("Cannot load %1.").arg(QDir::toNativeSeparators(File_name)));
-                      exit(-1);
-                    }
-                    Image=Image.mirrored();
-                    Image=Image.convertToFormat(QImage::Format_RGB888);
-                    Sphere.setImage(Image);
-                    imageSet = true;
-                    //cout << "LOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD"<<endl;
-                }
-
-                Sphere.draw_texture();
-
-
-
-
+                if(firstLightOn || secondLightOn)
+                    if(flatShade)
+                        Sphere.draw_texture_flat_shading(firstLightOn, secondLightOn);
+                    else
+                        Sphere.draw_texture_gourand_shading(firstLightOn, secondLightOn);
+                else
+                    Sphere.draw_texture();
             }else
                 Sphere.draw_fill();
         }
@@ -280,36 +303,20 @@ void _gl_widget::draw_objects()
     break;
 
     case OBJECT_CYLINDER:
-        if(firstLightOn || secondLightOn)
+        if((firstLightOn || secondLightOn)&& !textureOn)
             if(flatShade)
                 Cylinder.turnFlatShading(firstLightOn, secondLightOn);
             else
                 Cylinder.turnSmoothShading(firstLightOn, secondLightOn);
         else{
             if(textureOn){
-                if (!imageSet){
-                    QString File_name("image.jpg");
-                    QImage Image;
-                    QImageReader Reader(File_name);
-                    Reader.setAutoTransform(true);
-                    Image = Reader.read();
-                    if (Image.isNull()) {
-                      QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-                                               tr("Cannot load %1.").arg(QDir::toNativeSeparators(File_name)));
-                      exit(-1);
-                    }
-                    Image=Image.mirrored();
-                    Image=Image.convertToFormat(QImage::Format_RGB888);
-                    Cylinder.setImage(Image);
-                    imageSet = true;
-                    //cout << "LOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD"<<endl;
-                }
-
-                Cylinder.draw_texture();
-
-
-
-
+                if(firstLightOn || secondLightOn)
+                    if(flatShade)
+                        Cylinder.draw_texture_flat_shading(firstLightOn, secondLightOn);
+                    else
+                        Cylinder.draw_texture_gourand_shading(firstLightOn, secondLightOn);
+                else
+                    Cylinder.draw_texture();
             }else
                 Cylinder.draw_fill();
         }
@@ -337,32 +344,23 @@ void _gl_widget::draw_objects()
 
     case OBJECT_BOARD:
 
-        if(textureOn){
-            if (!imageSet){
-                QString File_name("image.jpg");
-                QImage Image;
-                QImageReader Reader(File_name);
-                Reader.setAutoTransform(true);
-                Image = Reader.read();
-                if (Image.isNull()) {
-                  QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-                                           tr("Cannot load %1.").arg(QDir::toNativeSeparators(File_name)));
-                  exit(-1);
-                }
-                Image=Image.mirrored();
-                Image=Image.convertToFormat(QImage::Format_RGB888);
-                chess_board.setImage(Image);
-                imageSet = true;
-                //cout << "LOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD"<<endl;
-            }
-
-            chess_board.drawGeneric(4);
-
-
-
-
-        }else
-            chess_board.draw_fill();
+        if((firstLightOn || secondLightOn)&& !textureOn)
+            if(flatShade)
+                chess_board.turnFlatShading(firstLightOn, secondLightOn);
+            else
+                chess_board.turnSmoothShading(firstLightOn, secondLightOn);
+        else{
+            if(textureOn){
+                if(firstLightOn || secondLightOn)
+                    if(flatShade)
+                        chess_board.draw_texture_flat_shading(firstLightOn, secondLightOn);
+                    else
+                        chess_board.draw_texture_gourand_shading(firstLightOn, secondLightOn);
+                else
+                    chess_board.drawEspecified(4);
+            }else
+                chess_board.draw_fill();
+        }
     break;
 
     default:break;

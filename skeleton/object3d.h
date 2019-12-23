@@ -60,6 +60,9 @@ class _object3D:public _basic_object3D
   void prevStep(int step);
 
   void draw_texture();
+  void draw_texture_flat_shading(bool first, bool second);
+  void draw_texture_gourand_shading(bool first, bool second);
+
 
   vector<_vertex3ui> getTriangles();
   void setImage(QImage image);

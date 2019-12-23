@@ -1,36 +1,59 @@
 #include "chess_board.h"
 
-_chess_board::_chess_board(float Size )
+_chess_board::_chess_board(float Size, int division )
 {
-    Vertices.resize(8);
+    Vertices.reserve(4+((division+1)*(division+1)));
+
+    float interval = Size/(float)division;
+    float interval_text = 1.0/(float)division;
+    float y_vert = Size/(float)division;
+    for(int i = 0; i < division+1; i++){
+        for(int j = 0; j < division+1; j++){
+            Vertices.push_back(_vertex3f(-(Size/2.0)+interval*(float)j,(Size/2.0),-(Size/2.0)+interval*(float)i));
+            coordTex.push_back(vector<GLfloat>{interval_text*(float)j, (float)(1.0)-interval_text*(float)i});
+        }
+    }
+
+    Vertices.push_back(_vertex3f(-Size/2,-Size/2,-Size/2));
+    coordTex.push_back(vector<GLfloat>{-1,-1});
+
+    Vertices.push_back(_vertex3f(Size/2,-Size/2,-Size/2));
+    coordTex.push_back(vector<GLfloat>{-1,-1});
+
+    Vertices.push_back(_vertex3f(-Size/2,-Size/2,Size/2));
+    coordTex.push_back(vector<GLfloat>{-1,-1});
+
+    Vertices.push_back(_vertex3f(Size/2,-Size/2,Size/2));
+    coordTex.push_back(vector<GLfloat>{-1,-1});
 
 
-    Vertices[0]=_vertex3f(Size/2,Size/2,-Size/2);
-    Vertices[1]=_vertex3f(-Size/2, Size/2,-Size/2);
-    Vertices[2]=_vertex3f(-Size/2,-Size/2,-Size/2);
-    Vertices[3]=_vertex3f(Size/2,-Size/2,-Size/2);
+    Triangles.resize((division*2*division)+10);
 
-    Vertices[4]=_vertex3f(Size/2,Size/2,Size/2);
-    Vertices[5]=_vertex3f(-Size/2, Size/2,Size/2);
-    Vertices[6]=_vertex3f(-Size/2,-Size/2,Size/2);
-    Vertices[7]=_vertex3f(Size/2,-Size/2,Size/2);
+    for(int i = 0; i < division; i++){
+        for(int j = 0; j < division; j++){
+            Triangles.push_back(_vertex3ui(i*(division+1)+j+1,i*(division+1)+j,(i+1)*(division+1)+j));
+            Triangles.push_back(_vertex3ui(i*(division+1)+j+1, (i+1)*(division+1)+j, (i+1)*(division+1)+j+1));
+        }
+    }
 
-    Triangles.resize(12);
 
-    Triangles[0]=_vertex3ui(1,0,2);
-    Triangles[1]=_vertex3ui(2,0,3);
-    Triangles[2]=_vertex3ui(4,0,5);     // TOP
-    Triangles[3]=_vertex3ui(5,0,1);
-    Triangles[4]=_vertex3ui(5,1,6);
-    Triangles[5]=_vertex3ui(6,1,2);
-    Triangles[6]=_vertex3ui(6,2,7);
-    Triangles[7]=_vertex3ui(7,2,3);
-    Triangles[8]=_vertex3ui(7,3,4);
-    Triangles[9]=_vertex3ui(4,3,0);
-    Triangles[10]=_vertex3ui(4,5,7);
-    Triangles[11]=_vertex3ui(5,6,7);
 
-    coordTex = vector <vector <GLfloat>>{{0,1},{1,1},{-1,-1},{-1,-1},{0,0},{1,0},{-1,-1},{-1,-1}};
+    int last = Vertices.size()-1;
+    //Back side
+    Triangles.push_back(_vertex3ui(0, division, last-3));
+    Triangles.push_back(_vertex3ui(division,last-2, last-3));
+    // Right side
+    Triangles.push_back(_vertex3ui(division, last-4, last-2));
+    Triangles.push_back(_vertex3ui(last-4, last, last-2));
+    //Front side
+    Triangles.push_back(_vertex3ui( last-4,last-4-division, last));
+    Triangles.push_back(_vertex3ui(last-4-division, last-1, last));
+    //Left side
+    Triangles.push_back(_vertex3ui(last-1,  last-4-division,0));
+    Triangles.push_back(_vertex3ui(last-3,  last-1,0));
+    //Bottom side
+    Triangles.push_back(_vertex3ui(last-1,last-3, last-2));
+    Triangles.push_back(_vertex3ui(last, last-1,last-2));
 
 }
 
@@ -74,7 +97,7 @@ void _chess_board::drawGeneric(int option){
     //cout<<"Enter"<<option<<endl;
 
     glPushMatrix();
-        glScalef(5,.1,5);
+        //glScalef(5,.1,5);
         drawEspecified(option);
     glPopMatrix();
 

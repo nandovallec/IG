@@ -17,7 +17,8 @@ public:
   _sphere(float Size=2.0, float Layer = 40, float rev = 40);
  void calculateNormals();
  void draw_texture();
-
+ void draw_texture_flat_shading(bool first, bool second);
+ void draw_texture_gourand_shading(bool first, bool second);
 };
 
 
