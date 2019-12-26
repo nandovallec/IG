@@ -146,16 +146,115 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
       break;
 
 
-  case Qt::Key_Left:Observer_angle_y-=ANGLE_STEP;break;
-  case Qt::Key_Right:Observer_angle_y+=ANGLE_STEP;break;
-  case Qt::Key_Up:Observer_angle_x-=ANGLE_STEP;break;
-  case Qt::Key_Down:Observer_angle_x+=ANGLE_STEP;break;
-  case Qt::Key_PageUp:Observer_distance*=1.2;break;
-  case Qt::Key_PageDown:Observer_distance/=1.2;break;
+  case Qt::Key_C:
+
+      if(!parallelProjection && !obliqueProjection){
+          old_angle_x = Observer_angle_x;
+          old_angle_y = Observer_angle_y;
+          old_distance = Observer_distance;
+      }
+
+      if(!obliqueProjection){
+          Observer_angle_x = 90;
+          Observer_angle_y = 0;
+          Observer_distance = 5;
+      }else{
+          Observer_angle_x = old_angle_x;
+          Observer_angle_y = old_angle_y;
+          Observer_distance = old_distance;
+      }
+
+      obliqueProjection = !obliqueProjection;
+      parallelProjection = false;
+
+
+      break;
+  case Qt::Key_V:
+      if(!parallelProjection && !obliqueProjection){
+          old_angle_x = Observer_angle_x;
+          old_angle_y = Observer_angle_y;
+          old_distance = Observer_distance;
+      }
+
+      if(!parallelProjection){
+          Observer_angle_x = 0;
+          Observer_angle_y = 0;
+          Observer_distance = 5;
+      }else{
+          Observer_angle_x = old_angle_x;
+          Observer_angle_y = old_angle_y;
+          Observer_distance = old_distance;
+      }
+      obliqueProjection = false;
+      parallelProjection = !parallelProjection;
+
+
+
+      break;
+
+
+  }
+  if (!obliqueProjection && !parallelProjection){
+      switch(Keyevent->key()){
+          case Qt::Key_Left:Observer_angle_y-=ANGLE_STEP;break;
+          case Qt::Key_Right:Observer_angle_y+=ANGLE_STEP;break;
+          case Qt::Key_Up:Observer_angle_x-=ANGLE_STEP;break;
+          case Qt::Key_Down:Observer_angle_x+=ANGLE_STEP;break;
+          case Qt::Key_PageUp:Observer_distance*=1.2;break;
+          case Qt::Key_PageDown:Observer_distance/=1.2;break;
+      }
   }
   update();
 }
 
+void _gl_widget::wheelEvent(QWheelEvent *event){
+    if(event->delta() < 0)
+        Observer_distance*=1.2;
+    else
+        Observer_distance/=1.2;
+
+    update();
+}
+
+void _gl_widget::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons() == Qt::RightButton){
+        if(x_move == INT_MIN && y_move == INT_MIN){
+            x_move = event -> x();
+            y_move = event -> y();
+        }
+        //cout << x_move << " event" << event->x()<<endl;
+        if(x_move - event->x() > SENS_CAMARA){
+            Observer_angle_y -= ANGLE_STEP*2;
+            x_move = event -> x();
+            update();
+
+        }else if(x_move - event->x() < -SENS_CAMARA){
+            Observer_angle_y += ANGLE_STEP*2;
+            x_move = event -> x();
+            update();
+
+        }
+
+        if(y_move - event->y() > SENS_CAMARA){
+            Observer_angle_x -= ANGLE_STEP*2;
+            y_move = event -> y();
+            update();
+
+        }else if(y_move - event->y() < -SENS_CAMARA){
+            Observer_angle_x += ANGLE_STEP*2;
+            y_move = event -> y();
+            update();
+        }
+
+    }
+}
+
+void _gl_widget::mouseReleaseEvent(QMouseEvent *event){
+    if(event->button() == Qt::RightButton){
+        x_move = INT_MIN;
+        y_move = INT_MIN;
+    }
+}
 
 /*****************************************************************************//**
  * Limpiar ventana

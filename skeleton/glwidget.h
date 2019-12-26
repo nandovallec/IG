@@ -13,6 +13,8 @@
 #include <GL/gl.h>
 #include <QOpenGLWidget>
 #include <QKeyEvent>
+#include <QWheelEvent>
+#include <QMouseEvent>
 #include <iostream>
 #include "vertex.h"
 #include "colors.h"
@@ -80,6 +82,10 @@ protected:
   void paintGL() Q_DECL_OVERRIDE;
   void initializeGL() Q_DECL_OVERRIDE;
   void keyPressEvent(QKeyEvent *Keyevent) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+  void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+  void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
 
 public slots:
     void animation()
@@ -128,9 +134,9 @@ private:
   bool Draw_fill;
   bool Draw_chess;
 
-  float Observer_angle_x;
-  float Observer_angle_y;
-  float Observer_distance;
+  float Observer_angle_x, old_angle_x;
+  float Observer_angle_y, old_angle_y;
+  float Observer_distance, old_distance;
 
   QTimer* timer;
   int STEP_LEGS = 2;
@@ -143,6 +149,12 @@ private:
   bool flatShade = false;
   bool textureOn = false;
   int materialOption = 0;
+
+  bool parallelProjection = false;
+  bool obliqueProjection = false;
+
+  int x_move = INT_MIN, y_move = INT_MIN;
+  int const SENS_CAMARA = 10;
 
 
 };
