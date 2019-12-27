@@ -11,6 +11,7 @@
 #define GLWIDGET_H
 
 #include <GL/gl.h>
+#include <GL/glut.h>
 #include <QOpenGLWidget>
 #include <QKeyEvent>
 #include <QWheelEvent>
@@ -30,6 +31,9 @@
 #include "body.h"
 #include "texturelight.h"
 #include "chess_board.h"
+
+#include <QOpenGLFunctions_4_5_Compatibility>
+
 
 
 
@@ -154,8 +158,11 @@ private:
   bool obliqueProjection = false;
 
   int x_move = INT_MIN, y_move = INT_MIN;
-  int const SENS_CAMARA = 10;
+  int const SENS_CAMARA = 2;
+  int const SENS_SPEED = 4;
+  void pick(int x, int y);
 
+  QOpenGLFunctions_4_5_Compatibility exx;
 
 };
 

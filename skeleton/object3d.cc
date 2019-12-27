@@ -562,6 +562,33 @@ void _object3D::draw_texture_gourand_shading(bool first, bool second){
 }
 
 
+vector<float> _object3D::intToRGB(int value){
+    //cout << "MEMEME" << (int)(value ) << endl;
+    int red = (value & 0x00FF0000)>>16;
+    int green  = (value & 0x0000FF00)>>8;
+    int blue = (value & 0x000000FF);
+
+    vector<float> results;
+    results.push_back((float) red );// / 255.0);
+    results.push_back((float) green);// / 255.0);
+    results.push_back((float) blue);// / 255.0);
+
+    return results;
+}
+
+int _object3D::RGBtoint(vector<float> value){
+    int red = (value[0] ); // * 255.0);
+    int green = (value [1]);// * 255.0);
+    int blue = (value[2]); // * 255.0);
+
+    int result = 0;
+    result = result | (red << 16);
+    result = result | (green << 8);
+    result = result | (blue);
+
+    return result;
+}
+
 
 
 

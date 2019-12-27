@@ -54,6 +54,9 @@ _gl_widget::_gl_widget(_window *Window1):Window(Window1)
   chess_board.setImage(Image);
   Sphere.setImage(Image);
   Cylinder.setImage(Image);
+
+  //cout <<std::dec <<"R" << Cylinder.intToRGB(5)[2]<<endl;
+  //cout << "FIN" << Cylinder.RGBtoint(Cylinder.intToRGB(287454020)) << endl;
 }
 
 
@@ -224,24 +227,24 @@ void _gl_widget::mouseMoveEvent(QMouseEvent *event){
         }
         //cout << x_move << " event" << event->x()<<endl;
         if(x_move - event->x() > SENS_CAMARA){
-            Observer_angle_y -= ANGLE_STEP*2;
+            Observer_angle_y -= ANGLE_STEP*SENS_SPEED;
             x_move = event -> x();
             update();
 
         }else if(x_move - event->x() < -SENS_CAMARA){
-            Observer_angle_y += ANGLE_STEP*2;
+            Observer_angle_y += ANGLE_STEP*SENS_SPEED;
             x_move = event -> x();
             update();
 
         }
 
         if(y_move - event->y() > SENS_CAMARA){
-            Observer_angle_x -= ANGLE_STEP*2;
+            Observer_angle_x -= ANGLE_STEP*SENS_SPEED;
             y_move = event -> y();
             update();
 
         }else if(y_move - event->y() < -SENS_CAMARA){
-            Observer_angle_x += ANGLE_STEP*2;
+            Observer_angle_x += ANGLE_STEP*SENS_SPEED;
             y_move = event -> y();
             update();
         }
@@ -567,6 +570,7 @@ void _gl_widget::activateAnimation(){
 }
 
 void _gl_widget::increaseStep(int option){
+
     switch(option){
         case 1:
             if(STEP_STICK <= 85)
@@ -602,8 +606,69 @@ void _gl_widget::decreaseStep(int option){
             break;
     }
 }
+#include <QOpenGLFunctions>
 
+void _gl_widget::pick(int x, int y)
+{
+  makeCurrent();
 
+  // Frame Buffer Object to do the off-screen rendering
+  GLuint FBO;
+
+  exx.glGenFramebuffers(1,&FBO);
+  exx.glBindFramebuffer(GL_FRAMEBUFFER,FBO);
+
+  // Texture for drawing
+  GLuint Color_texture;
+  glGenTextures(1,&Color_texture);
+  glBindTexture(GL_TEXTURE_2D,Color_texture);
+  // RGBA8
+  exx.glTexStorage2D(GL_TEXTURE_2D,1,GL_RGBA8, this->Window->width(),  this->Window->height());
+  // this implies that there is not mip mapping
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+
+  // Texure for computing the depth
+  GLuint Depth_texture;
+  glGenTextures(1,&Depth_texture);
+  glBindTexture(GL_TEXTURE_2D,Depth_texture);
+  // Float
+  exx.glTexStorage2D(GL_TEXTURE_2D,1,GL_DEPTH_COMPONENT24, this->Window->width(),this->Window->height());
+
+  // Attatchment of the textures to the FBO
+  exx.glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,Color_texture,0);
+  exx.glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,Depth_texture,0);
+
+  // OpenGL will draw to these buffers (only one in this case)
+  static const GLenum Draw_buffers[]={GL_COLOR_ATTACHMENT0};
+  exx.glDrawBuffers(1,Draw_buffers);
+
+  /*************************/
+
+  // dibujar escena para seleccion
+
+  /*************************/
+
+  // get the pixel
+  int Color;
+  glReadBuffer(GL_FRONT);
+  glPixelStorei(GL_PACK_ALIGNMENT,1);
+  glReadPixels(x,y,1,1,GL_RGBA,GL_UNSIGNED_BYTE,&Color);
+
+  /*************************/
+
+  // convertir de RGB a identificador
+
+  // actualizar el identificador de la parte seleccionada en el objeto
+
+  /*************************/
+
+  glDeleteTextures(1,&Color_texture);
+  glDeleteTextures(1,&Depth_texture);
+  exx.glDeleteFramebuffers(1,&FBO);
+  // the normal framebuffer takes the control of drawing
+  exx.glBindFramebuffer(GL_DRAW_FRAMEBUFFER,defaultFramebufferObject());
+}
 
 
 

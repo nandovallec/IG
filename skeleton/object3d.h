@@ -67,6 +67,8 @@ class _object3D:public _basic_object3D
   vector<_vertex3ui> getTriangles();
   void setImage(QImage image);
   QImage Image;
+  vector<float> intToRGB(int value);
+  int RGBtoint(vector<float>value);
 };
 
 #endif // OBJECT3D_H
