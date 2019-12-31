@@ -41,10 +41,30 @@ void _object3D::draw_line()
 
 void _object3D::draw_fill()
 {
+    if(pickedTriangles.empty())
+        calculateColors();
     glPolygonMode(GL_FRONT,GL_FILL);
     glBegin(GL_TRIANGLES);
 
     for (unsigned int i=0;i<Triangles.size();i++){
+      if(pickedTriangles[i])
+          glColor3fv((GLfloat *) &YEllOW);
+      else
+          glColor3fv((GLfloat *) &BLUE);
+
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+    }
+    glEnd();
+}
+
+void _object3D::draw_selection(){
+    glPolygonMode(GL_FRONT,GL_FILL);
+    glBegin(GL_TRIANGLES);
+
+    for (unsigned int i=0;i<Triangles.size();i++){
+      glColor3fv((GLfloat *) &colorTriangles[i]);
       glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
       glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
       glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
@@ -569,17 +589,17 @@ vector<float> _object3D::intToRGB(int value){
     int blue = (value & 0x000000FF);
 
     vector<float> results;
-    results.push_back((float) red );// / 255.0);
-    results.push_back((float) green);// / 255.0);
-    results.push_back((float) blue);// / 255.0);
+    results.push_back((float) red  / 255.0);
+    results.push_back((float) green / 255.0);
+    results.push_back((float) blue/ 255.0);
 
     return results;
 }
 
 int _object3D::RGBtoint(vector<float> value){
-    int red = (value[0] ); // * 255.0);
-    int green = (value [1]);// * 255.0);
-    int blue = (value[2]); // * 255.0);
+    int red = (value[0]  );
+    int green = (value [1] );
+    int blue = (value[2] );
 
     int result = 0;
     result = result | (red << 16);
@@ -587,6 +607,19 @@ int _object3D::RGBtoint(vector<float> value){
     result = result | (blue);
 
     return result;
+}
+
+void _object3D::calculateColors(){
+    for(int i = 0; i < Triangles.size(); i++){
+        pickedTriangles.push_back(false);
+        vector<float> color = intToRGB(i);
+        colorTriangles.push_back(_vertex3f(color[0], color[1], color[2]));
+        //cout << "Color creado de "<<i<<" es: "<< color[0]<<" , "<< color[1]<<" , "<< color[2]<<endl; //Blue increases
+    }
+}
+
+void _object3D::setPicked(int i){
+    pickedTriangles[i] = !pickedTriangles[i];
 }
 
 

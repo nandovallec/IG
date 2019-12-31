@@ -10,6 +10,7 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
+#define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <QOpenGLWidget>
@@ -32,7 +33,7 @@
 #include "texturelight.h"
 #include "chess_board.h"
 
-#include <QOpenGLFunctions_4_5_Compatibility>
+//#include <QOpenGLFunctions_4_5_Compatibility>
 
 
 
@@ -162,7 +163,7 @@ private:
   int const SENS_SPEED = 4;
   void pick(int x, int y);
 
-  QOpenGLFunctions_4_5_Compatibility exx;
+  //QOpenGLFunctions_4_5_Compatibility exx;
 
 };
 

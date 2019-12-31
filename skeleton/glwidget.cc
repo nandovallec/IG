@@ -18,8 +18,6 @@ using namespace _colors_ne;
 bool animation = false;
 
 
-vector<_vertex3f> coord ={(0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0),(0.0,0.0),(0.0,1.0),(1.0,1.0),(1.0,0.0)};
-
 
 
 /*****************************************************************************//**
@@ -56,7 +54,7 @@ _gl_widget::_gl_widget(_window *Window1):Window(Window1)
   Cylinder.setImage(Image);
 
   //cout <<std::dec <<"R" << Cylinder.intToRGB(5)[2]<<endl;
-  //cout << "FIN" << Cylinder.RGBtoint(Cylinder.intToRGB(287454020)) << endl;
+  cout << "FIN" << _object3D::RGBtoint(_object3D::intToRGB(1122867)) << endl;
 }
 
 
@@ -256,6 +254,16 @@ void _gl_widget::mouseReleaseEvent(QMouseEvent *event){
     if(event->button() == Qt::RightButton){
         x_move = INT_MIN;
         y_move = INT_MIN;
+        cout << "New es "<< event->windowPos().x() -13 << "  .  " << 800.0 - event->windowPos().y() - 14 <<endl; // y esta empieza arriba hasta abajo
+        pick(event->x(), 800.0-event->y()-50);
+        //cout << "Meh "<< window()->height()<<endl;
+//        float pixel[4];
+
+//        glReadPixels(event->windowPos().x(), event->windowPos().y(), 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixel);
+//       glReadPixels(event->x(), event->y(), 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixel);
+
+//        cout << "The pixels are: "<< pixel[0]<<" .  " << pixel[1]<<" .  " << pixel[2]<<" .  " << pixel[3] <<endl;
+        update();
     }
 }
 
@@ -611,19 +619,18 @@ void _gl_widget::decreaseStep(int option){
 void _gl_widget::pick(int x, int y)
 {
   makeCurrent();
-
   // Frame Buffer Object to do the off-screen rendering
   GLuint FBO;
 
-  exx.glGenFramebuffers(1,&FBO);
-  exx.glBindFramebuffer(GL_FRAMEBUFFER,FBO);
+  glGenFramebuffers(1,&FBO);
+  glBindFramebuffer(GL_FRAMEBUFFER,FBO);
 
   // Texture for drawing
   GLuint Color_texture;
   glGenTextures(1,&Color_texture);
   glBindTexture(GL_TEXTURE_2D,Color_texture);
   // RGBA8
-  exx.glTexStorage2D(GL_TEXTURE_2D,1,GL_RGBA8, this->Window->width(),  this->Window->height());
+  glTexStorage2D(GL_TEXTURE_2D,1,GL_RGBA8, this->Window->width(),  this->Window->height());
   // this implies that there is not mip mapping
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
@@ -633,41 +640,66 @@ void _gl_widget::pick(int x, int y)
   glGenTextures(1,&Depth_texture);
   glBindTexture(GL_TEXTURE_2D,Depth_texture);
   // Float
-  exx.glTexStorage2D(GL_TEXTURE_2D,1,GL_DEPTH_COMPONENT24, this->Window->width(),this->Window->height());
+  glTexStorage2D(GL_TEXTURE_2D,1,GL_DEPTH_COMPONENT24, this->Window->width(),this->Window->height());
 
   // Attatchment of the textures to the FBO
-  exx.glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,Color_texture,0);
-  exx.glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,Depth_texture,0);
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,Color_texture,0);
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,Depth_texture,0);
 
   // OpenGL will draw to these buffers (only one in this case)
   static const GLenum Draw_buffers[]={GL_COLOR_ATTACHMENT0};
-  exx.glDrawBuffers(1,Draw_buffers);
+  glDrawBuffers(1,Draw_buffers);
 
   /*************************/
 
-  // dibujar escena para seleccion
+  switch (Object){
+      case OBJECT_TETRAHEDRON:Tetrahedron.draw_selection();break;
+      case OBJECT_CUBE:Cube.draw_selection();break;
+      case OBJECT_SPHERE:Sphere.draw_selection();break;
+      case OBJECT_CONE:Cone.draw_selection();break;
+      case OBJECT_CYLINDER:Cylinder.draw_selection();break;
+      case OBJECT_PLY:plyObj.draw_selection();break;
+      case OBJECT_BODY:body.draw_selection();break;
+      case OBJECT_BOARD:chess_board.draw_selection();break;
+      default:break;
+  }
 
   /*************************/
 
   // get the pixel
-  int Color;
+  unsigned char pixel[4];
   glReadBuffer(GL_FRONT);
   glPixelStorei(GL_PACK_ALIGNMENT,1);
-  glReadPixels(x,y,1,1,GL_RGBA,GL_UNSIGNED_BYTE,&Color);
+  glReadPixels(x,y,1,1,GL_RGBA,GL_UNSIGNED_BYTE,pixel);
+
+  cout << "The pixels are: "<< (float)pixel[0]<<" .  " << (float)pixel[1]<<" .  " << (float)pixel[2]<<" .  " << (float)pixel[3] <<endl;
 
   /*************************/
-
+ if(pixel[3] != 0){
+  vector <float> color = vector <float> {(float)pixel[0],(float)pixel[1],(float)pixel[2],(float)pixel[3]};
   // convertir de RGB a identificador
-
+  int id = _object3D::RGBtoint(color);
+  //cout<<"ID es : " << id<<endl;
   // actualizar el identificador de la parte seleccionada en el objeto
-
+  switch (Object){
+      case OBJECT_TETRAHEDRON:Tetrahedron.setPicked(id);break;
+      case OBJECT_CUBE:Cube.setPicked(id);break;
+      case OBJECT_SPHERE:Sphere.setPicked(id);break;
+      case OBJECT_CONE:Cone.setPicked(id);break;
+      case OBJECT_CYLINDER:Cylinder.setPicked(id);break;
+      case OBJECT_PLY:plyObj.setPicked(id);break;
+      case OBJECT_BODY:body.setPicked(id);break;
+      case OBJECT_BOARD:chess_board.setPicked(id);break;
+      default:break;
+  }
+    }
   /*************************/
 
   glDeleteTextures(1,&Color_texture);
   glDeleteTextures(1,&Depth_texture);
-  exx.glDeleteFramebuffers(1,&FBO);
+  glDeleteFramebuffers(1,&FBO);
   // the normal framebuffer takes the control of drawing
-  exx.glBindFramebuffer(GL_DRAW_FRAMEBUFFER,defaultFramebufferObject());
+  glBindFramebuffer(GL_DRAW_FRAMEBUFFER,defaultFramebufferObject());
 }
 
 

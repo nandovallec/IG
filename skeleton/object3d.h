@@ -25,12 +25,14 @@ class _object3D:public _basic_object3D
 {
   public:
   vector<_vertex3ui> Triangles;
+  vector <_vertex3f> colorTriangles;;
+
   vector<_vertex3f> normalVertices;
   vector<_vertex3f> normalTriangles;
   vector <vector <GLfloat>> coordTex;
+  vector<bool> pickedTriangles;
   int revoluciones = 0;
   int layers = 0;
-  GLenum shadeKind = GL_SMOOTH;
 
   float radiusLight	  = 5;
   float stepCircle	  = 0;
@@ -41,6 +43,7 @@ class _object3D:public _basic_object3D
   void draw_line();
   void draw_fill();
   void draw_chess();
+  void draw_selection();
   void calculateNormals();
   void turnFlatShading(bool first, bool second);
   void turnSmoothShading(bool first, bool second);
@@ -67,8 +70,11 @@ class _object3D:public _basic_object3D
   vector<_vertex3ui> getTriangles();
   void setImage(QImage image);
   QImage Image;
-  vector<float> intToRGB(int value);
-  int RGBtoint(vector<float>value);
+  static vector<float> intToRGB(int value);
+  static int RGBtoint(vector<float>value);
+  void calculateColors();
+  void setPicked(int i);
+
 };
 
 #endif // OBJECT3D_H
