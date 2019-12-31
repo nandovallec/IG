@@ -10,10 +10,12 @@ _stick()
     fillColor.x = 125;
     fillColor.y = 89;
     fillColor.z = 59;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 
 void _stick::drawGeneric(int option){
     //cout << "abcdefg"<<endl;
     drawEspecified(option);
 }
+
+

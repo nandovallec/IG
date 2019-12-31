@@ -20,7 +20,7 @@ _hand::_hand(bool lefty)
     fillColor.x = 255;
     fillColor.y = 231;
     fillColor.z = 184;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 
 void _hand::drawGeneric(int option){
@@ -60,6 +60,3 @@ void _hand::drawGeneric(int option){
         sticks.drawGeneric(option);
     glPopMatrix();
 }
-
-
-

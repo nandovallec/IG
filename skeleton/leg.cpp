@@ -9,7 +9,7 @@ _leg::_leg()
     fillColor.x = 65;
     fillColor.y = 50;
     fillColor.z = 27;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 
 void _leg::drawGeneric(int option){
@@ -24,3 +24,4 @@ void _leg::drawGeneric(int option){
     glPopMatrix();
 
 }
+

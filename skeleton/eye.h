@@ -12,6 +12,7 @@ private:
 public:
     _eye();
     void drawGeneric(int option);
+
 };
 
 #endif // _EYE_H

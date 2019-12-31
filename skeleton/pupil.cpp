@@ -9,7 +9,7 @@ _pupil::_pupil()
     fillColor.x = 0;
     fillColor.y = 0;
     fillColor.z = 0;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 
 void _pupil::drawGeneric(int option){
@@ -17,4 +17,5 @@ void _pupil::drawGeneric(int option){
 
     drawEspecified(option);
 }
+
 

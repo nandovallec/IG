@@ -9,7 +9,7 @@ _head::_head()
     fillColor.x = 255;
     fillColor.y = 231;
     fillColor.z = 184;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 
 void _head::drawGeneric(int option){
@@ -41,3 +41,4 @@ void _head::drawGeneric(int option){
 
 
 }
+

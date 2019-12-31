@@ -9,8 +9,9 @@ _feet::_feet()
     fillColor.x = 0;
     fillColor.y = 0;
     fillColor.z = 0;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 void _feet::drawGeneric(int option){
     this->drawEspecified(option);
 }
+

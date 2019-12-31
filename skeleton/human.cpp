@@ -27,7 +27,8 @@ void _human::draw_point(){
 void _human::draw_line(){
     drawGeneric(1);
 }
-void _human::draw_fill(){
+void _human::draw_fill2(){
+    //cout << "aa"<<endl;
     drawGeneric(2);
 }
 void _human::draw_chess(){
@@ -47,7 +48,7 @@ void _human::drawEspecified(int option){
             break;
         case 2:
             glColor3fv((GLfloat *) &fillColor);
-            _object3D::draw_fill();
+            _object3D::draw_fill2();
             break;
         case 3:
             _object3D::draw_chess();
@@ -55,7 +56,7 @@ void _human::drawEspecified(int option){
     }
 }
 
-void _human::calculateColor(_vertex3f &colors){
+void _human::divideColor(_vertex3f &colors){
     colors.x = colors.x / 255.0;
     colors.y = colors.y / 255.0;
     colors.z = colors.z / 255.0;

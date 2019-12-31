@@ -11,7 +11,6 @@ private:
     _hand *hand;
 public:
   _arm(float Size=2, float Layer = 60, float rev = 40, bool lefty = false);
-
   void drawGeneric(int option);
 };
 

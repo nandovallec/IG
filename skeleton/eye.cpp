@@ -9,7 +9,7 @@ _eye::_eye()
     fillColor.x = 255;
     fillColor.y = 255;
     fillColor.z = 255;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 
 void _eye::drawGeneric(int option){

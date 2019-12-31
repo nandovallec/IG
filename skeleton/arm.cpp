@@ -42,7 +42,7 @@ _arm::_arm(float Size, float Layers, float rev, bool lefty)
     fillColor.x = 226;
     fillColor.y = 14;
     fillColor.z = 29;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 
 void _arm::drawGeneric(int option){

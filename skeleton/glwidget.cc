@@ -90,14 +90,14 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   //New keys
   case Qt::Key_A:activateAnimation();break;
 
-  case Qt::Key_Q:body.incrStickDegree(5); update(); break;
-  case Qt::Key_W:body.decrStickDegree(5); update(); break;
+  case Qt::Key_Q:body.incrStickDegree(STEP_STICK); update(); break;
+  case Qt::Key_W:body.decrStickDegree(STEP_STICK); update(); break;
 
-  case Qt::Key_S:body.incrLegsDegree(5); update(); break;
-  case Qt::Key_D:body.decrLegsDegree(5); update(); break;
+  case Qt::Key_S:body.incrLegsDegree(STEP_LEGS); update(); break;
+  case Qt::Key_D:body.decrLegsDegree(STEP_LEGS); update(); break;
 
-  case Qt::Key_Z:body.nextStepThrow(20); update(); break;
-  case Qt::Key_X:body.prevStepThrow(20); update(); break;
+  case Qt::Key_Z:body.nextStepThrow(STEP_CIRCLE); update(); break;
+  case Qt::Key_X:body.prevStepThrow(STEP_CIRCLE); update(); break;
 
 
   case Qt::Key_E:increaseStep(1); update(); break;
@@ -449,7 +449,7 @@ void _gl_widget::draw_objects()
             else
                 body.turnSmoothShading(firstLightOn, secondLightOn);
         else
-            body.draw_fill();
+            body.draw_fill2();
     break;
 
     case OBJECT_BOARD:
@@ -659,7 +659,6 @@ void _gl_widget::pick(int x, int y)
       case OBJECT_CONE:Cone.draw_selection();break;
       case OBJECT_CYLINDER:Cylinder.draw_selection();break;
       case OBJECT_PLY:plyObj.draw_selection();break;
-      case OBJECT_BODY:body.draw_selection();break;
       case OBJECT_BOARD:chess_board.draw_selection();break;
       default:break;
   }

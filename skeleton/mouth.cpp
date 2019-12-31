@@ -9,9 +9,10 @@ _mouth::_mouth()
     fillColor.x = 0;
     fillColor.y = 0;
     fillColor.z = 0;
-    calculateColor(fillColor);
+    divideColor(fillColor);
 }
 
 void _mouth::drawGeneric(int option){
     drawEspecified(option);
 }
+

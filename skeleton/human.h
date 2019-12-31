@@ -36,12 +36,12 @@ public:
   void draw_point();
   void draw_line();
 
-  void draw_fill();
+  void draw_fill2();
   void draw_chess();
 
   virtual void drawGeneric(int option) = 0;
   void drawEspecified(int option);
-  void calculateColor(_vertex3f &colors);
+  void divideColor(_vertex3f &colors);
 
   //First degree of freedom
   void incrStickDegree(int step);

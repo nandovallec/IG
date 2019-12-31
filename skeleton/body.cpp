@@ -24,3 +24,4 @@ void _body::drawGeneric(int option){
 
     glPopMatrix();
 }
+

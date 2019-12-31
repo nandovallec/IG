@@ -63,7 +63,7 @@ _torso::_torso(float Size, float Layers, float rev)
       fillColor.x = 226;
       fillColor.y = 14;
       fillColor.z = 29;
-      calculateColor(fillColor);
+      divideColor(fillColor);
 
 }
 
@@ -104,6 +104,7 @@ void _torso::drawGeneric(int option){
 
 
 }
+
 
 
 

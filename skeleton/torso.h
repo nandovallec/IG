@@ -24,7 +24,6 @@ private:
 public:
   _torso(float Size=6.0, float Layer = 60, float rev = 40);
   void drawGeneric(int option);
-  //void draw_point();
 
 };
 
