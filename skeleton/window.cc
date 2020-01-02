@@ -66,3 +66,10 @@ _window::_window()
 
   resize(800,800);
 }
+
+int _window::getWidth(){
+    return this->GL_widget->width();
+}
+int _window::getHeight(){
+    return this->GL_widget->height();
+}

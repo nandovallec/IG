@@ -10,7 +10,7 @@ class _PLYobject:public _object3D,public _revolutionObject
 {
     _file_ply File_ply;
 public:
-  _PLYobject(std::string nombre = "beethoven.ply", float rev = 12);
+  _PLYobject(std::string nombre = "peonZ.ply", float rev = 12, bool ejeY = false, bool ejeX = false);
 };
 
 #endif // PLYOBJECT_H

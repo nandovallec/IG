@@ -8,6 +8,10 @@ class _revolutionObject
 public:
     _revolutionObject();
     void revolucionar(vector<_vertex3f> &Vertices, int revoluciones);
+    void revolucionarX(vector<_vertex3f> &Vertices, int revoluciones);
+    void revolucionarZ(vector<_vertex3f> &Vertices, int revoluciones);
+
+
     void connect(vector<_vertex3f> &Vertices, vector<_vertex3ui> & Triangles,int revoluciones);
 
     _vertex3f getPointsBetw(_vertex3f x, _vertex3f y, float t);

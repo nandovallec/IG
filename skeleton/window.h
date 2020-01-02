@@ -34,6 +34,8 @@ class _window : public QMainWindow
 
 public:
     _window();
+   int getWidth();
+   int getHeight();
 
 private:
   _gl_widget *GL_widget;

@@ -119,8 +119,13 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
       firstLightOn = false;
       secondLightOn = false;
       textureOn = false;
-
-  case Qt::Key_F2:Draw_chess=!Draw_chess;break;
+      Draw_chess = false;
+      Draw_fill = true;
+        break;
+  case Qt::Key_F2:
+      Draw_fill = false;
+      Draw_chess=!Draw_chess;
+      break;
   case Qt::Key_F3:
       flatShade = true;
       Draw_fill = true;
@@ -254,9 +259,10 @@ void _gl_widget::mouseReleaseEvent(QMouseEvent *event){
     if(event->button() == Qt::RightButton){
         x_move = INT_MIN;
         y_move = INT_MIN;
-        cout << "New es "<< event->windowPos().x() -13 << "  .  " << 800.0 - event->windowPos().y() - 14 <<endl; // y esta empieza arriba hasta abajo
-        pick(event->x(), 800.0-event->y()-50);
-        //cout << "Meh "<< window()->height()<<endl;
+        //cout << "New es "<< event->windowPos().x() -13 << "  .  " << 800.0 - event->windowPos().y() - 14 <<endl; // y esta empieza arriba hasta abajo
+        if(Draw_fill == true)
+            pick(event->x(), this->Window->getHeight()-event->y());
+        //cout << "Meh "<< this->Window->GL_widget->height()<<endl;
 //        float pixel[4];
 
 //        glReadPixels(event->windowPos().x(), event->windowPos().y(), 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixel);
