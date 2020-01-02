@@ -15,6 +15,7 @@ HEADERS += \
   head.h \
   human.h \
   leg.h \
+  matrixply.h \
   mouth.h \
   object3d.h \
   axis.h \
@@ -45,6 +46,7 @@ SOURCES += \
   head.cpp \
   human.cpp \
   leg.cpp \
+  matrixply.cpp \
   mouth.cpp \
   object3d.cc \
   axis.cc \

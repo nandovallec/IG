@@ -32,6 +32,7 @@
 #include "body.h"
 #include "texturelight.h"
 #include "chess_board.h"
+#include "matrixply.h"
 
 //#include <QOpenGLFunctions_4_5_Compatibility>
 
@@ -50,7 +51,7 @@ namespace _gl_widget_ne {
   const float ANGLE_STEP=1;
 
   typedef enum {MODE_DRAW_POINT,MODE_DRAW_LINE,MODE_DRAW_FILL,MODE_DRAW_CHESS} _mode_draw;
-  typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE, OBJECT_CONE, OBJECT_CYLINDER, OBJECT_SPHERE, OBJECT_PLY, OBJECT_BODY, OBJECT_BOARD} _object;
+  typedef enum {OBJECT_TETRAHEDRON,OBJECT_CUBE, OBJECT_CONE, OBJECT_CYLINDER, OBJECT_SPHERE, OBJECT_PLY, OBJECT_BODY, OBJECT_BOARD, OBJECT_MATRIX} _object;
 }
 
 class _window;
@@ -126,6 +127,7 @@ private:
   _cylinder Cylinder = _cylinder(1, 1, 20);
  // _sphere Sphere = _sphere(2.0, 120,400);
   _sphere Sphere = _sphere(2.0, 5,12);
+  _matrixPLY matrixObj;
 
   _PLYobject plyObj;
   _body body;
@@ -163,7 +165,6 @@ private:
   int const SENS_SPEED = 4;
   void pick(int x, int y);
 
-  //QOpenGLFunctions_4_5_Compatibility exx;
 
 };
 

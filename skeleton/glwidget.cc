@@ -77,9 +77,7 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_6:Object=OBJECT_PLY;break;
   case Qt::Key_7:Object=OBJECT_BODY;break;
   case Qt::Key_8:Object=OBJECT_BOARD; break;
-
-
-
+  case Qt::Key_9:Object=OBJECT_MATRIX; break;
 
 
   case Qt::Key_P:Draw_point=!Draw_point;break;
@@ -347,6 +345,7 @@ void _gl_widget::draw_objects()
     case OBJECT_PLY:plyObj.draw_point();break;
     case OBJECT_BODY:body.draw_point(); break;
     case OBJECT_BOARD:chess_board.draw_point();break;
+    case OBJECT_MATRIX:matrixObj.draw_point();break;
     default:break;
     }
   }
@@ -363,6 +362,7 @@ void _gl_widget::draw_objects()
     case OBJECT_PLY:plyObj.draw_line();break;
     case OBJECT_BODY:body.draw_line();break;
     case OBJECT_BOARD:chess_board.draw_line();break;
+    case OBJECT_MATRIX:matrixObj.draw_line();break;
     default:break;
     }
   }
@@ -479,6 +479,16 @@ void _gl_widget::draw_objects()
         }
     break;
 
+    case OBJECT_MATRIX:
+        if(firstLightOn || secondLightOn)
+            if(flatShade)
+                matrixObj.turnFlatShading(firstLightOn, secondLightOn);
+            else
+                matrixObj.turnSmoothShading(firstLightOn, secondLightOn);
+        else
+            matrixObj.draw_fill();
+    break;
+
     default:break;
     }
 
@@ -494,6 +504,7 @@ void _gl_widget::draw_objects()
     case OBJECT_PLY:plyObj.draw_chess();break;
     case OBJECT_BODY:body.draw_chess();break;
     case OBJECT_BOARD:chess_board.draw_chess();break;
+    case OBJECT_MATRIX:matrixObj.draw_chess(); break;
     default:break;
     }
   }
