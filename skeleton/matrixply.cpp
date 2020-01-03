@@ -24,6 +24,8 @@ void _matrixPLY::draw_line(){
     drawGeneric(1);
 }
 void _matrixPLY::draw_fill(){
+    if(colorObjects.empty())
+        calculateColorsObjects();
     drawGeneric(2);
 }
 void _matrixPLY::draw_chess(){
@@ -38,19 +40,26 @@ void _matrixPLY::turnSmoothShading(bool firstLight, bool secondLight){
     drawGeneric(5, firstLight, secondLight);
 }
 
-void _matrixPLY::drawEspecified(int option, _PLYobject & obj, bool firstLight, bool secondLight){
+void _matrixPLY::draw_selection(){
+    drawGeneric(6);
+}
+
+void _matrixPLY::draw_selection_object(){
+    drawGeneric(7);
+}
+
+
+void _matrixPLY::drawEspecified(int option, _PLYobject & obj, bool firstLight, bool secondLight, int pos){
     //cout << "bbb"<< obj.nomb<<endl;
     switch(option){
         case 0:
             obj.draw_point();
             break;
         case 1:
-//            glColor3fv((GLfloat *) &lineColor);
             obj.draw_line();
             break;
         case 2:
- //           glColor3fv((GLfloat *) &fillColor);
-            obj.draw_fill();
+            obj.draw_fill(pickedObjects[pos]);
             break;
         case 3:
             obj.draw_chess();
@@ -61,6 +70,14 @@ void _matrixPLY::drawEspecified(int option, _PLYobject & obj, bool firstLight, b
         case 5:
             obj.turnSmoothShading(firstLight, secondLight);
             break;
+        case 6:
+            obj.draw_selection();
+            break;
+        case 7:
+            glColor3fv((GLfloat *) &colorObjects[pos]);
+            obj.draw_fill2();
+            break;
+
     }
 }
 
@@ -72,10 +89,24 @@ void _matrixPLY::drawGeneric(int option, bool firstLight, bool secondLight){
             glPushMatrix();
                 glTranslatef(eje_x, eje_y, 0);
                 //cout << "aa" << i*4 + j<<endl;
-                drawEspecified(option, matrix[i*4 + j], firstLight, secondLight);
+                drawEspecified(option, matrix[i*4 + j], firstLight, secondLight, i*4+j);
             glPopMatrix();
             eje_x += 3.0;
         }
         eje_y += 3.0;
     }
 }
+
+void _matrixPLY::calculateColorsObjects(){
+    for(int i = 0; i < matrix.size(); i++){
+        pickedObjects.push_back(false);
+        vector<float> color = _object3D::intToRGB(i);
+        colorObjects.push_back(_vertex3f(color[0], color[1], color[2]));
+    }
+}
+
+void _matrixPLY::setPicked(int obj, int triangle){
+    pickedObjects[obj] = !pickedObjects[obj];
+    matrix[obj].setPicked(triangle);
+}
+

@@ -1,4 +1,4 @@
-/*! \file
+﻿/*! \file
  * Copyright Domingo Martín Perandres
  * email: dmartin@ugr.es
  * web: http://calipso.ugr.es/dmartin
@@ -60,6 +60,8 @@ void _object3D::draw_fill()
 }
 
 void _object3D::draw_fill2(){
+    if(pickedTriangles.empty())
+        calculateColors();
     glPolygonMode(GL_FRONT,GL_FILL);
     glBegin(GL_TRIANGLES);
 
@@ -117,7 +119,7 @@ vector<_vertex3ui> _object3D::getTriangles(){
 }
 
 void _object3D::calculateNormals(){
-    cout << "Object"<<endl;
+    //cout << "Object"<<endl;
     _vertex3f first, second;
     for(int i = 0; i < Vertices.size(); i++){
         normalVertices.push_back(_vertex3f(0.0,0.0,0.0));

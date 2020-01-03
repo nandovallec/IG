@@ -76,6 +76,7 @@ class _object3D:public _basic_object3D
   void calculateColors();
   void setPicked(int i);
 
+
 };
 
 #endif // OBJECT3D_H

@@ -258,7 +258,7 @@ void _gl_widget::mouseReleaseEvent(QMouseEvent *event){
         x_move = INT_MIN;
         y_move = INT_MIN;
         //cout << "New es "<< event->windowPos().x() -13 << "  .  " << 800.0 - event->windowPos().y() - 14 <<endl; // y esta empieza arriba hasta abajo
-        if(Draw_fill == true)
+        if(Draw_fill == true && firstLightOn == false && secondLightOn == false && textureOn == false)
             pick(event->x(), this->Window->getHeight()-event->y());
         //cout << "Meh "<< this->Window->GL_widget->height()<<endl;
 //        float pixel[4];
@@ -445,7 +445,7 @@ void _gl_widget::draw_objects()
             else
                 plyObj.turnSmoothShading(firstLightOn, secondLightOn);
         else
-            plyObj.draw_fill();
+            plyObj._object3D::draw_fill();
     break;
 
     case OBJECT_BODY:
@@ -649,7 +649,7 @@ void _gl_widget::pick(int x, int y)
   // RGBA8
   glTexStorage2D(GL_TEXTURE_2D,1,GL_RGBA8, this->Window->width(),  this->Window->height());
   // this implies that there is not mip mapping
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);  //MipMapping = not loading all texture, kind of fog at the end limitting to only visible on screen
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 
   // Texure for computing the depth
@@ -677,6 +677,7 @@ void _gl_widget::pick(int x, int y)
       case OBJECT_CYLINDER:Cylinder.draw_selection();break;
       case OBJECT_PLY:plyObj.draw_selection();break;
       case OBJECT_BOARD:chess_board.draw_selection();break;
+      case OBJECT_MATRIX:matrixObj.draw_selection_object();break;
       default:break;
   }
 
@@ -688,26 +689,59 @@ void _gl_widget::pick(int x, int y)
   glPixelStorei(GL_PACK_ALIGNMENT,1);
   glReadPixels(x,y,1,1,GL_RGBA,GL_UNSIGNED_BYTE,pixel);
 
-  cout << "The pixels are: "<< (float)pixel[0]<<" .  " << (float)pixel[1]<<" .  " << (float)pixel[2]<<" .  " << (float)pixel[3] <<endl;
+  //cout << "The pixels are: "<< (float)pixel[0]<<" .  " << (float)pixel[1]<<" .  " << (float)pixel[2]<<" .  " << (float)pixel[3] <<endl;
 
   /*************************/
- if(pixel[3] != 0){
-  vector <float> color = vector <float> {(float)pixel[0],(float)pixel[1],(float)pixel[2],(float)pixel[3]};
-  // convertir de RGB a identificador
-  int id = _object3D::RGBtoint(color);
-  //cout<<"ID es : " << id<<endl;
-  // actualizar el identificador de la parte seleccionada en el objeto
-  switch (Object){
-      case OBJECT_TETRAHEDRON:Tetrahedron.setPicked(id);break;
-      case OBJECT_CUBE:Cube.setPicked(id);break;
-      case OBJECT_SPHERE:Sphere.setPicked(id);break;
-      case OBJECT_CONE:Cone.setPicked(id);break;
-      case OBJECT_CYLINDER:Cylinder.setPicked(id);break;
-      case OBJECT_PLY:plyObj.setPicked(id);break;
-      case OBJECT_BODY:body.setPicked(id);break;
-      case OBJECT_BOARD:chess_board.setPicked(id);break;
-      default:break;
-  }
+    if(pixel[3] != 0){
+        vector <float> color = vector <float> {(float)pixel[0],(float)pixel[1],(float)pixel[2],(float)pixel[3]};
+        // convertir de RGB a identificador
+        int id = _object3D::RGBtoint(color);
+        //cout<<"ID es : " << id<<endl;
+        // actualizar el identificador de la parte seleccionada en el objeto
+        switch (Object){
+            case OBJECT_TETRAHEDRON:Tetrahedron.setPicked(id);break;
+            case OBJECT_CUBE:Cube.setPicked(id);break;
+            case OBJECT_SPHERE:Sphere.setPicked(id);break;
+            case OBJECT_CONE:Cone.setPicked(id);break;
+            case OBJECT_CYLINDER:Cylinder.setPicked(id);break;
+            case OBJECT_PLY:plyObj.setPicked(id);break;
+            case OBJECT_BODY:body.setPicked(id);break;
+            case OBJECT_BOARD:chess_board.setPicked(id);break;
+            default:break;
+        }
+
+        if(Object == OBJECT_MATRIX){
+
+
+
+
+            glGenTextures(1,&Depth_texture);
+            glBindTexture(GL_TEXTURE_2D,Depth_texture);
+            // Float
+            glTexStorage2D(GL_TEXTURE_2D,1,GL_DEPTH_COMPONENT24, this->Window->width(),this->Window->height());
+
+            // Attatchment of the textures to the FBO
+            //glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,Color_texture,0);
+            glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,Depth_texture,0);
+
+
+            //glDrawBuffers(1,Draw_buffers);
+
+
+            matrixObj.draw_selection();
+            unsigned char pixel2[4];
+
+            //glReadBuffer(GL_FRONT);
+            //glPixelStorei(GL_PACK_ALIGNMENT,1);
+            glReadPixels(x,y,1,1,GL_RGBA,GL_UNSIGNED_BYTE,pixel2);
+            //cout << "The pixels are: "<< (float)pixel2[0]<<" .  " << (float)pixel2[1]<<" .  " << (float)pixel2[2]<<" .  " << (float)pixel2[3] <<endl;
+
+            vector <float> color2 = vector <float> {(float)pixel2[0],(float)pixel2[1],(float)pixel2[2],(float)pixel2[3]};
+            int id2 = _object3D::RGBtoint(color2);
+            //cout << "El nuevo id es "<< id2 <<endl;
+            matrixObj.setPicked(id, id2);
+
+        }
     }
   /*************************/
 

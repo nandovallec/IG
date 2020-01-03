@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <qdir.h>
+#include "colors.h"
 
 
 
@@ -77,3 +78,26 @@ _PLYobject::_PLYobject(string name, float rev, bool ejeY, bool ejeX){
     else std::cout << "File can't be opened" << std::endl;
 
 }
+
+void _PLYobject::draw_fill(bool selected){
+    if(pickedTriangles.empty())
+        calculateColors();
+    glPolygonMode(GL_FRONT,GL_FILL);
+    glBegin(GL_TRIANGLES);
+
+    for (unsigned int i=0;i<Triangles.size();i++){
+      if(pickedTriangles[i])
+          glColor3fv((GLfloat *) & _colors_ne::YEllOW);
+      else
+            if(selected)
+                glColor3fv((GLfloat *) & _colors_ne::RED);
+            else
+                glColor3fv((GLfloat *) & _colors_ne::BLUE);
+
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._0]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._1]);
+      glVertex3fv((GLfloat *) &Vertices[Triangles[i]._2]);
+    }
+    glEnd();
+}
+
