@@ -24,6 +24,7 @@ public:
     void draw_selection_object();
     void calculateColorsObjects();
     void setPicked(int object, int triangle);
+    vector<float> getPos(int id);
 };
 
 #endif // _MATRIXPLY_H

@@ -82,11 +82,12 @@ void _matrixPLY::drawEspecified(int option, _PLYobject & obj, bool firstLight, b
 }
 
 void _matrixPLY::drawGeneric(int option, bool firstLight, bool secondLight){
-    int eje_y = -4.5;
+    float eje_y = -4.5;
     for(int i = 0; i < 4; i++){
-        int eje_x = -4.5;
+        float eje_x = -4.5;
         for(int j = 0; j < 4; j++){
             glPushMatrix();
+                //cout << "Dibujo en " << eje_x << " y "<< eje_y<<endl;
                 glTranslatef(eje_x, eje_y, 0);
                 //cout << "aa" << i*4 + j<<endl;
                 drawEspecified(option, matrix[i*4 + j], firstLight, secondLight, i*4+j);
@@ -109,4 +110,42 @@ void _matrixPLY::setPicked(int obj, int triangle){
     pickedObjects[obj] = !pickedObjects[obj];
     matrix[obj].setPicked(triangle);
 }
+
+vector<float> _matrixPLY::getPos(int id){
+    vector<float> res;
+    int row = floor((float)id/4.0);
+    int col = id % 4;
+
+    switch(col){
+        case 0:
+            res.push_back(-4.5);
+            break;
+        case 1:
+            res.push_back(-1.5);
+            break;
+        case 2:
+            res.push_back(1.5);
+            break;
+        case 3:
+            res.push_back(4.5);
+            break;
+    }
+    switch(row){
+        case 0:
+            res.push_back(-4.5);
+            break;
+        case 1:
+            res.push_back(-1.5);
+            break;
+        case 2:
+            res.push_back(1.5);
+            break;
+        case 3:
+            res.push_back(4.5);
+            break;
+    }
+
+    return res;
+}
+
 

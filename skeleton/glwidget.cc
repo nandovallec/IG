@@ -319,6 +319,8 @@ void _gl_widget::change_observer()
   glTranslatef(0,0,-Observer_distance);
   glRotatef(Observer_angle_x,1,0,0);
   glRotatef(Observer_angle_y,0,1,0);
+  glTranslatef(-picked_camera_x,-picked_camera_y,0); // Opposite sign than axis, has to be done before rotation or it will rotate with last centre
+
 }
 
 
@@ -331,7 +333,10 @@ void _gl_widget::change_observer()
 
 void _gl_widget::draw_objects()
 {
-  Axis.draw_line();
+  glPushMatrix();
+    glTranslatef(picked_camera_x,picked_camera_y,0);     // Opposite sign than observer
+    Axis.draw_line();
+  glPopMatrix();
 
   if (Draw_point){
     glPointSize(5);
@@ -740,6 +745,8 @@ void _gl_widget::pick(int x, int y)
             int id2 = _object3D::RGBtoint(color2);
             //cout << "El nuevo id es "<< id2 <<endl;
             matrixObj.setPicked(id, id2);
+            vector<float> pos = matrixObj.getPos(id);
+            update_picked_observer(pos[0], pos[1]);
 
         }
     }
@@ -752,5 +759,17 @@ void _gl_widget::pick(int x, int y)
   glBindFramebuffer(GL_DRAW_FRAMEBUFFER,defaultFramebufferObject());
 }
 
+
+void _gl_widget::update_picked_observer(float x, float y){
+    if(x == picked_camera_x && y == picked_camera_y){
+        picked_camera_x = 0;
+        picked_camera_y = 0;
+    }else{
+        picked_camera_x = x;
+        picked_camera_y = y;
+    }
+    cout << "New pos is:" << picked_camera_x << " || "<< picked_camera_y<<endl;
+
+}
 
 
