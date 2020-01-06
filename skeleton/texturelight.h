@@ -101,7 +101,7 @@ void _textureLight::turnLight(T &obj, bool first, bool second){
         //cout << "Tam "<< obj.Vertices.size() << "      "<< obj.Triangles.size()<<endl;
         glBegin(GL_TRIANGLES);
                 //Fallo esta en obj.revoluciones*3
-                cout << endl<<"Fallos: "; obj.Vertices[8].show_values(); cout << "     "; obj.Vertices[7].show_values();
+                //cout << endl<<"Fallos: "; obj.Vertices[8].show_values(); cout << "     "; obj.Vertices[7].show_values();
                 /*obj.normalTriangles[obj.revoluciones*3].x *= 5.0; mir 5 y 8
                 obj.normalTriangles[obj.revoluciones*3].y *= 5.0;
                 obj.normalTriangles[obj.revoluciones*3].z *= 5.0;*/

@@ -163,6 +163,7 @@ private:
   int x_move = INT_MIN, y_move = INT_MIN;
   int const SENS_CAMARA = 2;
   int const SENS_SPEED = 4;
+  bool orthogonal = false;
 
   void pick(int x, int y);
   float picked_camera_x = 0;

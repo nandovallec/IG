@@ -23,7 +23,7 @@ _cylinder::_cylinder(float Size, float Layers, float rev)
   Vertices.push_back(_vertex3f(0,-(Size/2.0),0));
     //Vertices[1].show_values();
     //Vertices[2].show_values();
-    cout<<endl<<endl;
+    //cout<<endl<<endl;
 //cerr<<-(Size/2.0)<<endl;
   this->revolucionar(Vertices, revoluciones);
   this->connect(Vertices, Triangles, revoluciones);
@@ -102,7 +102,7 @@ void _cylinder::draw_texture(){
                     glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
 
                 //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl;
-            cout <<endl<<endl;
+            //cout <<endl<<endl;
                 glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
             }else{
                 if(coordTex[Triangles[i]._0][0] != -1 && coordTex[Triangles[i]._1][0] != -1 && coordTex[Triangles[i]._2][0] != -1)
@@ -252,7 +252,7 @@ void _cylinder::draw_texture_flat_shading(bool first, bool second){
                     glTexCoord2f(coordTex[Triangles[i]._2][0],coordTex[Triangles[i]._2][1]);
 
                 //cout << "Vertex " << Triangles[i]._2 << "           "<< coordTex[Triangles[i]._2][0] << "    and     "<< coordTex[Triangles[i]._2][1]<<endl;
-            cout <<endl<<endl;
+            //cout <<endl<<endl;
                 glVertex3fv((GLfloat *) &(Vertices[(Triangles)[i]._2]));      // DOWN RIGHT CORNER
             }else{
                 if(coordTex[Triangles[i]._0][0] != -1 && coordTex[Triangles[i]._1][0] != -1 && coordTex[Triangles[i]._2][0] != -1)

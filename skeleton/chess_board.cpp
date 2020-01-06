@@ -74,8 +74,29 @@ void _chess_board::draw_texture(){
     drawGeneric(4);
 }
 
+void _chess_board::turnFlatShading(bool firstLight, bool secondLight){
+    drawGeneric(5, firstLight, secondLight);
+}
 
-void _chess_board::drawEspecified(int option){
+void _chess_board::turnSmoothShading(bool firstLight, bool secondLight){
+    drawGeneric(6, firstLight, secondLight);
+}
+
+void _chess_board::draw_selection(){
+    drawGeneric(7);
+}
+
+void _chess_board::draw_texture_flat_shading(bool first, bool second){
+    drawGeneric(8, first, second);
+
+}
+void _chess_board::draw_texture_gourand_shading(bool first, bool second){
+    drawGeneric(9, first, second);
+
+}
+
+
+void _chess_board::drawEspecified(int option, bool first, bool second){
     switch(option){
         case 0:
             _basic_object3D::draw_point();
@@ -91,14 +112,30 @@ void _chess_board::drawEspecified(int option){
             break;
         case 4:
             _object3D::draw_texture();
+        break;
+        case 5:
+            _object3D::turnFlatShading(first, second);
+            break;
+        case 6:
+            _object3D::turnSmoothShading(first, second);
+            break;
+        case 7:
+            _object3D::draw_selection();
+            break;
+        case 8:
+            _object3D::draw_texture_flat_shading(first, second);
+            break;
+        case 9:
+            _object3D::draw_texture_gourand_shading(first, second);
+            break;
     }
 }
-void _chess_board::drawGeneric(int option){
+void _chess_board::drawGeneric(int option, bool first, bool second){
     //cout<<"Enter"<<option<<endl;
 
     glPushMatrix();
-        //glScalef(5,.1,5);
-        drawEspecified(option);
+        glScalef(5,.1,5);
+        drawEspecified(option, first, second);
     glPopMatrix();
 
 }

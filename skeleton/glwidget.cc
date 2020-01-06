@@ -152,7 +152,7 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
 
   case Qt::Key_C:
 
-      if(!parallelProjection && !obliqueProjection){
+      /*if(!parallelProjection && !obliqueProjection){
           old_angle_x = Observer_angle_x;
           old_angle_y = Observer_angle_y;
           old_distance = Observer_distance;
@@ -169,12 +169,13 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
       }
 
       obliqueProjection = !obliqueProjection;
-      parallelProjection = false;
+      parallelProjection = false;*/
+      orthogonal = false;
 
 
       break;
   case Qt::Key_V:
-      if(!parallelProjection && !obliqueProjection){
+      /*if(!parallelProjection && !obliqueProjection){
           old_angle_x = Observer_angle_x;
           old_angle_y = Observer_angle_y;
           old_distance = Observer_distance;
@@ -191,7 +192,8 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
       }
       obliqueProjection = false;
       parallelProjection = !parallelProjection;
-
+*/
+      orthogonal = true;
 
 
       break;
@@ -216,7 +218,7 @@ void _gl_widget::wheelEvent(QWheelEvent *event){
         Observer_distance*=1.2;
     else
         Observer_distance/=1.2;
-
+    cout << "Zoom es: "<< Observer_distance << endl;
     update();
 }
 
@@ -299,7 +301,15 @@ void _gl_widget::change_projection()
 
   // formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
   // Front_plane>0  Back_plane>PlanoDelantero)
-  glFrustum(X_MIN,X_MAX,Y_MIN,Y_MAX,FRONT_PLANE_PERSPECTIVE,BACK_PLANE_PERSPECTIVE);
+
+    if (orthogonal)
+        glOrtho(-2.0, 2.0, -2.0, 2.0, -5, 5);
+    else
+        glFrustum(X_MIN,X_MAX,Y_MIN,Y_MAX,FRONT_PLANE_PERSPECTIVE,BACK_PLANE_PERSPECTIVE);
+
+
+
+  //glOrtho(X_MIN, X_MAX, Y_MIN, Y_MAX, -1000, 1000);
 }
 
 
@@ -316,7 +326,11 @@ void _gl_widget::change_observer()
   // posicion del observador
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  glTranslatef(0,0,-Observer_distance);
+  if(orthogonal){
+    float zoom = 1.5 /Observer_distance;
+    glScalef(zoom, zoom, zoom);
+  }else
+    glTranslatef(0,0,-Observer_distance);
   glRotatef(Observer_angle_x,1,0,0);
   glRotatef(Observer_angle_y,0,1,0);
   glTranslatef(-picked_camera_x,-picked_camera_y,0); // Opposite sign than axis, has to be done before rotation or it will rotate with last centre
@@ -478,7 +492,7 @@ void _gl_widget::draw_objects()
                     else
                         chess_board.draw_texture_gourand_shading(firstLightOn, secondLightOn);
                 else
-                    chess_board.drawEspecified(4);
+                    chess_board.draw_texture();
             }else
                 chess_board.draw_fill();
         }
