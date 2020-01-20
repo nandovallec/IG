@@ -17,8 +17,8 @@ void _leg::drawGeneric(int option){
     drawEspecified(option);
 
     glPushMatrix();
-        glTranslated(0,-0.7,0);
-        glScalef(.75,.8,1.5);
+        glTranslated(5,-0.7,5);
+        glScalef(.75,.8,5);
 
         feet.drawGeneric(option);
     glPopMatrix();

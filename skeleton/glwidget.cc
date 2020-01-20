@@ -14,6 +14,8 @@ using namespace std;
 using namespace _gl_widget_ne;
 using namespace _colors_ne;
 
+float WidthRatio = 800;
+float HeightRatio = 800;
 
 bool animation = false;
 
@@ -303,9 +305,10 @@ void _gl_widget::change_projection()
   // Front_plane>0  Back_plane>PlanoDelantero)
 
     if (orthogonal)
-        glOrtho(-2.0, 2.0, -2.0, 2.0, -5, 5);
+        glOrtho(-WidthRatio*15.0, WidthRatio*15.0, -HeightRatio*15.0, HeightRatio*15.0, -5, 5);
     else
-        glFrustum(X_MIN,X_MAX,Y_MIN,Y_MAX,FRONT_PLANE_PERSPECTIVE,BACK_PLANE_PERSPECTIVE);
+       // glFrustum(X_MIN,X_MAX,Y_MIN,Y_MAX,FRONT_PLANE_PERSPECTIVE,BACK_PLANE_PERSPECTIVE);
+        glFrustum(-WidthRatio,WidthRatio,-HeightRatio,HeightRatio,FRONT_PLANE_PERSPECTIVE,BACK_PLANE_PERSPECTIVE);
 
 
 
@@ -324,6 +327,7 @@ void _gl_widget::change_projection()
 void _gl_widget::change_observer()
 {
   // posicion del observador
+
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   if(orthogonal){
@@ -556,7 +560,15 @@ void _gl_widget::paintGL()
 
 void _gl_widget::resizeGL(int Width1, int Height1)
 {
-  glViewport(0,0,Width1,Height1);
+  HeightRatio = 0.7*FRONT_PLANE_PERSPECTIVE;
+  //cout << "ahora  "<< HeightRatio<<endl;
+  WidthRatio = ((float)Width1/(float)Height1)*HeightRatio;
+  glViewport(0,0,100,100);
+  /*if (Width1 > Height1) {
+      glViewport(0, (Height1 - Width1) / 2, Width1, Width1);
+  } else {
+      glViewport((Width1 - Height1) / 2, 0, Height1, Height1);
+  }*/
 }
 
 

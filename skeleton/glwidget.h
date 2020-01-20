@@ -110,6 +110,7 @@ public slots:
                 case _gl_widget_ne::OBJECT_PLY:plyObj.nextStep(100);break;
                 case _gl_widget_ne::OBJECT_BODY:body.nextStep(100);break;
                 case _gl_widget_ne::OBJECT_BOARD:chess_board.nextStep(100);break;
+                case _gl_widget_ne::OBJECT_MATRIX:matrixObj.nextStep(100);break;
                 default:break;
             }
 

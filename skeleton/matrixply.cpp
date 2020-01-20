@@ -148,4 +148,11 @@ vector<float> _matrixPLY::getPos(int id){
     return res;
 }
 
+void _matrixPLY::nextStep(int step){
+    for(int i = 0; i < matrix.size(); i++){
+        matrix[i].nextStep(step);
+    }
+
+}
+
 

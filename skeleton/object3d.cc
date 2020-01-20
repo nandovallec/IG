@@ -283,10 +283,14 @@ void _object3D::turnSmoothShading(bool first, bool second){
         glLightfv(GL_LIGHT0, GL_POSITION, posicion_luz_0);
 
     if(second){
+        glPushMatrix();
+        glLoadIdentity();
+        glRotatef(90,0,1,0);
         glLightfv(GL_LIGHT1, GL_POSITION, posicion_luz_1);
         glLightfv(GL_LIGHT1, GL_AMBIENT,  luz_ambient_1);
         glLightfv(GL_LIGHT1, GL_DIFFUSE,  luz_difusa_1);
         glLightfv(GL_LIGHT1, GL_SPECULAR, luz_especular_1);
+        glPopMatrix();
     }
     //glLight
 

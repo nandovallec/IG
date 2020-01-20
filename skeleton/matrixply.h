@@ -25,6 +25,7 @@ public:
     void calculateColorsObjects();
     void setPicked(int object, int triangle);
     vector<float> getPos(int id);
+    void nextStep(int step);
 };
 
 #endif // _MATRIXPLY_H
